@@ -1,0 +1,95 @@
+---
+title: "Cryptography — An introduction"
+date: 2023-01-06
+summary: "An introduction to the building blocks of modern cryptography."
+category: software
+---
+The art of cryptography protects communication from prying eyes and ears. In order to encrypt and decrypt messages and keep them private and safe, it uses mathematical techniques.
+
+The ancient Egyptians utilized hieroglyphs to record secret communications, which is one of the first instances of cryptography that has been documented. In more recent times, the use of cryptography has grown in significance as a result of the development of the internet and the requirement for secure online communication.
+
+There are many different types of cryptographic techniques, including symmetric-key cryptography, public-key cryptography, and hash functions. We will cover all these techniques but first, we must discuss the CIA triad.
+
+## The CIA triad
+
+The CIA triad is a model that is used to guide the design and implementation of computer security systems. It stands for Confidentiality, Integrity, and Availability, and represents the three main goals of computer security.
+
+Confidentiality relates to its defense against unauthorized access or disclosure. Passwords, bank information, and other items fall under this category.
+
+Integrity refers to the safeguarding of data and system accuracy and comprehensiveness. This includes ensuring that only authorized users may make modifications and preventing unauthorized alterations to data, whether deliberate or not.
+
+Availability refers to the capability of authorized users to gain access to the data and systems they require at any time. This involves checking sure networks are operating effectively, servers are up and running, and data is backed up in case of an emergency.
+
+The CIA triad is an important concept in the field of computer security and is often used as a framework for designing and implementing security measures. By focusing on these three key areas, organizations can ensure that their data and systems are secure and can be trusted by their users.
+
+Each of these characteristics represents a broad idea, thus they can all be subdivided into several groups. For instance, two properties of confidentiality are encryption and authorization (the procedure of allowing or forbidding access to particular resources or actions). Integrity also includes identification and non-repudiation, which is the capacity to demonstrate that a message was sent by a certain person and was not altered in any manner.
+
+## Primitive cryptographic techniques
+
+There are three main primitive cryptographic techniques: private-key cryptography, public-key cryptography, and hash functions.
+
+### Private-key cryptography
+
+![Diagram with the flow of Private-key cryptography](/images/blog/cryptography/private-key-cryptography.webp)
+
+Private-key cryptography, also known as symmetric-key cryptography, involves the use of the same key to both encrypt and decrypt a message. This means that both the sender and the receiver must have a copy of the key in order to communicate securely. **AES** is one of the most used private-key cryptography algorithms.
+
+To visualize this, you can think of a physical vault in a remote location that contains a piece of paper inside it. This vault can only be opened by one key. Only those who have access to that key can unlock the vault and see what is written on the piece of paper.
+
+One of the main advantages of symmetric-key cryptography is that it is relatively fast and efficient, making it well-suited for large-scale applications. However, it also has some limitations. One major limitation is that the key must be kept secret and must be securely shared between the sender and the receiver. This can be difficult to do in practice, especially in cases where the sender and the receiver are not in the same location.
+
+Another limitation of symmetric-key cryptography is that it is not well-suited for situations where the sender and the receiver are not both trusted parties. In these cases, it is often better to use a different type of encryption algorithm such as public-key cryptography, which does not require the key to be shared between the sender and the receiver. Therefore, symmetric key cryptography is usually used paired with public-key cryptography.
+
+### Public-key cryptography
+
+![Diagram with the flow of Public-key cryptography](/images/blog/cryptography/public-key-cryptography.webp)
+
+Public-key cryptography, also known as asymmetric-key cryptography, is a type of encryption algorithm that uses a pair of keys — a public key and a private key — to encrypt and decrypt messages. The public key is used to encrypt the message, and the private key is used to decrypt it. Currently, the most popular public-key encryption algorithm is **RSA**.
+
+One of the main advantages of public-key cryptography is that it does not require the key to be shared between the sender and the receiver. This makes it well-suited for situations where the sender and the receiver are not both trusted parties, or where it is not possible to securely share a key.
+
+Another advantage of public-key cryptography is that it is relatively easy to implement and use. All that is required is for the sender to have access to the recipient’s public key, which can be easily obtained through a public key infrastructure (PKI).
+
+There are some limitations to public-key cryptography as well. One major limitation is that it is generally slower and less efficient than symmetric-key cryptography, which can make it less suitable for large-scale applications. It is also more vulnerable to certain types of attacks, such as man-in-the-middle attacks, if not properly implemented.
+
+### Hash functions
+
+![Diagram with the flow of Hash Functions](/images/blog/cryptography/hash-functions.webp)
+
+A hash function is a type of mathematical algorithm that is used to create a fixed-size output — known as a hash — from a message of any size. Hash functions are often used to verify the integrity of a message, as even the slightest change to the message will result in a completely different hash value. Popular hash functions include **SHA-1** and **SHA-2**.
+
+One of the main properties of a good hash function is that it is one-way, which means that it is computationally infeasible to recreate the original message from the hash value. This makes hash functions useful for storing passwords, as the original password cannot be recovered from the hash value.
+
+Another property of a good hash function is that it is collision-resistant, which means that it is difficult to find two different messages that produce the same hash value. This is important because it means that each message can be uniquely identified by its hash value.
+
+Hash functions are widely used in many different applications, including password storage, digital signatures, and data integrity checks. They are an important tool for ensuring the security and integrity of information.
+
+## Composite cryptographic techniques
+
+Composite cryptographic techniques are techniques that use multiple primitive cryptographic techniques in order to provide cryptographic services such as **confidentiality**, **data integrity**, **authentication**, and **non-repudiation**. Some of these composite techniques provide multiple cryptographic services at the same time.
+
+### Message authentication code (MAC)
+
+![Diagram with the flow of Message Authentication Codes](/images/blog/cryptography/mac.webp)
+
+A message authentication code (MAC) is a type of code that is used to verify the integrity and authenticity of a message. It is created using a secret key and a hash function, and is attached to the message in such a way that it cannot be separated from the message without being detected.
+
+When the recipient receives the message, they can use the secret key and the hash function to recreate the MAC and compare it to the MAC that was attached to the message. If the two MACs match, it means that the message has not been tampered with and that it was sent by someone who knows the secret key.
+
+One of the main advantages of a MAC is that it is relatively easy to implement and use. It is also relatively secure, as long as the secret key is kept secret. However, it does have some limitations — for example, it requires that both the sender and the recipient share the same secret key, and it does not provide any protection against replay attacks (where an attacker intercepts and resends a previously sent message). Therefore, it is a powerful tool when used in conjunction with other security measures.
+
+### Digital signature
+
+![Diagram with the flow of Digital Signatures](/images/blog/cryptography/digital-signature.webp)
+
+A digital signature is a type of code that is used to verify the authenticity and integrity of a digital message or document. It is created using a combination of a private key and a hash function, and is attached to the message in such a way that it cannot be separated from the message without being detected.
+
+When the recipient receives the message, they can use the sender's public key and the hash function to verify the digital signature and confirm that it was created using the sender’s private key. This provides a high level of confidence that the message was actually sent by the claimed sender and that it has not been tampered with.
+
+Digital signatures are a key component of many modern security systems, and are widely used in a variety of applications including electronic commerce, secure email, and document management.
+
+## Wrap up
+
+There are many different types of cryptographic techniques, including symmetric-key cryptography, public-key cryptography, and hash functions. These can be combined in order to create more robust solutions such as message authentication codes (MACs) and digital signatures.
+
+Cryptography plays a vital role in keeping our communication secure and private, and is used in a wide range of applications including online banking, e-commerce, and password protection. As technology continues to evolve, so too will the methods and techniques used in cryptography, ensuring that our communication remains secure and private.

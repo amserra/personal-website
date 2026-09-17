@@ -1,0 +1,90 @@
+---
+import Base from "@/layouts/Base.astro";
+import PostRow from "@/components/PostRow.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const CATEGORIES = ["software", "travel", "personal"] as const;
+const counts = Object.fromEntries(
+  CATEGORIES.map((c) => [c, posts.filter((p) => p.data.category === c).length]),
+);
+
+const DOT = {
+  software: "bg-tag-software",
+  travel: "bg-tag-travel",
+  personal: "bg-tag-personal",
+};
+
+const chip =
+  "label inline-flex cursor-pointer items-center gap-2 rounded-full border border-input px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground aria-pressed:border-primary-strong aria-pressed:bg-primary-soft aria-pressed:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+---
+
+<Base title="Blog — Alexandre Serra" active="blog" description="Writing on software, travel and everything else.">
+  <h1 class="display-l m-0 font-serif text-foreground">blog</h1>
+  <p class="body-base mt-2 max-w-content text-muted-foreground">
+    {posts.length} posts. Filter by subject — the filter reflects in the URL, so a filtered view can be linked.
+  </p>
+
+  <!-- Server-rendered so the full list works before this hydrates. -->
+  <ul id="filters" class="m-0 mt-8 flex list-none flex-wrap items-center gap-3 p-0">
+    <li>
+      <button type="button" class={chip} data-filter="all" aria-pressed="true">all</button>
+    </li>
+    {
+      CATEGORIES.map((c) => (
+        <li>
+          <button type="button" class={chip} data-filter={c} aria-pressed="false">
+            <span class:list={["size-1.5 rounded-full", DOT[c]]} aria-hidden="true" />
+            {c}
+            <span class="font-mono text-[11px]">{counts[c]}</span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+
+  <ul id="posts" class="m-0 mt-8 list-none p-0">
+    {
+      posts.map((post) => (
+        <PostRow
+          title={post.data.title}
+          href={`/blog/${post.id}`}
+          date={post.data.date}
+          category={post.data.category}
+          summary={post.data.summary}
+        />
+      ))
+    }
+  </ul>
+  <p id="empty" class="body-base hidden py-8 text-meta-foreground"></p>
+</Base>
+
+<script>
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>("#filters button"));
+  const rows = Array.from(document.querySelectorAll<HTMLLIElement>("#posts > li"));
+  const empty = document.getElementById("empty")!;
+
+  function apply(filter: string, push = true) {
+    for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.filter === filter));
+    let shown = 0;
+    for (const row of rows) {
+      const match = filter === "all" || row.dataset.category === filter;
+      row.hidden = !match;
+      if (match) shown++;
+    }
+    empty.textContent = shown ? "" : `No ${filter} posts yet.`;
+    empty.classList.toggle("hidden", shown > 0);
+    if (push) {
+      const url = new URL(location.href);
+      filter === "all" ? url.searchParams.delete("tag") : url.searchParams.set("tag", filter);
+      history.replaceState({}, "", url);
+    }
+  }
+
+  for (const b of buttons) b.addEventListener("click", () => apply(b.dataset.filter!));
+  const initial = new URL(location.href).searchParams.get("tag");
+  if (initial) apply(initial, false);
+</script>

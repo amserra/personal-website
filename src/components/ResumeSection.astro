@@ -1,0 +1,50 @@
+---
+import type { Entry } from "@/lib/resume";
+
+interface Props {
+  title: string;
+  entries: Entry[];
+}
+
+const { title, entries } = Astro.props;
+---
+
+<section class="mt-12 first:mt-0">
+  <h2 class="meta m-0 border-b border-border pb-2 text-foreground">{title}</h2>
+
+  {
+    entries.map((entry) => (
+      <article class="mt-8">
+        <div class="flex flex-wrap items-baseline justify-between gap-4">
+          <h3 class="display-m m-0 font-serif text-foreground">{entry.role}</h3>
+          <span class="tabular whitespace-nowrap text-meta-foreground">{entry.period}</span>
+        </div>
+
+        {(entry.org || entry.location) && (
+          <p class="body-base m-0 mt-1 text-muted-foreground">
+            {entry.org}
+            {entry.location && ` · ${entry.location}`}
+          </p>
+        )}
+
+        {entry.bullets && (
+          <ul class="body-base mt-3 list-disc pl-5 text-muted-foreground">
+            {entry.bullets.map((b) => (
+              <li class="mt-2 first:mt-0">{b}</li>
+            ))}
+          </ul>
+        )}
+
+        {entry.tech && (
+          <ul class="mt-3 flex list-none flex-wrap gap-2 p-0" aria-label="Tools">
+            {entry.tech.map((t) => (
+              <li class="rounded-sm border border-border px-1.5 py-px font-mono text-xs text-meta-foreground">
+                {t}
+              </li>
+            ))}
+          </ul>
+        )}
+      </article>
+    ))
+  }
+</section>

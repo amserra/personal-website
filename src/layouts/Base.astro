@@ -1,0 +1,143 @@
+---
+import "@/styles/global.css";
+import { SITE, TABS, FOOTER_LINKS } from "@/lib/site";
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: string;
+  width?: "content" | "wide";
+}
+
+const { title, description = SITE.tagline, active, width = "content" } = Astro.props;
+const mainWidth = width === "wide" ? "max-w-wide" : "max-w-content";
+const fonts =
+  "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap";
+const focus =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fonts} />
+    <script is:inline>
+      // Applied before first paint so the theme never flashes.
+      try {
+        const stored = localStorage.getItem("theme");
+        const dark = stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      } catch (e) {}
+    </script>
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class:list={["sr-only focus:not-sr-only focus:absolute focus:m-4 focus:bg-secondary focus:px-3 focus:py-2 focus:no-underline", focus]}
+      >Skip to content</a
+    >
+
+    <header class="border-b border-border">
+      <div class="mx-auto flex max-w-wide flex-wrap items-end justify-between gap-6 px-6 py-6">
+        <div class="flex flex-col gap-2">
+          <a href="/" class:list={["display-l font-serif text-foreground no-underline", focus]}>
+            {SITE.name}
+          </a>
+          <span class="h-0.5 w-8 bg-primary" aria-hidden="true"></span>
+          <p class="body-s m-0 max-w-content text-muted-foreground">{SITE.tagline}</p>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <nav aria-label="Sections">
+            <ul class="m-0 flex list-none items-center gap-6 p-0">
+              {
+                TABS.map((tab) => (
+                  <li>
+                    <a
+                      href={tab.href}
+                      aria-current={active === tab.id ? "page" : undefined}
+                      class:list={[
+                        "nav border-b-2 border-transparent pb-2 text-meta-foreground no-underline transition-colors hover:text-foreground aria-[current=page]:border-primary aria-[current=page]:text-foreground",
+                        focus,
+                      ]}
+                    >
+                      {tab.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+
+          <button
+            id="theme-toggle"
+            type="button"
+            class:list={["rounded-lg border border-input px-2 py-1 leading-none text-meta-foreground transition-colors hover:text-foreground", focus]}
+            aria-label="Switch theme"
+            title="Switch theme"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              aria-hidden="true"
+              class="block"
+            >
+              <circle cx="12" cy="12" r="4.5"></circle>
+              <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class:list={["mx-auto w-full flex-1 px-6 py-12", mainWidth]}>
+      <slot />
+    </main>
+
+    <footer class="mt-16 border-t border-border bg-secondary">
+      <div class="mx-auto flex max-w-wide flex-wrap justify-between gap-4 px-6 py-8">
+        <p class="body-s m-0 text-meta-foreground">{SITE.footerNote}</p>
+        <ul class="m-0 flex list-none flex-wrap gap-4 p-0">
+          {
+            FOOTER_LINKS.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  rel={link.external ? "noreferrer me" : undefined}
+                  class:list={["label text-meta-foreground no-underline hover:text-primary-strong hover:underline hover:underline-offset-2", focus]}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </footer>
+
+    <script is:inline>
+      document.getElementById("theme-toggle")?.addEventListener("click", () => {
+        const dark = document.documentElement.classList.toggle("dark");
+        try {
+          localStorage.setItem("theme", dark ? "dark" : "light");
+        } catch (e) {}
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+---
+title: "Frontend frameworks showdown: why Svelte wins it for me"
+date: 2023-03-28
+summary: "My personal opinion on the most popular frontend frameworks."
+category: software
+---
+In today's web environment, where a user interface is more than ever a key business differentiator, using a modern frontend framework can help businesses deliver engaging, responsive, and performant applications that meet the needs and expectations of their users.
+
+There are several tools available in the market. React, released by Facebook in 2013 and with around 20 million weekly downloads on NPM, is by far the most used. But does popularity mean it is actually better? Well, it depends on what we define as better. If we compare it to other similar tools purely on technological terms, then my take is no, there are better tools that React.
+
+I have used most of the major frontend frameworks: React, VueJS (aka Vue), Angular, Svelte, and SolidJS (aka Solid). In this article I will share with you what I like and don't like in each of them, and why. Note that this article reflects my opinion at the time of writing, and will probably be outdated upon your read. Without further ado, let's go!
+
+**TLDR:** Svelte wins it.
+
+### React
+
+React is the big boy in this group. It has reached astonishing numbers of adoption and has a phenomenal ecosystem around it. The best minds in the field either worked or are working in React. This sums up what I like about React: its popularity.
+
+There are several things I don't like about React. First, is its syntax. I don't know who thought JSX would be a good syntax but is not. It quickly becomes a mess. Also, their naming is off: useEffect. Effect of what?
+
+Second, the performance is terrible compared to other frameworks listed here. Virtual DOM was a revolutionary concept back then because it was a significant improvement over the unsafety and unreliability of JQuery, but with nowadays tooling is just a bottleneck. More so, the re-render mess is… well, a mess. Due to this reasons is probably why they are moving things to the server now.
+
+Finally, their current dependence on Next.JS, a proprietary framework owned by Vercel. React and Next are hand-to-hand nowadays, and they even publicly embraced this in their newly launched docs. This is a big mistake: if Vercel ever decides that Next.JS can only be used with their own hosting platform… bye-bye freedom that React developers praise so much.
+
+### Angular
+
+Angular is Google's response to Facebook's React. There is a lot of ranting on the internet from React fanboys declaring that Angular is trash. I, personally don't think so.
+
+From my perspective, Angular is necessary for the JS ecosystem. While the other tools provide loose, chose-it-yourself-your-own-technologies, Angular provides native solutions to the most common problems: form handling, state management, etc. Angular decides so that people don't have to. By enforcing certain practices, it guarantees that code is written in a particular way. This in turn is a strong point in favor of Angular when a big corporate company has to decide which JS framework to use.
+
+What I dislike about Angular is exactly its strong points: its tightness allows for little flexibility. It spreads the logic in multiple files and concepts and can be hard for a new developer to look into an existing codebase and figure out exactly what is going on. While the other frameworks on this list bet on the collocation of logic/templating (which I am in favor of), Angular does not.
+
+### Vue
+
+Vue came out about one year after React. Unlike the two previously mentioned, it did not come from a big-tech company. It came from a guy named Evan You (also the creator of Vite), who went rogue after working with Angular (who wouldn't) and decided to create a new framework.
+
+I don't dislike Vue: It doesn't use JSX, which is great, has a good syntax for managing state, and its meta-framework, Nuxt, although not officially supported, is great.
+
+What I feel about Vue is that it is clear what should be the best way to write components. There currently are two ways: through the options API (kind of legacy), and through the composition API (introduced in Vue 3). The way I see it, it is difficult for a beginner to understand which one to use. And when searching for Vue material, one can be either presented in one syntax or the other, which makes it extremely confusing. Why don't they do like React, which abandoned class-based components in favor of functional-based components, and marked the former as legacy?
+
+### Solid
+
+When I look at Solid I see what React would be if it were done with today's knowledge. It improves just about everything about React: it performs fewer re-renders (signals for the win!), doesn't use a virtual DOM (and compiles code to native JS), and has its own meta-framework (SolidStart).
+
+What I dislike about solid is… that they were inspired by React. They use the JSX syntax, which I personally dislike. Nevertheless, it was an extremely smart decision for them because it allows the transition from React to SolidJS to feel more natural and therefore it is easier to convert Reactys to Solidys (?).
+
+It is one of the few technologies on this list I am actually excited to see where they go.
+
+### Svelte
+
+When a developer looks at Svelte for the first time, especially if they come from a background of another tool from this list, they most likely say: "it's just this?". It feels magical to them because they are used to the verbose, sometimes hard-to-read syntax of other frameworks. No more JSX, just pure HTML with almost pure Javascript. Pure joy.
+
+Not only Svelte is that easy, but it is also that fast. It is one of the fastest frameworks out there, on pair with Solid. It also recently released its own (maintained by the core team) meta-framework, SvelteKit.
+
+Svelte is not perfect and still has a small community. My biggest concern about Svelte is that it is very dependent on a single person, its founder Rich Harris. If Rich decides to abandon the project, it will be very damaging because the project heavily relies on him (especially for his public appearances and preaching).
+
+## Conclusion
+
+In this article, I exposed my take on a set of the most popular frontend technologies on the market. I have worked with all of them and each has its own benefits and drawbacks. At the end of the day, they are just tools to help us build interactive experiences for users, and therefore it doesn't really matter which one you use. It just matters that you provide value for your users because they don't care which one you use.

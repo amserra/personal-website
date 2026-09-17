@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Alexandre — Personal Site. Design-system tokens on shadcn/ui's contract. ──
+   Paper is :root, Ink is .dark. `primary` is the clay brand colour; `accent` is
+   shadcn's hover surface, not a brand colour. Every text pair holds 4.5:1 or
+   better in both themes; borders, rings and chart marks hold 3:1.            */
+
+:root {
+  --background: #faf7f2;
+  --foreground: #1c1815;
+  --card: #faf7f2;
+  --card-foreground: #1c1815;
+  --popover: #f3eee5;
+  --popover-foreground: #1c1815;
+  --primary: #a04a2c;
+  --primary-foreground: #fdf9f6;
+  --primary-strong: #83381f;
+  --primary-soft: #f4e5dc;
+  --secondary: #f3eee5;
+  --secondary-foreground: #1c1815;
+  --muted: #e9e2d6;
+  --muted-foreground: #574e45;
+  --meta-foreground: #6b6257;
+  --accent: #f3eee5;
+  --accent-foreground: #1c1815;
+  --destructive: #a32718;
+  --destructive-foreground: #fdf9f6;
+  --border: #e2dacc;
+  --input: #8a7f6f;
+  --ring: #a04a2c;
+  --chart-1: #ca7544;
+  --chart-2: #38748a;
+  --chart-3: #4a5822;
+  --chart-4: #552a3a;
+  --chart-5: #251f33;
+  --tag-software: #3d6672;
+  --tag-travel: #6f6329;
+  --tag-personal: #82465a;
+  --radius: 0.25rem;
+}
+
+.dark {
+  --background: #15120f;
+  --foreground: #f0e9de;
+  --card: #15120f;
+  --card-foreground: #f0e9de;
+  --popover: #1e1a16;
+  --popover-foreground: #f0e9de;
+  --primary: #e58f68;
+  --primary-foreground: #1a120d;
+  --primary-strong: #f2a583;
+  --primary-soft: #32241b;
+  --secondary: #1e1a16;
+  --secondary-foreground: #f0e9de;
+  --muted: #29231d;
+  --muted-foreground: #b5a999;
+  --meta-foreground: #9c9080;
+  --accent: #1e1a16;
+  --accent-foreground: #f0e9de;
+  --destructive: #f08a76;
+  --destructive-foreground: #1a120d;
+  --border: #332c24;
+  --input: #7d7161;
+  --ring: #e58f68;
+  --chart-1: #97522b;
+  --chart-2: #448ca7;
+  --chart-3: #90ad43;
+  --chart-4: #dfbeca;
+  --chart-5: #e9e6ef;
+  --tag-software: #8fc2d0;
+  --tag-travel: #c9b573;
+  --tag-personal: #d1949e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-meta-foreground: var(--meta-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-tag-software: var(--tag-software);
+  --color-tag-travel: var(--tag-travel);
+  --color-tag-personal: var(--tag-personal);
+
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+
+  --container-content: 680px;
+  --container-wide: 1100px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-serif;
+  }
+  /* Type scale from the design system. */
+  .display-xl { font-size: 44px; line-height: 48px; font-weight: 500; letter-spacing: -0.012em; }
+  .display-l  { font-size: 32px; line-height: 38px; font-weight: 500; letter-spacing: -0.006em; }
+  .display-m  { font-size: 24px; line-height: 31px; font-weight: 500; }
+  .display-s  { font-size: 19px; line-height: 26px; font-weight: 500; }
+  .body-l     { font-size: 19px; line-height: 32px; font-weight: 400; }
+  .body-base  { font-size: 17px; line-height: 28px; font-weight: 400; }
+  .body-s     { font-size: 15px; line-height: 24px; font-weight: 400; }
+  .quote      { font-size: 19px; line-height: 32px; font-weight: 400; font-style: italic; }
+  .nav        { font-family: var(--font-sans); font-size: 15px; line-height: 20px; font-weight: 500; }
+  .label      { font-family: var(--font-sans); font-size: 13px; line-height: 18px; font-weight: 500; }
+  .btn-label  { font-family: var(--font-sans); font-size: 15px; line-height: 20px; font-weight: 500; }
+  .meta       { font-family: var(--font-mono); font-size: 12px; line-height: 16px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tabular    { font-family: var(--font-mono); font-size: 13px; line-height: 20px; }
+  .code       { font-family: var(--font-mono); font-size: 14px; line-height: 22px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+  }
+}

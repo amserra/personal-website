@@ -1,0 +1,49 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+import { formatDate } from "@/lib/site";
+import { Separator } from "@/components/ui/separator";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const DOT = {
+  software: "bg-tag-software",
+  travel: "bg-tag-travel",
+  personal: "bg-tag-personal",
+};
+---
+
+<Base title={`${post.data.title} — Alexandre Serra`} description={post.data.summary} active="blog">
+  <article>
+    <div class="meta flex items-center gap-3 text-meta-foreground">
+      <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+      <a href={`/blog?tag=${post.data.category}`} class="inline-flex items-center gap-1 no-underline hover:text-foreground">
+        <span class:list={["size-1.5 rounded-full", DOT[post.data.category]]} aria-hidden="true"></span>
+        {post.data.category}
+      </a>
+    </div>
+
+    <h1 class="display-m mt-3 mb-0 font-serif text-foreground">{post.data.title}</h1>
+    <p class="body-base mt-2 text-muted-foreground">{post.data.summary}</p>
+
+    <Separator className="my-8" />
+
+    <div
+      class="body-l prose-post text-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-primary-strong [&_blockquote]:my-8 [&_blockquote]:rounded-lg [&_blockquote]:bg-muted [&_blockquote]:px-6 [&_blockquote]:py-4 [&_code]:code [&_code]:rounded-sm [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_h2]:display-s [&_h2]:mt-8 [&_h2]:font-serif [&_h3]:display-s [&_h3]:mt-8 [&_h3]:font-serif [&_hr]:my-12 [&_hr]:border-border [&_img]:my-8 [&_img]:w-full [&_li]:mt-2 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mt-4 [&_pre]:my-8 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:bg-muted [&_pre]:p-4 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-5"
+    >
+      <Content />
+    </div>
+  </article>
+
+  <nav class="mt-16 border-t border-border pt-6">
+    <a href="/blog" class="label text-primary no-underline hover:text-primary-strong hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+      ← all posts
+    </a>
+  </nav>
+</Base>

@@ -1,0 +1,67 @@
+---
+title: "An introduction to the OSI model"
+date: 2023-02-18
+summary: "Overview of the conceptual model that supports the internet."
+category: software
+---
+The OSI (Open Systems Interconnection) model is a conceptual model that was created by the IOS (International Organization for Standardization) that allows us to understand how computers communicate by dividing several concepts into layers. It is a widely acknowledged standard and is an essential concept to understanding how computer networking works.
+
+The OSI model splits the communication concepts into **7 different layers**, stacked upon each other. Each layer concerns a specific segment of network communication, as we will discuss below.
+
+![Diagram with the 7 layers of the OSI model](/images/blog/osi-model/osi-model.webp)
+
+### 7. Application Layer
+
+This is the layer the everyday applications interact with. It is used by software like mobile applications, websites, and email.
+
+**Protocols:** HTTP, SMTP
+
+### 6. Application Layer
+
+The Application Layer prepares data to be served (presented) to the application layer. It is responsible for encoding, compressing, and encrypting data.
+
+**Encoding formats:** ASCII, UTF-8
+**Compression techniques:** ZIP
+**Encryption techniques:** AES, RSA
+
+### 5. Session Layer
+
+This layer manages the sessions between the communicating parties. This includes handling connections: opening, closing, checkpointing, and others.
+
+**Protocols:** NFS, RPC
+
+### 4. Transport Layer
+
+This is one of the most important layers. It is responsible for assembling/disassembling the data into chunks (aka segments), error control (to see if no chunk was lost in the communication), and flow control (to handle slow connection parties). It can request data to be resent if it detects that it is corrupted or incomplete.
+
+**Protocols:** TCP, UDP
+
+### 3. Network Layer
+
+The network layer is responsible for sending data between systems in **different networks**. It introduces the concept of IP address to find other systems on the internet. It is also in charge of assembling/disassembling the segments (now turned into smaller units called packets), as well as routing these packets to the desired destination.
+
+**Protocols:** IP
+
+### 2. Data Link Layer
+
+This layer has a very similar role as the network layer, but for sending data between systems in the **same network**. You can think of it as the layer that handles the communication between your computer and your router. It breaks the packets into even smaller chunks called frames. Devices are identified in this layer through their MAC address.
+
+**Concepts:** MAC, LLC
+
+### 1. Physical Layer
+
+This layer is responsible for the transmission of raw data between devices like cables and switches. This is where the data is transformed into binary form (i.e., streams of 1’s and 0's).
+
+**Concepts:** Bluetooth, cables, Wi-Fi
+
+## Example
+
+![Example of interaction between 2 email applications](/images/blog/osi-model/interaction-example.webp)
+
+John sends an email through his favorite email client. The application layers receives the email through SMTP and sends its to the presentation layer. The presentation layer encrypts, encodes, and compresses this data and sends it to the session layer, which initializes the communication with Eve. Then the packets are broken down into segments, then packets, and then fragments by the transport, network, and data link layers, respectively. The physical layer then sends the data in binary form to Eve through Wi-Fi.
+
+Eve receives the binary data in the physical layer, which is then converted into frames, then packets, then segments, and finally put together by the transport layer. The session layer closes the connection and passes the full data to the presentation layer, which decrypts, decodes, and decompresses the data and handles it to the application layer. The application layer sends the data through SMTP to Eve's email client and she receives the email.
+
+## Final thoughts
+
+The OSI model is a great way to break down the essentials of computer networking. There are other well-known models, such as the TCP/IP model which is built on top of the OSI model and merges some of its layers. Nevertheless, it is important to remember that these are just models: in practice, everything works together and there is not a clear distinction of responsibilities. These models are used to simplify our understanding of how these different concepts interact with each other.

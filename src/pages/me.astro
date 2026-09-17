@@ -1,0 +1,54 @@
+---
+import Base from "@/layouts/Base.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+import { Image } from "astro:assets";
+import portrait from "@/images/portrait.jpeg";
+---
+
+<Base
+  title="Me — Alexandre Serra"
+  active="me"
+  description="Software engineer in Lisbon, water polo player, and a lifelong obsessive about computers."
+>
+  <h1 class="display-l m-0 font-serif text-foreground">me</h1>
+
+  <div class="mt-8 grid gap-8 md:grid-cols-[220px_1fr] md:gap-12">
+    <Image
+      src={portrait}
+      alt="Alexandre Serra"
+      width={440}
+      densities={[1, 2]}
+      class="w-full max-w-[220px] bg-muted"
+      loading="eager"
+    />
+
+    <div class="body-l max-w-content text-foreground">
+      <p class="m-0">
+        I'm a software engineer with a passion for computers that goes back to my early childhood.
+        I've been fascinated by technology since I was ten, and that eventually turned the interest
+        into a profession.
+      </p>
+      <p class="mt-4">
+        What I enjoy most about the work is building software that solves real problems. I get the
+        most out of projects where the result is visible — a process that got simpler, a task that
+        got faster, a system that people actually use. Seeing the effect of the work is what keeps
+        me in the field.
+      </p>
+      <p class="mt-4">
+        Alongside engineering, I've spent over eleven years as a water polo athlete, and I've had
+        the honour of representing my national team. I play at Sporting Clube de Portugal, in the
+        Portuguese first division, and I also run communications for the club's water polo section
+        — which is how the photography started.
+      </p>
+      <p class="mt-4">
+        Both the sport and the work reward the same thing: attention to detail and a willingness to
+        redo something until it's right. That's most of my approach, in one sentence.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-12 flex flex-wrap items-center gap-4">
+    <ButtonLink href="mailto:me@alexandreserra.com" variant="outline">Email me</ButtonLink>
+    <ButtonLink href="/resume" variant="link">The professional version</ButtonLink>
+  </div>
+</Base>

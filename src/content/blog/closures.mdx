@@ -1,0 +1,171 @@
+---
+title: "Javascript Closures"
+date: 2024-09-30
+summary: "I've been diving deeper into Javascript."
+category: software
+---
+Lately I've been trying to invest more into my Javascript knowledge.
+I see myself working with Javascript for the foreseeable future, so I believe diving into more advanced topics will make me a better engineer and stand out more.
+
+The latest topic I've covered is <b>Javascript Closures</b>. I'll admit that I had heard the name, but never felt the urge to find out what it actually was because everyone said it was "advanced JS".
+
+I believe that explaining a concept to an audience has a very powerful impact on the communicator.
+It forces the communicator to clarify their own understanding of the subject, identify gaps in knowledge, and organize information in a way that others can easily grasp.
+
+Without further due, let's dive into closures.
+
+## Getting things straight
+
+Ok, so before diving into closures, let's see some Javascript code so that we lay a common ground.
+
+### Functions
+
+Functions in Javascript can be written in may ways.
+
+```js
+function one() {
+  return 'Hello World';
+}
+
+const two = function () {
+  return 'Hello World';
+};
+
+const three = () => {
+  return 'Hello World';
+};
+
+const four = () => 'Hello World';
+```
+
+These are all valid functions:
+
+- The function `one` is declared in the traditional way, using the `function` keyword and given an identifier.
+- The function `two` is an **anonymous function**, which doesn't have an identifier. Instead, we assign it to a variable.
+- The function `three` is an **arrow fuction**, which is a special type of anonymous function which doesn't require the `function` keyword.
+- The function `four` is an **arrow function** with an implicit return statement
+
+When declaring a variable, we assign an **identifier** to a **value**.
+In Javascript, functions are just like variables, where an **identifier** is assigned to the **code of the function** (i.e., the function declaration).
+This code is follows the same scoping rules and is stored in the execution context of the Javascript runtime just like regular variables.
+
+This allows us to write code like this:
+
+```js
+function outer() {
+  function inner() {
+    return 'Hello World';
+  }
+
+  return inner;
+}
+
+const one = outer();
+const two = one(); // Outputs "Hello World"
+```
+
+Because function declarations are treated like variable values, they can be returned by other functions. In this example, notice the absence of the parenthises on the `return inner;` statement.
+By doing this, instead of returing the result of the execution of the function `inner`, we are actually returing the function declaration of the function `inner`. That's a huge difference! Because
+now we can assign another identifier to the code of the function formerly known as `inner`, like we do on the `const one = outer()` statement, and call that code from outside the place where the function
+was initially declarated.
+
+By the way, functions that return functions, like the `outer` function above, are called **Higher Order Functions (HOC)**.
+
+### Scope
+
+Now that we've got an understanding of how functions work in Javascript, let's talk about scope.
+
+Given this code:
+
+```js
+function outer() {
+  const name = 'John Smith';
+  function inner1() {
+    function inner2() {
+      return name;
+    }
+    return inner2();
+  }
+  return inner1();
+}
+
+console.log(outer()); // Outputs "John Smith"
+```
+
+Javascript is still able to find the variable `name` even though its **lexical scope** (the scope where it was declared - in this case its the scope of the `outer` function) is not the same as where it is used.
+The variable `name` is searched recursively until found. The **scope chain** determines the sequence of steps the runtime has to go through to find the lexical scope of the `name` variable.
+
+To the set of variables a function has available in its execution context, through which it can find their **lexical scope** through the **scope chain**, it's called **variable environment (VE)**.
+
+## An interesting example
+
+Now that we've got an understanding of how functions work in Javascript, let's look into this example.
+
+```js
+function functionGenerator() {
+  let count = 0;
+  function addCount() {
+    count = count + 1;
+    return count;
+  }
+  return addCount;
+}
+
+const counter = functionGenerator();
+console.log(counter());
+console.log(counter());
+```
+
+Before reading any further, write down what you think the output of this program will be.
+
+Like in the section before, we have a function, `functionGenerator`, that returns another function, `addCount`.
+However, this time the `addCount` function accesses a variable declared in the outer function, modifies it, and then returns it.
+Then, the `addCount` function is returned, assigned to a variable, and called.
+
+At a first glance, you would believe that this would throw an error, right?
+
+Right?
+
+Well, it does not throw an error. In fact, the output of the program is 1, and 2. Let's find out why.
+
+## The "backpack"
+
+Let's see what happens by executing the code line by line as if we were the Javascript interpreter.
+
+1. A `function` keyword is detected. The identifier `functionGenerator` is assigned to the function declaration
+2. The `counter` variable is assigned to the output of the execution of the `functionGenerator` function
+3. A new execution context is started to evaluate the value of the output of the `functionGenerator` function
+4. The variable `count` is assigned the value 0
+5. A `function` keyword is detected. The identifier `addCount` is assigned to the function declaration. This happens inside the `functionGenerator` execution context created on step 3
+6. The function `functionGenerator` returns the function declaration of the function `addCount`. Notice that the function `addCount` **was not called yet**
+7. Returning to the global execution context, we know know that the value of the variable `counter` is the function declaration of the formerly known `addCount` function
+8. The formerly known `addCount` function is called
+9. A new execution context is started to evaluate the value of the output of the formerly known `addCount` function
+10. We see `count = count + 1`. Since no variable with the name `count` was declared on this execution context, we check our **backpack** and find a variable `count` **with the value 0**. We increment it by one
+11. Again, since no variable with the name `count` was declared on this execution context, we check our **backpack** and find a variable `count` **with the value 1**. We return its value
+12. The console logs 1
+13. The formerly known `addCount` function is called **again**
+14. A new execution context is started to evaluate the value of the output of the formerly known `addCount` function
+15. We see `count = count + 1`. Since no variable with the name `count` was declared on this execution context, we check our **backpack** and find a variable `count` **with the value 1**. We increment it by one
+16. Again, since no variable with the name `count` was declared on this execution context, we check our **backpack** and find a variable `count` **with the value 2**. We return its value
+17. The console logs 2
+
+I'm sure you're wondering what the backpack is. Let me break it down for you.
+
+When the `addCount` function was returned by the `functionGenerator`, its function declaration was not the only thing returned. In fact, the references to the variables the `addCount` function uses were also returned.
+
+These references are hidden in a private, not publicly accessible store that can only be accessed from within the `addCount` function declaration. This store is called `[[Environment]]`, and represents whan we called earlier the **variable environment**.
+
+The consequence of this is that functions can now have **private memory** and store state, simmilarly to what classes can do.
+
+We call this concept **closures**.
+
+## Practical uses of closures
+
+There are lots of scenarios where closures can be used:
+
+1. **Memoization** - imagine a function that computes the nth prime which is called multiple times. It is useful to memoize previous execution results to improve the execution speed.
+2. **Lock features** - supose you are developing a game, and you want to make sure that the win function is only called once. This is possible with closures! Just set a boolean on the outer function, and the inner function check if the boolean was already set to true. If so, return an error message.
+3. **Prevent polluting global state** - I'm sure you've already came accross a scenario where you had to store state that should be available globally. Using closures you can prevent polluting the global state, and instead store the state in a private store, not publicly accessible
+
+Closures are also used by Javascript itself, namely in iterators, generators, and promises.

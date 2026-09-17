@@ -1,0 +1,43 @@
+---
+import Base from "@/layouts/Base.astro";
+import ResumeSection from "@/components/ResumeSection.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+import { EXPERIENCE, EDUCATION, PROJECTS, SKILLS } from "@/lib/resume";
+---
+
+<Base
+  title="Resume — Alexandre Serra"
+  active="resume"
+  description="Full-stack software engineer in Lisbon. Experience, education, projects and skills."
+>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="display-l m-0 font-serif text-foreground">resume</h1>
+      <p class="body-base mt-2 text-muted-foreground">
+        Full-stack software engineer, Lisbon. Available as a PDF if you prefer it that way.
+      </p>
+    </div>
+    <!-- The one solid primary fill allowed per page. -->
+    <ButtonLink href="/alexandre-serra-cv.pdf" variant="default" download>Download CV (PDF)</ButtonLink>
+  </div>
+
+  <div class="mt-12">
+    <ResumeSection title="Experience" entries={EXPERIENCE} />
+    <ResumeSection title="Education" entries={EDUCATION} />
+    <ResumeSection title="Projects" entries={PROJECTS} />
+
+    <section class="mt-12">
+      <h2 class="meta m-0 border-b border-border pb-2 text-foreground">Skills</h2>
+      <dl class="mt-6 m-0">
+        {
+          SKILLS.map((s) => (
+            <div class="mt-4 first:mt-0 sm:grid sm:grid-cols-[180px_1fr] sm:gap-4">
+              <dt class="label text-meta-foreground">{s.label}</dt>
+              <dd class="body-base m-0 text-muted-foreground">{s.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</Base>

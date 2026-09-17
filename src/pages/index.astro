@@ -1,0 +1,47 @@
+---
+import Base from "@/layouts/Base.astro";
+import PostRow from "@/components/PostRow.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+import { getCollection } from "astro:content";
+import { SITE } from "@/lib/site";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const latest = posts.slice(0, 3);
+---
+
+<Base title={`${SITE.name} — software, photographs, notes`} active="home">
+  <section class="pt-8 md:pt-16">
+    <h1 class="display-xl m-0 font-serif text-foreground">Software engineer, entrepreneur, and athlete.</h1>
+    <p class="body-l mt-6 max-w-content text-muted-foreground">
+      I'm Alexandre, a software engineer based in Lisbon. I build things, I write about what I learn
+      doing it, and I photograph what I see along the way. Eleven years of water polo taught me most
+      of what I know about doing hard things repeatedly.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <ButtonLink href="/me" variant="outline">More about me</ButtonLink>
+      <ButtonLink href="/resume" variant="link">Read the resume</ButtonLink>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="meta m-0 border-b border-border pb-2 text-foreground">Latest writing</h2>
+    <ul class="m-0 mt-6 list-none p-0">
+      {
+        latest.map((post) => (
+          <PostRow
+            title={post.data.title}
+            href={`/blog/${post.id}`}
+            date={post.data.date}
+            category={post.data.category}
+            summary={post.data.summary}
+          />
+        ))
+      }
+    </ul>
+    <div class="mt-6">
+      <ButtonLink href="/blog" variant="link">All {posts.length} posts</ButtonLink>
+    </div>
+  </section>
+</Base>
