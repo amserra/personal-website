@@ -1,37 +1,13 @@
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { DEFAULT_LOCALE, LOCALES, localizePath, stripLocale, type Locale } from "@/lib/routes";
 
-export type Locale = "en" | "pt";
-
-export const LOCALES: Locale[] = ["en", "pt"];
-export const DEFAULT_LOCALE: Locale = "en";
-
-// Routes are written once, in English, and that spelling is the canonical
-// path everywhere in the code ("/photography"). A locale's own URL is that
-// path with its first segment renamed here; anything unlisted keeps its
-// English name. Blog post slugs are not in this table — they come from each
-// post (see src/lib/blog.ts). The matching file lives under src/pages/pt/.
-const SECTION_SLUGS: Record<Locale, Record<string, string>> = {
-  en: {},
-  pt: { photography: "fotografia", me: "eu", resume: "curriculo" },
-};
+export { DEFAULT_LOCALE, LOCALES, stripLocale };
+export type { Locale };
 
 // `path` is always the canonical route, e.g. "/" or "/blog?tag=travel".
 export function withLocale(path: string, locale: Locale): string {
   const [pathname, ...query] = path.split("?");
-  const [, first = "", ...rest] = pathname.split("/");
-  const localized = ["", SECTION_SLUGS[locale][first] ?? first, ...rest].join("/");
-  const url = getRelativeLocaleUrl(locale, localized).replace(/(.)\/$/, "$1");
+  const url = localizePath(pathname, locale);
   return query.length ? `${url}?${query.join("?")}` : url;
-}
-
-// The inverse: a URL pathname to its locale and canonical, locale-free route.
-export function stripLocale(pathname: string): { locale: Locale; path: string } {
-  const normalized = pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
-  const locale: Locale = normalized === "/pt" || normalized.startsWith("/pt/") ? "pt" : "en";
-  const [, first = "", ...rest] = (locale === "pt" ? normalized.slice(3) || "/" : normalized).split("/");
-  const canonical =
-    Object.entries(SECTION_SLUGS[locale]).find(([, local]) => local === first)?.[0] ?? first;
-  return { locale, path: ["", canonical, ...rest].join("/") || "/" };
 }
 
 export function otherLocale(locale: Locale): Locale {
@@ -41,6 +17,8 @@ export function otherLocale(locale: Locale): Locale {
 interface SiteCopy {
   name: string;
   tagline: string;
+  /** The home page's <title>; other pages use "<section> — <name>". */
+  homeTitle: string;
   footerNote: string;
 }
 
@@ -48,11 +26,13 @@ export const SITE: Record<Locale, SiteCopy> = {
   en: {
     name: "Alexandre Serra",
     tagline: "Software engineer in Portugal. I write about what I build, where I go, and what I photograph.",
+    homeTitle: "Alexandre Serra — software, photographs, notes",
     footerNote: "Written in Lisbon. Set in Newsreader. No trackers, no cookies.",
   },
   pt: {
     name: "Alexandre Serra",
     tagline: "Engenheiro de software em Portugal. Escrevo sobre o que construo, onde vou e o que fotografo.",
+    homeTitle: "Alexandre Serra — software, fotografias, notas",
     footerNote: "Escrito em Lisboa. Composto em Newsreader. Sem rastreadores, sem cookies.",
   },
 };
@@ -124,6 +104,8 @@ interface UiCopy {
   };
   blog: {
     title: string;
+    /** The <title> phrase; `title` is the visible lower-case heading. */
+    metaTitle: string;
     metaDescription: string;
     intro: (count: number) => string;
     filterAll: string;
@@ -133,6 +115,8 @@ interface UiCopy {
   };
   me: {
     title: string;
+    /** The <title> phrase; `title` is the visible lower-case heading. */
+    metaTitle: string;
     metaDescription: string;
     paragraphs: string[];
     emailMe: string;
@@ -140,6 +124,8 @@ interface UiCopy {
   };
   resume: {
     title: string;
+    /** The <title> phrase; `title` is the visible lower-case heading. */
+    metaTitle: string;
     metaDescription: string;
     subtitle: string;
     downloadCv: string;
@@ -151,6 +137,8 @@ interface UiCopy {
   };
   photography: {
     title: string;
+    /** The <title> phrase; `title` is the visible lower-case heading. */
+    metaTitle: string;
     metaDescription: string;
     intro: string;
     months: string[];
@@ -173,6 +161,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     blog: {
       title: "blog",
+      metaTitle: "Blog on software, travel and life",
       metaDescription: "Writing on software, travel and everything else.",
       intro: (count) =>
         `${count} posts. Filter by subject — the filter reflects in the URL, so a filtered view can be linked.`,
@@ -183,6 +172,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     me: {
       title: "me",
+      metaTitle: "About me: software engineer and water polo player",
       metaDescription: "Software engineer in Lisbon, water polo player, and a lifelong obsessive about computers.",
       paragraphs: [
         "I'm a software engineer with a passion for computers that goes back to my early childhood. I've been fascinated by technology since I was ten, and that eventually turned the interest into a profession.",
@@ -195,6 +185,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     resume: {
       title: "resume",
+      metaTitle: "Resume: full-stack software engineer",
       metaDescription: "Full-stack software engineer in Lisbon. Experience, education, projects and skills.",
       subtitle: "Full-stack software engineer, Lisbon. Available as a PDF if you prefer it that way.",
       downloadCv: "Download CV (PDF)",
@@ -206,6 +197,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     photography: {
       title: "photography",
+      metaTitle: "Photography: water polo and travel",
       metaDescription: "Photographs from the pool, the road and the desk.",
       intro: "Mostly water polo, some travel. Shot on whatever was in my hands at the time.",
       months: [
@@ -229,6 +221,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     blog: {
       title: "blog",
+      metaTitle: "Blog sobre software, viagens e vida",
       metaDescription: "Artigos sobre software, viagens e tudo o resto.",
       intro: (count) =>
         `${count} posts. Filtra por assunto — o filtro reflete-se no URL, para que uma vista filtrada possa ser partilhada.`,
@@ -239,6 +232,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     me: {
       title: "eu",
+      metaTitle: "Sobre mim: engenheiro de software e jogador de polo aquático",
       metaDescription: "Engenheiro de software em Lisboa, jogador de polo aquático e apaixonado por computadores desde sempre.",
       paragraphs: [
         "Sou engenheiro de software e a paixão por computadores vem da infância. Sou fascinado pela tecnologia desde os dez anos, e esse interesse acabou por se tornar profissão.",
@@ -251,6 +245,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     resume: {
       title: "currículo",
+      metaTitle: "Currículo: engenheiro de software full-stack",
       metaDescription: "Engenheiro de software full-stack em Lisboa. Experiência, formação, projetos e competências.",
       subtitle: "Engenheiro de software full-stack, Lisboa. Disponível em PDF, se preferires assim.",
       downloadCv: "Descarregar CV (PDF)",
@@ -262,6 +257,7 @@ export const UI: Record<Locale, UiCopy> = {
     },
     photography: {
       title: "fotografia",
+      metaTitle: "Fotografia: polo aquático e viagens",
       metaDescription: "Fotografias da piscina, da estrada e da secretária.",
       intro: "Sobretudo polo aquático, alguma viagem. Tiradas com o que tinha à mão na altura.",
       months: [

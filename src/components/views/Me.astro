@@ -1,16 +1,27 @@
 ---
 import Base from "@/layouts/Base.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import portrait from "@/images/portrait.jpeg";
 import { UI, DEFAULT_LOCALE, withLocale } from "@/lib/site";
 import type { Locale } from "@/lib/site";
+import { personSchema } from "@/lib/structured-data";
 
 const locale = (Astro.currentLocale as Locale) ?? DEFAULT_LOCALE;
 const ui = UI[locale];
+
+const personUrl = new URL(withLocale("/me", locale), Astro.site);
+const portraitImage = await getImage({ src: portrait, width: 800 });
+const portraitUrl = new URL(portraitImage.src, Astro.site);
+const structuredData = personSchema(locale, personUrl, portraitUrl);
 ---
 
-<Base title={`${ui.me.title} — Alexandre Serra`} active="me" description={ui.me.metaDescription}>
+<Base
+  title={`${ui.me.metaTitle} — Alexandre Serra`}
+  active="me"
+  description={ui.me.metaDescription}
+  structuredData={structuredData}
+>
   <h1 class="display-l m-0 font-serif text-foreground">{ui.me.title}</h1>
 
   <div class="mt-8 grid gap-8 md:grid-cols-[220px_1fr] md:gap-12">

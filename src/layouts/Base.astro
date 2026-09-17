@@ -1,15 +1,27 @@
 ---
 import "@/styles/global.css";
-import { SITE, TABS, FOOTER_LINKS, UI, DEFAULT_LOCALE, withLocale, stripLocale } from "@/lib/site";
+import { getImage } from "astro:assets";
+import portrait from "@/images/portrait.jpeg";
+import { SITE, TABS, FOOTER_LINKS, UI, DEFAULT_LOCALE, otherLocale, withLocale, stripLocale } from "@/lib/site";
 import type { Locale } from "@/lib/site";
+import { websiteSchema } from "@/lib/structured-data";
 
 interface Props {
   title: string;
   description?: string;
   active?: string;
   width?: "content" | "wide";
+  /** "article" for blog posts; adds article: OpenGraph tags. */
+  type?: "website" | "article";
+  /** Absolute image URL; falls back to a site-wide portrait crop. */
+  image?: string;
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  structuredData?: object | object[];
   /** Full URL path of this page in each locale, when it isn't the same canonical route in all of them (blog posts). */
   alternates?: Partial<Record<Locale, string>>;
+  /** For pages that shouldn't be indexed (404): no canonical, no hreflang. */
+  noindex?: boolean;
 }
 
 const locale = (Astro.currentLocale as Locale) ?? DEFAULT_LOCALE;
@@ -18,7 +30,19 @@ const tabs = TABS[locale];
 const footerLinks = FOOTER_LINKS[locale];
 const ui = UI[locale];
 
-const { title, description = site.tagline, active, width = "content", alternates } = Astro.props;
+const {
+  title,
+  description = site.tagline,
+  active,
+  width = "content",
+  type = "website",
+  image,
+  publishedTime,
+  modifiedTime,
+  structuredData,
+  alternates,
+  noindex = false,
+} = Astro.props;
 const mainWidth = width === "wide" ? "max-w-wide" : "max-w-content";
 const fonts =
   "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap";
@@ -26,6 +50,7 @@ const focus =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const { path } = stripLocale(Astro.url.pathname);
+const target = otherLocale(locale);
 // A page is either the same canonical route in every locale, or names its own
 // translations. With no translation the switch falls back to the blog index and
 // no hreflang alternate is emitted.
@@ -34,6 +59,19 @@ const languages: { code: Locale; name: string }[] = [
   { code: "en", name: "English" },
   { code: "pt", name: "Português" },
 ];
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const ogImage = await getImage({ src: portrait, width: 1200, height: 630, fit: "cover" });
+const imageUrl = image ?? new URL(ogImage.src, Astro.site).toString();
+const ogLocale = (l: Locale) => (l === "pt" ? "pt_PT" : "en_US");
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    websiteSchema(locale, Astro.site!),
+    ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []),
+  ],
+};
 ---
 
 <!doctype html>
@@ -44,11 +82,38 @@ const languages: { code: Locale; name: string }[] = [
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.ico" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    {localizedPath("en") && <link rel="alternate" hreflang="en" href={new URL(localizedPath("en")!, Astro.site)} />}
-    {localizedPath("pt") && <link rel="alternate" hreflang="pt-PT" href={new URL(localizedPath("pt")!, Astro.site)} />}
-    {localizedPath("en") && <link rel="alternate" hreflang="x-default" href={new URL(localizedPath("en")!, Astro.site)} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonicalUrl} />}
+    {!noindex && localizedPath("en") && <link rel="alternate" hreflang="en" href={new URL(localizedPath("en")!, Astro.site)} />}
+    {!noindex && localizedPath("pt") && <link rel="alternate" hreflang="pt-PT" href={new URL(localizedPath("pt")!, Astro.site)} />}
+    {!noindex && localizedPath("en") && <link rel="alternate" hreflang="x-default" href={new URL(localizedPath("en")!, Astro.site)} />}
     <link rel="alternate" type="application/rss+xml" title={site.name} href={footerLinks.find((l) => l.label === "rss")!.href} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={ogLocale(locale)} />
+    <meta property="og:locale:alternate" content={ogLocale(target)} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={site.name} />
+    {type === "article" && publishedTime && (
+      <meta property="article:published_time" content={publishedTime.toISOString()} />
+    )}
+    {type === "article" && modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+    )}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href={fonts} />

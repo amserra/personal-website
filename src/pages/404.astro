@@ -1,0 +1,31 @@
+---
+import Base from "@/layouts/Base.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+---
+
+<!-- One file serves every unknown URL, so it speaks both languages. -->
+<Base
+  title="Page not found — Alexandre Serra"
+  noindex
+  alternates={{ en: "/", pt: "/pt/" }}
+>
+  <h1 class="display-l m-0 font-serif text-foreground">Page not found</h1>
+  <p class="body-l mt-4 max-w-content text-muted-foreground">
+    That address doesn't lead anywhere. It may have moved, or the link may have a typo.
+  </p>
+  <div class="mt-6 flex flex-wrap items-center gap-4">
+    <ButtonLink href="/" variant="outline">Home</ButtonLink>
+    <ButtonLink href="/blog/" variant="link">All posts</ButtonLink>
+  </div>
+
+  <div lang="pt-PT" class="mt-16 border-t border-border pt-8">
+    <h2 class="display-m m-0 font-serif text-foreground">Página não encontrada</h2>
+    <p class="body-l mt-4 max-w-content text-muted-foreground">
+      Este endereço não leva a lado nenhum. Pode ter mudado de sítio, ou o link pode ter um erro.
+    </p>
+    <div class="mt-6 flex flex-wrap items-center gap-4">
+      <ButtonLink href="/pt/" variant="outline">Início</ButtonLink>
+      <ButtonLink href="/pt/blog/" variant="link">Todos os posts</ButtonLink>
+    </div>
+  </div>
+</Base>

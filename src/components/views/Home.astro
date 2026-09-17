@@ -14,7 +14,7 @@ const posts = await getPosts(locale);
 const latest = posts.slice(0, 3);
 ---
 
-<Base title={`${site.name} — software, photographs, notes`} active="home">
+<Base title={site.homeTitle} active="home">
   <section class="pt-8 md:pt-16">
     <h1 class="display-xl m-0 font-serif text-foreground">{ui.home.heading}</h1>
     <p class="body-l mt-6 max-w-content text-muted-foreground">

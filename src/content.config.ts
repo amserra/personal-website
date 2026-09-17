@@ -17,6 +17,7 @@ const blog = defineCollection({
     // translation whose URL should be in its own language.
     slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/).optional(),
     date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
     summary: z.string(),
     // The three subject filters on the blog tab. Nothing else is allowed —
     // file a post under the closest of the three rather than adding a fourth.

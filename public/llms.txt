@@ -1,0 +1,24 @@
+# Alexandre Serra
+
+> Software engineer in Portugal. Personal site with writing on software, travel and personal life, photography, an about page, and a resume. Bilingual: English (default, unprefixed) and European Portuguese (under /pt/).
+
+Alexandre Serra is a full-stack software engineer based in Lisbon, Portugal, currently at Cleanwatts. He also plays water polo at Sporting Clube de Portugal in the Portuguese first division, and has represented Portugal's national team.
+
+## Pages
+
+- [Home](https://alexandreserra.com/): introduction and latest writing.
+- [Blog](https://alexandreserra.com/blog/): posts on software, travel and personal topics, filterable by category.
+- [Photography](https://alexandreserra.com/photography/): photographs grouped by month.
+- [Me](https://alexandreserra.com/me/): a personal introduction.
+- [Resume](https://alexandreserra.com/resume/): work experience, education, projects and skills; a PDF version is linked from the page.
+- [RSS feed](https://alexandreserra.com/rss.xml): all blog posts, English.
+
+## Portuguese (europeu)
+
+Every page above also exists in European Portuguese under /pt/, with the section names translated: https://alexandreserra.com/pt/blog/, https://alexandreserra.com/pt/fotografia/, https://alexandreserra.com/pt/eu/, https://alexandreserra.com/pt/curriculo/ and https://alexandreserra.com/pt/rss.xml. Blog post URLs under /pt/blog/ may differ from the English slug.
+
+## Notes
+
+- Blog posts are categorised as exactly one of: software, travel, personal.
+- Dates on this site are absolute (day-month-year), not relative.
+- The full sitemap is at https://alexandreserra.com/sitemap-index.xml.

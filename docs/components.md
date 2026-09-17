@@ -207,7 +207,7 @@ This is shadcn's Button. Run `pnpm dlx shadcn@latest add button` and use it dire
 
 The site's locale switch: a small bordered control with both languages, `en | pt`, the current one filled with the `secondary` surface and marked `aria-current`. Bordered like the theme toggle so it reads as a control rather than a stray word; the other half is a link to the same page in the other language.
 
-`Astro.currentLocale` gives the active locale from the URL (`/…` is English, `/pt/…` is Portuguese, per the `i18n` block in `astro.config.mjs`); `stripLocale`/`withLocale`/`otherLocale` in `src/lib/site.ts` compute the equivalent path in the other locale. Section pages share one canonical (English) route and `SECTION_SLUGS` renames its first segment per locale, so `/resume` and `/pt/curriculo` map to each other. Blog posts are paired by filename in `src/lib/blog.ts`, and the post view hands the sibling's URL to `Base.astro` as `alternates`, because a translated post's slug can differ.
+`Astro.currentLocale` gives the active locale from the URL (`/…` is English, `/pt/…` is Portuguese, per the `i18n` block in `astro.config.mjs`); `stripLocale`/`withLocale`/`otherLocale` (`src/lib/routes.ts` and `src/lib/site.ts`) compute the equivalent path in the other locale. Section pages share one canonical (English) route and `SECTION_SLUGS` renames its first segment per locale, so `/resume` and `/pt/curriculo` map to each other. Blog posts are paired by filename in `src/lib/blog.ts`, and the post view hands the sibling's URL to `Base.astro` as `alternates`, because a translated post's slug can differ.
 
 Use it when: in the header, next to the theme toggle. Nowhere else — there's no second way to switch language.
 
@@ -215,7 +215,7 @@ Do:
 
 - Keep both halves real `<a href>`s with `hreflang`, so it works with JavaScript off.
 - Show both languages at once, so the current state is visible and not implied. Each half carries `lang`, plus an `aria-label`/`title` with the language's own name (`English`, `Português`); the group is labelled via `UI[locale].language`.
-- Add a `hreflang` alternate `<link>` per locale in the document head, plus `x-default` pointing at English — `Base.astro` already does this from the same path helpers.
+- Add a `hreflang` alternate `<link>` per locale in the document head, plus `x-default` pointing at English — `Base.astro` already does this from the same path helpers. All three URLs (canonical, hreflang, sitemap) end in a slash.
 
 Don't:
 
