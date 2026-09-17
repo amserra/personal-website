@@ -9,7 +9,7 @@ What each pattern is for, and the rules that keep it consistent. Each section na
 
 The site's masthead: the name in plain type, a clay rule, an optional tagline, the four tabs, and the theme toggle. Every page uses it, unchanged.
 
-The name, tagline, tabs and footer links come from `src/lib/site.ts`; each page passes `active` to `Base.astro` so the right tab is marked. The theme is the `.dark` class on `html`, set before first paint by the inline script in the layout head and flipped by the toggle, which writes `localStorage.theme`. Remove the toggle button if you ever decide to follow the system preference only.
+The name, tagline, tabs and footer links come from `src/lib/site.ts`, keyed by locale; each page passes `active` to `Base.astro` so the right tab is marked. The theme is the `.dark` class on `html`, set before first paint by the inline script in the layout head and flipped by the toggle, which writes `localStorage.theme`. Remove the toggle button if you ever decide to follow the system preference only. The header also carries `LanguageSwitch`, next to the theme toggle.
 
 Use it when: on every route. There is no alternate header, no condensed variant, no logo slot — there is no wordmark, so the name is set in `display-l` in `foreground` with an `primary` rule under it.
 
@@ -199,6 +199,30 @@ Don't:
 - Don't add an icon or a loading spinner; neither exists in this system.
 
 This is shadcn's Button. Run `pnpm dlx shadcn@latest add button` and use it directly — the variants here carry the same names (`default`, `secondary`, `destructive`, `outline`, `ghost`, `link`), so nothing needs renaming. Two overrides after install: set the label style to `button` rather than shadcn's `text-sm`, and where a destructive variant hard-codes `text-white`, change it to `text-destructive-foreground`. The implementation in this system's bundle exists so the preview renders; it is not what the site should ship.
+
+
+## LanguageSwitch
+
+**Implemented in:** `src/layouts/Base.astro` — a two-part segmented control (`en | pt`) next to the theme toggle.
+
+The site's locale switch: a small bordered control with both languages, `en | pt`, the current one filled with the `secondary` surface and marked `aria-current`. Bordered like the theme toggle so it reads as a control rather than a stray word; the other half is a link to the same page in the other language.
+
+`Astro.currentLocale` gives the active locale from the URL (`/…` is English, `/pt/…` is Portuguese, per the `i18n` block in `astro.config.mjs`); `stripLocale`/`withLocale`/`otherLocale` in `src/lib/site.ts` compute the equivalent path in the other locale. Section pages share one canonical (English) route and `SECTION_SLUGS` renames its first segment per locale, so `/resume` and `/pt/curriculo` map to each other. Blog posts are paired by filename in `src/lib/blog.ts`, and the post view hands the sibling's URL to `Base.astro` as `alternates`, because a translated post's slug can differ.
+
+Use it when: in the header, next to the theme toggle. Nowhere else — there's no second way to switch language.
+
+Do:
+
+- Keep both halves real `<a href>`s with `hreflang`, so it works with JavaScript off.
+- Show both languages at once, so the current state is visible and not implied. Each half carries `lang`, plus an `aria-label`/`title` with the language's own name (`English`, `Português`); the group is labelled via `UI[locale].language`.
+- Add a `hreflang` alternate `<link>` per locale in the document head, plus `x-default` pointing at English — `Base.astro` already does this from the same path helpers.
+
+Don't:
+
+- Don't build a dropdown for two languages. Two visible options beat a menu that hides one.
+- Don't invent per-page override paths beyond `SECTION_SLUGS` and a post's `slug`. A post with no translation sends the switch to the blog index and emits no `hreflang`; a section page should always be translated.
+
+Static — no framework island, no client-side locale detection or redirect. The URL is the only source of truth for which language is showing.
 
 
 ## Footer

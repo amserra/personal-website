@@ -1,0 +1,96 @@
+---
+slug: criptografia
+title: "Criptografia — Uma introdução"
+date: 2023-01-06
+summary: "Uma introdução aos blocos fundamentais da criptografia moderna."
+category: software
+---
+A arte da criptografia protege a comunicação de olhos e ouvidos indiscretos. Para encriptar e desencriptar mensagens e mantê-las privadas e seguras, usa técnicas matemáticas.
+
+Os antigos egípcios utilizavam hieróglifos para registar comunicações secretas, o que é uma das primeiras instâncias documentadas de criptografia. Em tempos mais recentes, o uso da criptografia cresceu em importância devido ao desenvolvimento da internet e à necessidade de comunicação online segura.
+
+Existem muitos tipos diferentes de técnicas criptográficas, incluindo criptografia de chave simétrica, criptografia de chave pública, e funções de hash. Vamos cobrir todas estas técnicas, mas primeiro temos de falar da tríade CIA.
+
+## A tríade CIA
+
+A tríade CIA é um modelo usado para guiar a conceção e implementação de sistemas de segurança informática. Significa Confidencialidade, Integridade e Disponibilidade (Confidentiality, Integrity, Availability), e representa os três principais objetivos da segurança informática.
+
+A confidencialidade relaciona-se com a defesa contra acesso ou divulgação não autorizados. Palavras-passe, informação bancária, e outros itens enquadram-se nesta categoria.
+
+A integridade refere-se à salvaguarda da exatidão e completude dos dados e do sistema. Isto inclui garantir que só utilizadores autorizados podem fazer alterações, e prevenir alterações não autorizadas aos dados, sejam elas deliberadas ou não.
+
+A disponibilidade refere-se à capacidade dos utilizadores autorizados acederem aos dados e sistemas de que precisam, a qualquer momento. Isto envolve garantir que as redes funcionam eficazmente, os servidores estão operacionais, e os dados têm cópias de segurança em caso de emergência.
+
+A tríade CIA é um conceito importante na área da segurança informática, e é frequentemente usada como enquadramento para conceber e implementar medidas de segurança. Ao focarem-se nestas três áreas-chave, as organizações conseguem garantir que os seus dados e sistemas são seguros e podem ser confiados pelos seus utilizadores.
+
+Cada uma destas características representa uma ideia ampla, pelo que podem todas ser subdivididas em vários grupos. Por exemplo, duas propriedades da confidencialidade são a encriptação e a autorização (o processo de permitir ou proibir acesso a determinados recursos ou ações). A integridade também inclui identificação e não-repúdio, que é a capacidade de demonstrar que uma mensagem foi enviada por uma determinada pessoa e não foi alterada de forma alguma.
+
+## Técnicas criptográficas primitivas
+
+Existem três técnicas criptográficas primitivas principais: criptografia de chave privada, criptografia de chave pública, e funções de hash.
+
+### Criptografia de chave privada
+
+![Diagrama com o fluxo da criptografia de chave privada](/images/blog/cryptography/private-key-cryptography.webp)
+
+A criptografia de chave privada, também conhecida como criptografia de chave simétrica, envolve o uso da mesma chave tanto para encriptar como para desencriptar uma mensagem. Isto significa que tanto o remetente como o destinatário precisam de ter uma cópia da chave para comunicar de forma segura. O **AES** é um dos algoritmos de criptografia de chave privada mais usados.
+
+Para visualizar isto, podem pensar num cofre físico, num local remoto, que contém um papel dentro. Este cofre só pode ser aberto por uma chave. Só quem tem acesso a essa chave pode abrir o cofre e ver o que está escrito no papel.
+
+Uma das principais vantagens da criptografia de chave simétrica é que é relativamente rápida e eficiente, o que a torna adequada para aplicações de grande escala. No entanto, também tem algumas limitações. Uma limitação importante é que a chave tem de ser mantida secreta e tem de ser partilhada de forma segura entre o remetente e o destinatário. Isto pode ser difícil de fazer na prática, especialmente quando o remetente e o destinatário não estão no mesmo local.
+
+Outra limitação da criptografia de chave simétrica é que não é adequada para situações em que o remetente e o destinatário não são ambos partes de confiança. Nestes casos, é normalmente melhor usar um tipo diferente de algoritmo de encriptação, como a criptografia de chave pública, que não exige que a chave seja partilhada entre o remetente e o destinatário. Por isso, a criptografia de chave simétrica é normalmente usada em conjunto com a criptografia de chave pública.
+
+### Criptografia de chave pública
+
+![Diagrama com o fluxo da criptografia de chave pública](/images/blog/cryptography/public-key-cryptography.webp)
+
+A criptografia de chave pública, também conhecida como criptografia de chave assimétrica, é um tipo de algoritmo de encriptação que usa um par de chaves — uma chave pública e uma chave privada — para encriptar e desencriptar mensagens. A chave pública é usada para encriptar a mensagem, e a chave privada é usada para a desencriptar. Atualmente, o algoritmo de encriptação de chave pública mais popular é o **RSA**.
+
+Uma das principais vantagens da criptografia de chave pública é que não exige que a chave seja partilhada entre o remetente e o destinatário. Isto torna-a adequada para situações em que o remetente e o destinatário não são ambos partes de confiança, ou onde não é possível partilhar uma chave de forma segura.
+
+Outra vantagem da criptografia de chave pública é que é relativamente fácil de implementar e usar. Tudo o que é necessário é que o remetente tenha acesso à chave pública do destinatário, que pode ser facilmente obtida através de uma infraestrutura de chave pública (PKI).
+
+Existem também algumas limitações na criptografia de chave pública. Uma limitação importante é que é geralmente mais lenta e menos eficiente do que a criptografia de chave simétrica, o que pode torná-la menos adequada para aplicações de grande escala. É também mais vulnerável a certos tipos de ataques, como ataques man-in-the-middle, se não for implementada corretamente.
+
+### Funções de hash
+
+![Diagrama com o fluxo de funções de hash](/images/blog/cryptography/mac.webp)
+
+Uma função de hash é um tipo de algoritmo matemático usado para criar um output de tamanho fixo — conhecido como hash — a partir de uma mensagem de qualquer tamanho. As funções de hash são frequentemente usadas para verificar a integridade de uma mensagem, já que mesmo a mais pequena alteração à mensagem resulta num valor de hash completamente diferente. Funções de hash populares incluem **SHA-1** e **SHA-2**.
+
+Uma das principais propriedades de uma boa função de hash é ser unidirecional, o que significa que é computacionalmente inviável recriar a mensagem original a partir do valor de hash. Isto torna as funções de hash úteis para armazenar palavras-passe, já que a palavra-passe original não pode ser recuperada a partir do valor de hash.
+
+Outra propriedade de uma boa função de hash é ser resistente a colisões, o que significa que é difícil encontrar duas mensagens diferentes que produzam o mesmo valor de hash. Isto é importante porque significa que cada mensagem pode ser identificada de forma única pelo seu valor de hash.
+
+As funções de hash são amplamente usadas em muitas aplicações diferentes, incluindo armazenamento de palavras-passe, assinaturas digitais, e verificações de integridade de dados. São uma ferramenta importante para garantir a segurança e integridade da informação.
+
+## Técnicas criptográficas compostas
+
+As técnicas criptográficas compostas são técnicas que usam múltiplas técnicas criptográficas primitivas para fornecer serviços criptográficos como **confidencialidade**, **integridade de dados**, **autenticação**, e **não-repúdio**. Algumas destas técnicas compostas fornecem múltiplos serviços criptográficos ao mesmo tempo.
+
+### Código de autenticação de mensagem (MAC)
+
+![Diagrama com o fluxo de códigos de autenticação de mensagem](/images/blog/cryptography/mac.webp)
+
+Um código de autenticação de mensagem (MAC) é um tipo de código usado para verificar a integridade e autenticidade de uma mensagem. É criado usando uma chave secreta e uma função de hash, e é anexado à mensagem de forma a não poder ser separado dela sem ser detetado.
+
+Quando o destinatário recebe a mensagem, pode usar a chave secreta e a função de hash para recriar o MAC e compará-lo com o MAC anexado à mensagem. Se os dois MACs coincidirem, significa que a mensagem não foi alterada e que foi enviada por alguém que conhece a chave secreta.
+
+Uma das principais vantagens de um MAC é que é relativamente fácil de implementar e usar. É também relativamente seguro, desde que a chave secreta se mantenha secreta. No entanto, tem algumas limitações — por exemplo, exige que tanto o remetente como o destinatário partilhem a mesma chave secreta, e não fornece qualquer proteção contra ataques de repetição (em que um atacante intercepta e reenvia uma mensagem enviada anteriormente). Por isso, é uma ferramenta poderosa quando usada em conjunto com outras medidas de segurança.
+
+### Assinatura digital
+
+![Diagrama com o fluxo de assinaturas digitais](/images/blog/cryptography/digital-signature.webp)
+
+Uma assinatura digital é um tipo de código usado para verificar a autenticidade e integridade de uma mensagem ou documento digital. É criada usando uma combinação de uma chave privada e uma função de hash, e é anexada à mensagem de forma a não poder ser separada dela sem ser detetada.
+
+Quando o destinatário recebe a mensagem, pode usar a chave pública do remetente e a função de hash para verificar a assinatura digital e confirmar que foi criada com a chave privada do remetente. Isto proporciona um elevado nível de confiança de que a mensagem foi realmente enviada pelo remetente indicado e que não foi alterada.
+
+As assinaturas digitais são um componente fundamental de muitos sistemas de segurança modernos, e são amplamente usadas numa variedade de aplicações, incluindo comércio eletrónico, email seguro, e gestão documental.
+
+## Conclusão
+
+Existem muitos tipos diferentes de técnicas criptográficas, incluindo criptografia de chave simétrica, criptografia de chave pública, e funções de hash. Estas podem ser combinadas para criar soluções mais robustas, como códigos de autenticação de mensagem (MACs) e assinaturas digitais.
+
+A criptografia desempenha um papel vital em manter a nossa comunicação segura e privada, e é usada numa vasta gama de aplicações, incluindo banca online, comércio eletrónico, e proteção de palavras-passe. À medida que a tecnologia continua a evoluir, também evoluirão os métodos e técnicas usados em criptografia, garantindo que a nossa comunicação se mantém segura e privada.

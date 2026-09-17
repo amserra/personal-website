@@ -1,15 +1,18 @@
 ---
-import { formatDate } from "@/lib/site";
+import { formatDate, UI, DEFAULT_LOCALE } from "@/lib/site";
+import type { Locale, Category } from "@/lib/site";
 
 interface Props {
   title: string;
   href: string;
   date: Date;
-  category: "software" | "travel" | "personal";
+  category: Category;
   summary?: string;
 }
 
 const { title, href, date, category, summary } = Astro.props;
+const locale = (Astro.currentLocale as Locale) ?? DEFAULT_LOCALE;
+const ui = UI[locale];
 
 // The dot is a second signal, never the only one — the word always ships with it.
 const DOT = {
@@ -25,10 +28,10 @@ const DOT = {
     class="group -mx-4 block rounded-lg p-4 no-underline transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
   >
     <div class="meta mb-2 flex items-center gap-3 text-meta-foreground">
-      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+      <time datetime={date.toISOString()}>{formatDate(date, locale)}</time>
       <span class="inline-flex items-center gap-1">
         <span class:list={["size-1.5 rounded-full", DOT[category]]} aria-hidden="true"></span>
-        {category}
+        {ui.blog.categories[category]}
       </span>
     </div>
     <h3 class="display-s m-0 font-serif text-foreground transition-colors group-hover:text-primary-strong">{title}</h3>

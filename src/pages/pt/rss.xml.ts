@@ -4,11 +4,11 @@ import { SITE } from "@/lib/site";
 import type { APIContext } from "astro";
 
 export async function GET(context: APIContext) {
-  const posts = await getPosts("en");
+  const posts = await getPosts("pt");
 
   return rss({
-    title: SITE.en.name,
-    description: SITE.en.tagline,
+    title: SITE.pt.name,
+    description: SITE.pt.tagline,
     site: context.site!,
     items: posts.map((post) => ({
       title: post.data.title,

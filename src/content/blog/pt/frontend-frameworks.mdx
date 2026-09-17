@@ -1,0 +1,60 @@
+---
+slug: frameworks-frontend
+title: "Duelo de frameworks frontend: por que razão o Svelte ganha para mim"
+date: 2023-03-28
+summary: "A minha opinião pessoal sobre as frameworks frontend mais populares."
+category: software
+---
+No ambiente web atual, onde a interface do utilizador é mais do que nunca um diferenciador de negócio fundamental, usar uma framework frontend moderna pode ajudar as empresas a entregar aplicações apelativas, responsivas e performantes, que correspondem às necessidades e expectativas dos utilizadores.
+
+Há várias ferramentas disponíveis no mercado. O React, lançado pelo Facebook em 2013 e com cerca de 20 milhões de downloads semanais no NPM, é de longe o mais usado. Mas será que popularidade significa que é realmente melhor? Bem, depende do que definirmos como melhor. Se o compararmos com outras ferramentas semelhantes em termos puramente tecnológicos, então a minha opinião é que não, há ferramentas melhores do que o React.
+
+Já usei a maioria das principais frameworks frontend: React, VueJS (também conhecido como Vue), Angular, Svelte, e SolidJS (também conhecido como Solid). Neste artigo vou partilhar convosco o que gosto e não gosto em cada uma delas, e porquê. Notem que este artigo reflete a minha opinião no momento em que o escrevo, e provavelmente estará desatualizado quando o lerem. Sem mais demoras, vamos lá!
+
+**Resumindo:** o Svelte ganha.
+
+### React
+
+O React é o grandalhão deste grupo. Atingiu números de adoção surpreendentes e tem um ecossistema fenomenal à sua volta. As melhores cabeças da área trabalharam ou trabalham em React. Isto resume o que gosto no React: a sua popularidade.
+
+Há várias coisas de que não gosto no React. Primeiro, a sua sintaxe. Não sei quem achou que o JSX seria uma boa sintaxe, mas não é. Rapidamente se torna uma confusão. Além disso, os nomes são estranhos: useEffect. Efeito de quê?
+
+Segundo, o desempenho é péssimo comparado com as outras frameworks aqui listadas. O Virtual DOM foi um conceito revolucionário na altura, porque representava uma melhoria significativa face à falta de segurança e fiabilidade do jQuery, mas com as ferramentas de hoje em dia é apenas um estrangulamento. Além disso, a confusão dos re-renders é... bem, uma confusão. Provavelmente é por estas razões que agora estão a mover coisas para o servidor.
+
+Por fim, a sua dependência atual do Next.JS, uma framework proprietária pertencente à Vercel. React e Next andam de mãos dadas hoje em dia, e até o assumiram publicamente na sua nova documentação. Isto é um grande erro: se a Vercel algum dia decidir que o Next.JS só pode ser usado com a sua própria plataforma de alojamento... adeus liberdade que os programadores de React tanto apreciam.
+
+### Angular
+
+O Angular é a resposta da Google ao React do Facebook. Há muita gente na internet, fã do React, a afirmar que o Angular é lixo. Eu, pessoalmente, não acho.
+
+Do meu ponto de vista, o Angular é necessário para o ecossistema JS. Enquanto as outras ferramentas dão liberdade para escolher as tecnologias, o Angular fornece soluções nativas para os problemas mais comuns: gestão de formulários, gestão de estado, etc. O Angular decide para que as pessoas não tenham de decidir. Ao impor certas práticas, garante que o código é escrito de uma forma específica. Isto, por sua vez, é um ponto forte a favor do Angular quando uma grande empresa tem de decidir que framework JS usar.
+
+O que não gosto no Angular é exatamente os seus pontos fortes: a sua rigidez permite pouca flexibilidade. Espalha a lógica por múltiplos ficheiros e conceitos, e pode ser difícil para um novo programador olhar para uma base de código existente e perceber exatamente o que se passa. Enquanto as outras frameworks desta lista apostam na colocação conjunta da lógica/templating (com a qual concordo), o Angular não o faz.
+
+### Vue
+
+O Vue apareceu cerca de um ano depois do React. Ao contrário dos dois mencionados anteriormente, não veio de uma grande empresa tecnológica. Veio de um tipo chamado Evan You (também o criador do Vite), que se rebelou depois de trabalhar com Angular (quem não o faria) e decidiu criar uma nova framework.
+
+Não desgosto do Vue: não usa JSX, o que é ótimo, tem uma boa sintaxe para gerir estado, e a sua meta-framework, o Nuxt, embora não seja oficialmente suportada, é ótima.
+
+O que sinto em relação ao Vue é que não é claro qual deve ser a melhor forma de escrever componentes. Atualmente há duas formas: através da options API (uma espécie de legado), e através da composition API (introduzida no Vue 3). Da forma como vejo, é difícil para um principiante perceber qual usar. E quando se procura material sobre Vue, pode-se encontrar uma ou outra sintaxe, o que é extremamente confuso. Porque não fazem como o React, que abandonou os componentes baseados em classes a favor dos componentes funcionais, e marcou os primeiros como legado?
+
+### Solid
+
+Quando olho para o Solid, vejo o que o React seria se fosse feito com o conhecimento de hoje. Melhora praticamente tudo no React: faz menos re-renders (viva os signals!), não usa uma virtual DOM (e compila o código para JS nativo), e tem a sua própria meta-framework (SolidStart).
+
+O que não gosto no Solid é... que se inspiraram no React. Usam a sintaxe JSX, de que pessoalmente não gosto. Mesmo assim, foi uma decisão extremamente inteligente da parte deles, porque permite que a transição de React para SolidJS pareça mais natural, tornando mais fácil converter "Reactys" em "Solidys" (?).
+
+É uma das poucas tecnologias desta lista que estou genuinamente entusiasmado por ver para onde vai.
+
+### Svelte
+
+Quando um programador olha para o Svelte pela primeira vez, especialmente se vier de outra ferramenta desta lista, o mais provável é dizer: "é só isto?". Parece-lhes mágico, porque estão habituados à sintaxe verbosa, por vezes difícil de ler, de outras frameworks. Sem mais JSX, apenas HTML puro com Javascript quase puro. Pura alegria.
+
+O Svelte não é só fácil, é também rápido. É uma das frameworks mais rápidas que existem, ao nível do Solid. Também lançou recentemente a sua própria meta-framework (mantida pela equipa principal), o SvelteKit.
+
+O Svelte não é perfeito e ainda tem uma comunidade pequena. A minha maior preocupação em relação ao Svelte é que depende muito de uma única pessoa, o seu fundador Rich Harris. Se o Rich decidir abandonar o projeto, será muito prejudicial, porque o projeto depende fortemente dele (especialmente pelas suas aparições públicas e divulgação).
+
+## Conclusão
+
+Neste artigo, expus a minha opinião sobre um conjunto das tecnologias frontend mais populares do mercado. Já trabalhei com todas elas, e cada uma tem os seus próprios benefícios e desvantagens. No fim de contas, são apenas ferramentas que nos ajudam a construir experiências interativas para os utilizadores, e por isso não importa muito qual delas usam. O que importa é entregar valor aos utilizadores, porque a eles não interessa qual usam.

@@ -8,4 +8,11 @@ export default defineConfig({
   site: 'https://alexandreserra.com',
   integrations: [react(), mdx()],
   vite: { plugins: [tailwindcss()] },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'pt'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
 });

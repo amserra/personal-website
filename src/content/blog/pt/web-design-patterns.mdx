@@ -1,0 +1,79 @@
+---
+slug: padroes-web-design
+title: "Padrões de web design — SSR, SSG e SPA"
+date: 2021-08-10
+summary: "A desmontar estes termos web modernos em voga."
+category: software
+---
+O desenvolvimento web moderno por vezes parece complexo. Os termos SSR, SSG e SPA aparecem na maioria dos conteúdos por aí. Quando ouvi falar destes nomes pela primeira vez, fiquei mesmo confuso. O que são? Qual usar? Quando escolher um em vez de outro? Podem usar-se vários padrões na mesma aplicação? Vou desmontar estas questões para vós. Espero que, no final deste artigo, tenham uma melhor compreensão deles, e mais capacidade para tomar melhores decisões arquiteturais no vosso próximo projeto.
+
+## SSR (Server-Side Rendering)
+
+No SSR, quando uma página web é pedida, é renderizada no servidor, servida ao cliente, e finalmente renderizada pelo cliente.
+
+![](/images/blog/web-design-patterns/ssr.webp)
+
+Porque é que isto é útil? Imaginem um sistema de templating, como o sistema de templating do Django, onde têm dados dinâmicos como abaixo.
+
+```
+Olá {{user.name}}!
+```
+
+Usando SSR, o conteúdo dinâmico do HTML é avaliado em tempo de execução, com base no estado do servidor, e devolvido ao cliente. Por isso o HTML enviado ao utilizador é na verdade:
+
+```
+Olá João!
+```
+
+O browser (do lado do cliente) só tem de renderizar a página na DOM e voilá, aí está a página.
+
+## SSG (Static-Site Generating)
+
+![](/images/blog/web-design-patterns/ssg.webp)
+
+O SSG tem semelhanças com o SSR. A página também é gerada no servidor, no entanto, é renderizada em tempo de build. Ou seja, em vez de renderizar a página no servidor após receber um pedido, a página já está renderizada no servidor, à espera de ser servida ao cliente. Vou discutir as vantagens e desvantagens desta abordagem, e compará-la com o SSR mais à frente.
+
+## SPA (Single-Page Application)
+
+![](/images/blog/web-design-patterns/spa.webp)
+
+Esta abordagem é relativamente recente comparada com as duas anteriores. É o resultado do rápido crescimento da internet e das indústrias de software e hardware nas últimas duas décadas. Com SPA, o servidor fornece ao utilizador uma página HTML vazia e Javascript. É aqui que a magia acontece. Quando o browser recebe o HTML + Javascript, carrega o Javascript. Depois de carregado, o JS entra em ação e, através de um conjunto de operações na DOM, renderiza os componentes necessários na página. O routing é então tratado pelo próprio browser, sem chegar ao servidor. Isto é normalmente feito através de uma framework (ou biblioteca) frontend como React, Vue, ou Angular.
+
+### Server-side rendering (SSR e SSG) vs Client-side rendering (SPA)
+
+_Nota: nesta secção, quando menciono SSR refiro-me tanto a SSR como a SSG, e CSR refiro-me a SPA._
+
+- **O SSR permite melhor SEO** (Search Engine Optimization), porque o conteúdo não precisa de ser carregado por Javascript como no CSR, pelo que os crawlers dos motores de busca conseguem processar diretamente a informação.
+- **O SSR é melhor para ligações lentas**, porque o HTML é fornecido imediatamente, enquanto no CSR o utilizador vê uma página em branco até o Javascript ser carregado e renderizar o conteúdo da página.
+- **O SSR permite ver conteúdo com o Javascript desativado**. Sei que soa bizarro, mas os utilizadores podem tê-lo desativado, intencionalmente ou não. Vejam este link onde se expõem algumas destas situações.
+- **O primeiro carregamento do SSR é normalmente mais rápido**, porque não precisa de obter todo o website num bundle de Javascript como acontece no CSR (podem fazer-se algumas otimizações de desempenho no CSR para reduzir este payload, como imports dinâmicos).
+- **O CSR é mais rápido depois do primeiro carregamento**, já que não há pedidos ao servidor para mudar de página, o que o torna incrivelmente rápido.
+- **O CSR proporciona uma melhor UX (experiência de utilizador)**, porque dá à página uma sensação de aplicação nativa.
+
+### SSR vs SSG
+
+A diferença entre os dois é que no SSR o servidor precisa de renderizar a página antes de a enviar ao utilizador (renderização em tempo de execução), enquanto no SSG isso não é necessário, porque é feito em tempo de build. Podem estar a pensar "então porque é que hei de usar SSR?". É simples: a maioria dos websites tem normalmente dados dinâmicos e com estado (por exemplo: o email/logo do utilizador na navbar quando este tem sessão iniciada). Isto significa que não podemos pré-renderizar em tempo de build templates com estes dados, pelo que a única forma de ter estes dados com SSG seria importá-los via Javascript (o que anularia o propósito principal do SSG).
+
+### Quando usar o quê?
+
+As três abordagens têm as suas vantagens e desvantagens. Não há uma opção globalmente melhor. Podem potencialmente usar as três no mesmo projeto. Nesta secção, vou dar-vos alguns exemplos de casos práticos.
+
+### O site de documentação
+
+Imaginem que estão a construir a documentação do React. O que gostariam de ter? Certamente acessibilidade a um público alargado, incluindo utilizadores com internet lenta e até com Javascript desativado. O SEO também seria uma preocupação (gostariam que os utilizadores chegassem à documentação quando pesquisam algo relacionado com React). Com isto, podemos restringir a escolha a SSR ou SSG. Qual escolher? Eu escolheria SSG. A documentação não tem conteúdo dinâmico, por isso seria redundante e mais lento renderizá-la no servidor a cada pedido. Com SSG, entregaríamos o conteúdo ao cliente rapidamente.
+
+_Nota lateral: o React usa mesmo SSG para a sua documentação (usam o Gatsby)._
+
+### O blog
+
+Um blog tem dados a ser inseridos regularmente. Tanto o SEO como a acessibilidade são requisitos para um blog bem-sucedido. Por isso, estaríamos a decidir entre SSR e SSG. Desta vez, escolheria SSR. Isto deve-se ao facto de termos dados dinâmicos a ser inseridos frequentemente, e queremos fornecer ao utilizador os dados mais atualizados.
+
+### O CRM (Customer Relationship Manager)
+
+Um CRM tem requisitos diferentes. O SEO não é uma preocupação, já que a maioria das páginas está atrás de login, pelo que os motores de busca não conseguem lá chegar. Os utilizadores acedem normalmente ao CRM num ambiente estável (geralmente no escritório, com boa velocidade de internet e um computador capaz). Por isso, usar SPA seria a minha escolha. Daria uma sensação de aplicação nativa, que os utilizadores apreciariam. Notem que podemos usar outros métodos de renderização no mesmo projeto. Por exemplo, poderíamos ter SSG nas páginas de login e FAQ.
+
+## Considerações finais
+
+As técnicas expostas são a base do dia a dia da web moderna. Uma boa compreensão delas ajuda os programadores a tomar melhores decisões arquiteturais, proporcionando uma melhor experiência e criando mais valor para o utilizador final, que é, no fundo, o nosso objetivo.
+
+Espero que este artigo tenha ajudado a compreender estes conceitos. Qualquer dúvida, contactem-me através do LinkedIn!

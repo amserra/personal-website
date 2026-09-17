@@ -1,0 +1,172 @@
+---
+slug: closures-em-javascript
+title: "Closures em Javascript"
+date: 2024-09-30
+summary: "Tenho andado a aprofundar o meu conhecimento de Javascript."
+category: software
+---
+Ultimamente tenho tentado investir mais no meu conhecimento de Javascript.
+Vejo-me a trabalhar com Javascript no futuro previsível, por isso acredito que aprofundar tópicos mais avançados vai fazer de mim um melhor engenheiro e fazer-me destacar mais.
+
+O último tópico que abordei foram as <b>Closures em Javascript</b>. Admito que já tinha ouvido o nome, mas nunca senti vontade de descobrir o que realmente era, porque toda a gente dizia que era "JS avançado".
+
+Acredito que explicar um conceito a uma audiência tem um impacto muito poderoso no comunicador.
+Obriga o comunicador a clarificar a sua própria compreensão do assunto, identificar lacunas no conhecimento, e organizar a informação de forma a que os outros a consigam entender facilmente.
+
+Sem mais demoras, vamos mergulhar nas closures.
+
+## Antes de mais
+
+Ok, então antes de mergulharmos nas closures, vamos ver algum código Javascript para criarmos uma base comum.
+
+### Funções
+
+As funções em Javascript podem ser escritas de várias formas.
+
+```js
+function one() {
+  return 'Hello World';
+}
+
+const two = function () {
+  return 'Hello World';
+};
+
+const three = () => {
+  return 'Hello World';
+};
+
+const four = () => 'Hello World';
+```
+
+Estas são todas funções válidas:
+
+- A função `one` é declarada da forma tradicional, usando a palavra-chave `function` e um identificador.
+- A função `two` é uma **função anónima**, que não tem identificador. Em vez disso, atribuímo-la a uma variável.
+- A função `three` é uma **arrow function**, que é um tipo especial de função anónima que não exige a palavra-chave `function`.
+- A função `four` é uma **arrow function** com um return implícito.
+
+Ao declarar uma variável, atribuímos um **identificador** a um **valor**.
+Em Javascript, as funções são como variáveis, em que um **identificador** é atribuído ao **código da função** (isto é, a declaração da função).
+Este código segue as mesmas regras de scope e é guardado no contexto de execução do runtime de Javascript tal como as variáveis normais.
+
+Isto permite-nos escrever código como este:
+
+```js
+function outer() {
+  function inner() {
+    return 'Hello World';
+  }
+
+  return inner;
+}
+
+const one = outer();
+const two = one(); // Produz "Hello World"
+```
+
+Como as declarações de função são tratadas como valores de variáveis, podem ser devolvidas por outras funções. Neste exemplo, reparem na ausência de parêntesis na instrução `return inner;`.
+Ao fazer isto, em vez de devolver o resultado da execução da função `inner`, estamos na verdade a devolver a declaração da função `inner`. Isso é uma diferença enorme! Porque
+agora podemos atribuir outro identificador ao código da função antes conhecida como `inner`, tal como fazemos na instrução `const one = outer()`, e chamar esse código a partir de fora do sítio onde a
+função foi inicialmente declarada.
+
+A propósito, funções que devolvem funções, como a função `outer` acima, chamam-se **Higher Order Functions (HOC)**.
+
+### Scope
+
+Agora que já percebemos como funcionam as funções em Javascript, vamos falar de scope.
+
+Dado este código:
+
+```js
+function outer() {
+  const name = 'John Smith';
+  function inner1() {
+    function inner2() {
+      return name;
+    }
+    return inner2();
+  }
+  return inner1();
+}
+
+console.log(outer()); // Produz "John Smith"
+```
+
+O Javascript continua a conseguir encontrar a variável `name` mesmo que o seu **scope léxico** (o scope onde foi declarada — neste caso, o scope da função `outer`) não seja o mesmo onde é usada.
+A variável `name` é procurada recursivamente até ser encontrada. A **scope chain** determina a sequência de passos que o runtime tem de percorrer para encontrar o scope léxico da variável `name`.
+
+Ao conjunto de variáveis que uma função tem disponível no seu contexto de execução, através do qual consegue encontrar o seu **scope léxico** através da **scope chain**, chama-se **variable environment (VE)**.
+
+## Um exemplo interessante
+
+Agora que já percebemos como funcionam as funções em Javascript, vamos olhar para este exemplo.
+
+```js
+function functionGenerator() {
+  let count = 0;
+  function addCount() {
+    count = count + 1;
+    return count;
+  }
+  return addCount;
+}
+
+const counter = functionGenerator();
+console.log(counter());
+console.log(counter());
+```
+
+Antes de continuarem a ler, escrevam o que acham que vai ser o output deste programa.
+
+Tal como na secção anterior, temos uma função, `functionGenerator`, que devolve outra função, `addCount`.
+No entanto, desta vez a função `addCount` acede a uma variável declarada na função exterior, modifica-a, e depois devolve-a.
+Depois, a função `addCount` é devolvida, atribuída a uma variável, e chamada.
+
+À primeira vista, poderiam achar que isto ia gerar um erro, certo?
+
+Certo?
+
+Bem, não gera nenhum erro. Na verdade, o output do programa é 1, e 2. Vamos perceber porquê.
+
+## A "mochila"
+
+Vamos ver o que acontece ao executar o código linha a linha, como se fôssemos o interpretador de Javascript.
+
+1. É detetada uma palavra-chave `function`. O identificador `functionGenerator` é atribuído à declaração da função
+2. A variável `counter` é atribuída ao output da execução da função `functionGenerator`
+3. É iniciado um novo contexto de execução para avaliar o valor do output da função `functionGenerator`
+4. À variável `count` é atribuído o valor 0
+5. É detetada uma palavra-chave `function`. O identificador `addCount` é atribuído à declaração da função. Isto acontece dentro do contexto de execução de `functionGenerator` criado no passo 3
+6. A função `functionGenerator` devolve a declaração da função `addCount`. Reparem que a função `addCount` **ainda não foi chamada**
+7. Regressando ao contexto de execução global, sabemos agora que o valor da variável `counter` é a declaração da função antes conhecida como `addCount`
+8. A função antes conhecida como `addCount` é chamada
+9. É iniciado um novo contexto de execução para avaliar o valor do output da função antes conhecida como `addCount`
+10. Vemos `count = count + 1`. Como não foi declarada nenhuma variável chamada `count` neste contexto de execução, verificamos a nossa **mochila** e encontramos uma variável `count` **com o valor 0**. Incrementamo-la em um
+11. Novamente, como não foi declarada nenhuma variável chamada `count` neste contexto de execução, verificamos a nossa **mochila** e encontramos uma variável `count` **com o valor 1**. Devolvemos o seu valor
+12. A consola mostra 1
+13. A função antes conhecida como `addCount` é chamada **outra vez**
+14. É iniciado um novo contexto de execução para avaliar o valor do output da função antes conhecida como `addCount`
+15. Vemos `count = count + 1`. Como não foi declarada nenhuma variável chamada `count` neste contexto de execução, verificamos a nossa **mochila** e encontramos uma variável `count` **com o valor 1**. Incrementamo-la em um
+16. Novamente, como não foi declarada nenhuma variável chamada `count` neste contexto de execução, verificamos a nossa **mochila** e encontramos uma variável `count` **com o valor 2**. Devolvemos o seu valor
+17. A consola mostra 2
+
+Tenho a certeza que estão a pensar o que é a mochila. Deixem-me explicar.
+
+Quando a função `addCount` foi devolvida pela `functionGenerator`, a sua declaração de função não foi a única coisa devolvida. Na verdade, as referências às variáveis que a função `addCount` usa também foram devolvidas.
+
+Estas referências ficam escondidas num armazenamento privado, não acessível publicamente, que só pode ser acedido a partir de dentro da declaração da função `addCount`. Este armazenamento chama-se `[[Environment]]`, e representa o que chamámos antes de **variable environment**.
+
+A consequência disto é que as funções podem agora ter **memória privada** e guardar estado, de forma semelhante ao que as classes conseguem fazer.
+
+A este conceito chamamos **closures**.
+
+## Usos práticos de closures
+
+Há muitos cenários onde as closures podem ser usadas:
+
+1. **Memoização** — imaginem uma função que calcula o n-ésimo primo, chamada várias vezes. É útil guardar em memória os resultados de execuções anteriores para melhorar a velocidade de execução.
+2. **Trancar funcionalidades** — suponham que estão a desenvolver um jogo, e querem garantir que a função de vitória só é chamada uma vez. Isto é possível com closures! Basta definir um booleano na função exterior, e a função interior verifica se o booleano já foi definido como verdadeiro. Se sim, devolve uma mensagem de erro.
+3. **Evitar poluir o estado global** — tenho a certeza que já se depararam com um cenário em que tinham de guardar estado que devia estar disponível globalmente. Usando closures, conseguem evitar poluir o estado global, e em vez disso guardar o estado num armazenamento privado, não acessível publicamente.
+
+As closures são também usadas pelo próprio Javascript, nomeadamente em iterators, generators, e promises.

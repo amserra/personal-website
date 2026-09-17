@@ -1,0 +1,48 @@
+---
+import Base from "@/layouts/Base.astro";
+import PostRow from "@/components/PostRow.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+import { getPosts, postPath } from "@/lib/blog";
+import { SITE, UI, DEFAULT_LOCALE, withLocale } from "@/lib/site";
+import type { Locale } from "@/lib/site";
+
+const locale = (Astro.currentLocale as Locale) ?? DEFAULT_LOCALE;
+const site = SITE[locale];
+const ui = UI[locale];
+
+const posts = await getPosts(locale);
+const latest = posts.slice(0, 3);
+---
+
+<Base title={`${site.name} — software, photographs, notes`} active="home">
+  <section class="pt-8 md:pt-16">
+    <h1 class="display-xl m-0 font-serif text-foreground">{ui.home.heading}</h1>
+    <p class="body-l mt-6 max-w-content text-muted-foreground">
+      {ui.home.intro}
+    </p>
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <ButtonLink href={withLocale("/me", locale)} variant="outline">{ui.home.moreAboutMe}</ButtonLink>
+      <ButtonLink href={withLocale("/resume", locale)} variant="link">{ui.home.readResume}</ButtonLink>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="meta m-0 border-b border-border pb-2 text-foreground">{ui.home.latestWriting}</h2>
+    <ul class="m-0 mt-6 list-none p-0">
+      {
+        latest.map((post) => (
+          <PostRow
+            title={post.data.title}
+            href={postPath(post)}
+            date={post.data.date}
+            category={post.data.category}
+            summary={post.data.summary}
+          />
+        ))
+      }
+    </ul>
+    <div class="mt-6">
+      <ButtonLink href={withLocale("/blog", locale)} variant="link">{ui.home.allPosts(posts.length)}</ButtonLink>
+    </div>
+  </section>
+</Base>

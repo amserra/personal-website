@@ -1,0 +1,68 @@
+---
+slug: modelo-osi
+title: "Uma introdução ao modelo OSI"
+date: 2023-02-18
+summary: "Visão geral do modelo conceptual que suporta a internet."
+category: software
+---
+O modelo OSI (Open Systems Interconnection) é um modelo conceptual criado pela ISO (International Organization for Standardization) que nos permite perceber como os computadores comunicam, dividindo vários conceitos em camadas. É um standard amplamente reconhecido e um conceito essencial para perceber como funcionam as redes de computadores.
+
+O modelo OSI divide os conceitos de comunicação em **7 camadas diferentes**, empilhadas umas sobre as outras. Cada camada diz respeito a um segmento específico da comunicação em rede, como vamos ver a seguir.
+
+![Diagrama com as 7 camadas do modelo OSI](/images/blog/osi-model/osi-model.webp)
+
+### 7. Camada de Aplicação
+
+Esta é a camada com que as aplicações do dia a dia interagem. É usada por software como aplicações móveis, websites e email.
+
+**Protocolos:** HTTP, SMTP
+
+### 6. Camada de Apresentação
+
+A camada de apresentação prepara os dados para serem servidos (apresentados) à camada de aplicação. É responsável por codificar, comprimir e encriptar dados.
+
+**Formatos de codificação:** ASCII, UTF-8
+**Técnicas de compressão:** ZIP
+**Técnicas de encriptação:** AES, RSA
+
+### 5. Camada de Sessão
+
+Esta camada gere as sessões entre as partes que comunicam. Isto inclui gerir ligações: abrir, fechar, criar checkpoints, entre outros.
+
+**Protocolos:** NFS, RPC
+
+### 4. Camada de Transporte
+
+Esta é uma das camadas mais importantes. É responsável por montar/desmontar os dados em blocos (também chamados segmentos), controlo de erros (para verificar se nenhum bloco se perdeu na comunicação), e controlo de fluxo (para lidar com partes envolvidas com ligações lentas). Pode pedir o reenvio de dados se detetar que estão corrompidos ou incompletos.
+
+**Protocolos:** TCP, UDP
+
+### 3. Camada de Rede
+
+A camada de rede é responsável por enviar dados entre sistemas em **redes diferentes**. Introduz o conceito de endereço IP para encontrar outros sistemas na internet. É também responsável por montar/desmontar os segmentos (agora transformados em unidades mais pequenas chamadas pacotes), assim como encaminhar esses pacotes até ao destino pretendido.
+
+**Protocolos:** IP
+
+### 2. Camada de Ligação de Dados
+
+Esta camada tem um papel muito semelhante ao da camada de rede, mas para enviar dados entre sistemas na **mesma rede**. Podem pensar nela como a camada que trata da comunicação entre o vosso computador e o vosso router. Divide os pacotes em blocos ainda mais pequenos chamados frames. Os dispositivos são identificados nesta camada através do seu endereço MAC.
+
+**Conceitos:** MAC, LLC
+
+### 1. Camada Física
+
+Esta camada é responsável pela transmissão de dados em bruto entre dispositivos como cabos e switches. É aqui que os dados são transformados em forma binária (ou seja, sequências de 1's e 0's).
+
+**Conceitos:** Bluetooth, cabos, Wi-Fi
+
+## Exemplo
+
+![Exemplo de interação entre 2 aplicações de email](/images/blog/osi-model/interaction-example.webp)
+
+O João envia um email através do seu cliente de email preferido. A camada de aplicação recebe o email através de SMTP e envia-o para a camada de apresentação. A camada de apresentação encripta, codifica e comprime estes dados e envia-os para a camada de sessão, que inicia a comunicação com a Eva. Depois os pacotes são divididos em segmentos, depois em pacotes, e depois em frames pelas camadas de transporte, rede e ligação de dados, respetivamente. A camada física envia então os dados em forma binária para a Eva através de Wi-Fi.
+
+A Eva recebe os dados binários na camada física, que são depois convertidos em frames, depois pacotes, depois segmentos, e finalmente reunidos pela camada de transporte. A camada de sessão fecha a ligação e passa os dados completos à camada de apresentação, que os desencripta, descodifica e descomprime, entregando-os à camada de aplicação. A camada de aplicação envia os dados através de SMTP para o cliente de email da Eva, e ela recebe o email.
+
+## Considerações finais
+
+O modelo OSI é uma ótima forma de decompor os fundamentos das redes de computadores. Existem outros modelos conhecidos, como o modelo TCP/IP, que é construído sobre o modelo OSI e junta algumas das suas camadas. Ainda assim, é importante lembrar que estes são apenas modelos: na prática, tudo funciona em conjunto e não há uma distinção clara de responsabilidades. Estes modelos servem para simplificar a nossa compreensão de como estes diferentes conceitos interagem entre si.

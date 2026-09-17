@@ -1,0 +1,147 @@
+---
+import Base from "@/layouts/Base.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { UI, DEFAULT_LOCALE } from "@/lib/site";
+import type { Locale } from "@/lib/site";
+
+const locale = (Astro.currentLocale as Locale) ?? DEFAULT_LOCALE;
+const ui = UI[locale];
+
+const files = import.meta.glob<{ default: ImageMetadata }>("/src/images/photos/*.jpg", {
+  eager: true,
+});
+
+// Alt text describes what is in the frame. Captions, places and dates are
+// mine, not Alexandre's — replace them with the real thing (and the real order).
+// The pt entries are a translation of the en ones; keep both in sync.
+type Photo = { file: string; alt: string; caption: string; place?: string; date: string };
+
+const PHOTOS: Record<Locale, Photo[]> = {
+  en: [
+    {
+      file: "/src/images/photos/image-1.jpg",
+      alt: "A water polo player in a red cap treading water during a match.",
+      caption: "Between plays, in the red cap.",
+      date: "2026-08-22",
+    },
+    {
+      file: "/src/images/photos/image-4.jpg",
+      alt: "A squad in green kit posing in front of a large stone lion.",
+      caption: "The squad, in front of the lion.",
+      date: "2026-08-09",
+    },
+    {
+      file: "/src/images/photos/image-2.jpg",
+      alt: "The Great Sphinx of Giza, with a pyramid behind it under a clear sky.",
+      caption: "The Sphinx, and the pyramid behind it.",
+      place: "Giza, Egypt",
+      date: "2026-06-14",
+    },
+    {
+      file: "/src/images/photos/image-5.jpg",
+      alt: "A giraffe standing close beside a safari truck.",
+      caption: "Close enough to count the eyelashes.",
+      date: "2026-06-11",
+    },
+    {
+      file: "/src/images/photos/image-3.jpg",
+      alt: "A desk with an iMac reading 'do more', a keyboard and a plant by the window.",
+      caption: "The desk, on a tidy day.",
+      date: "2026-01-30",
+    },
+  ],
+  pt: [
+    {
+      file: "/src/images/photos/image-1.jpg",
+      alt: "Um jogador de polo aquático com touca vermelha a nadar em água parada durante um jogo.",
+      caption: "Entre jogadas, de touca vermelha.",
+      date: "2026-08-22",
+    },
+    {
+      file: "/src/images/photos/image-4.jpg",
+      alt: "Uma equipa de equipamento verde posa em frente a um grande leão de pedra.",
+      caption: "A equipa, em frente ao leão.",
+      date: "2026-08-09",
+    },
+    {
+      file: "/src/images/photos/image-2.jpg",
+      alt: "A Grande Esfinge de Gizé, com uma pirâmide atrás sob um céu limpo.",
+      caption: "A Esfinge, e a pirâmide atrás dela.",
+      place: "Gizé, Egito",
+      date: "2026-06-14",
+    },
+    {
+      file: "/src/images/photos/image-5.jpg",
+      alt: "Uma girafa de pé mesmo ao lado de um jipe de safari.",
+      caption: "Perto o suficiente para contar as pestanas.",
+      date: "2026-06-11",
+    },
+    {
+      file: "/src/images/photos/image-3.jpg",
+      alt: "Uma secretária com um iMac a mostrar 'do more', um teclado e uma planta junto à janela.",
+      caption: "A secretária, num dia arrumado.",
+      date: "2026-01-30",
+    },
+  ],
+};
+
+const photos = PHOTOS[locale];
+const months = ui.photography.months;
+
+// Newest first, grouped by calendar month.
+const sorted = [...photos].sort((a, b) => b.date.localeCompare(a.date));
+const groups = new Map<string, { label: string; photos: typeof photos }>();
+for (const photo of sorted) {
+  const d = new Date(photo.date);
+  const key = `${d.getFullYear()}-${d.getMonth()}`;
+  if (!groups.has(key)) {
+    groups.set(key, { label: `${months[d.getMonth()]} ${d.getFullYear()}`, photos: [] });
+  }
+  groups.get(key)!.photos.push(photo);
+}
+const SECTIONS = Array.from(groups.values());
+---
+
+<Base
+  title={`${ui.photography.title} — Alexandre Serra`}
+  active="photography"
+  description={ui.photography.metaDescription}
+  width="wide"
+>
+  <h1 class="display-l m-0 font-serif text-foreground">{ui.photography.title}</h1>
+  <p class="body-base mt-2 max-w-content text-muted-foreground">
+    {ui.photography.intro}
+  </p>
+
+  {
+    SECTIONS.map((section) => (
+      <section class="mt-12 first:mt-8">
+        <h2 class="meta m-0 border-b border-border pb-2 text-foreground">{section.label}</h2>
+
+        <ul class="m-0 mt-4 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+          {section.photos.map((photo) => (
+            <li>
+              <figure class="m-0">
+                <div class="aspect-3/2 overflow-hidden bg-muted">
+                  <Image
+                    src={files[photo.file]!.default}
+                    alt={photo.alt}
+                    width={720}
+                    height={480}
+                    densities={[1, 2]}
+                    class="size-full object-cover transition-opacity hover:opacity-90"
+                  />
+                </div>
+                <figcaption class="body-s mt-2 text-muted-foreground">
+                  {photo.caption}
+                  {photo.place && <span class="meta mt-1 block text-meta-foreground">{photo.place}</span>}
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
