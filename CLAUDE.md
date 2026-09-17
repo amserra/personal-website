@@ -68,6 +68,16 @@ First person. Lower-case navigation, sentence case everywhere else — never tit
 
 Two edits were made to the stock `button.tsx` and should survive updates: the label is `btn-label` rather than `text-sm`, and the destructive variant uses `text-destructive-foreground` instead of hard-coded `text-white`.
 
+## Deployment
+
+Static output, deployed to **Cloudflare Pages** — no adapter needed, Pages just serves `dist/`.
+
+- Dashboard project settings: build command `pnpm build`, output directory `dist`, framework preset "Astro".
+- `.node-version` pins Node 22 (Astro 7 requires `>=22.12.0`); Pages reads this automatically.
+- `sharp` is listed as a direct dependency (not left as Astro's optional dep) — under pnpm's strict hoisting it otherwise isn't resolvable from the chunk `astro build` emits into `dist/.prerender/`, and image optimisation silently breaks in CI.
+- `wrangler.jsonc` + the `wrangler` devDependency exist for local parity (`pnpm exec wrangler pages dev dist`) and CLI deploys (`pnpm deploy`); the Cloudflare Pages Git integration doesn't need either.
+- `pnpm approve-builds` / `onlyBuiltDependencies` in `package.json` must list `workerd` (wrangler's runtime) alongside `esbuild`, or its postinstall is skipped and `wrangler dev`/`pages dev` fail.
+
 ## Before saying it works
 
 `npm run build` and `npm run check` clean, then look at the page in both themes and at 390px wide (no horizontal overflow). The blog filter should go 6 posts → 0 travel with "No travel posts yet." → 5 software, with `?tag=` tracking in the URL.
