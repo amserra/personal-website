@@ -24,13 +24,13 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
 >
   <h1 class="display-l m-0 font-serif text-foreground">{ui.me.title}</h1>
 
-  <div class="mt-8 grid gap-8 md:grid-cols-[220px_1fr] md:gap-12">
+  <div class="mt-8 flow-root">
     <Image
       src={portrait}
       alt="Alexandre Serra"
-      width={440}
+      width={576}
       densities={[1, 2]}
-      class="w-full max-w-[220px] rounded-xl bg-muted"
+      class="float-left mr-4 mb-2 w-50 rounded-xl bg-muted sm:mr-6 sm:mb-3 sm:w-56 md:w-72"
       loading="eager"
     />
 
@@ -41,6 +41,8 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
 
   <div class="mt-12 flex flex-wrap items-center gap-4">
     <ButtonLink href="mailto:me@alexandreserra.com" variant="outline">{ui.me.emailMe}</ButtonLink>
-    <ButtonLink href={withLocale("/resume", locale)} variant="link">{ui.me.professionalVersion}</ButtonLink>
+    <ButtonLink href={withLocale("/resume", locale)} variant="link"
+      >{ui.me.professionalVersion}</ButtonLink
+    >
   </div>
 </Base>
