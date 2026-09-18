@@ -23,9 +23,22 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
   en: [
     {
       role: "Full-Stack Software Engineer",
+      org: "Mercell",
+      location: "Remote to Utrecht, Netherlands",
+      period: "Sep 2025 — present",
+      kind: "professional",
+      bullets: [
+        "Deliver end-to-end features as part of a full-stack team.",
+        "Work closely with product owners, product managers, designers and other developers.",
+        "Ship features that increased customer satisfaction and platform usability.",
+      ],
+      tech: ["React", ".NET", "C#", "Java", "AWS"],
+    },
+    {
+      role: "Full-Stack Software Engineer",
       org: "Cleanwatts",
-      location: "Renewable energy communities · ~100 people",
-      period: "Jan 2023 — present",
+      location: "Remote to Coimbra, Portugal",
+      period: "Jan 2023 — Sep 2025",
       kind: "professional",
       bullets: [
         "Planned, built and shipped end-to-end features across the product.",
@@ -33,38 +46,51 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
         "Raised the standard of frontend work across the company by introducing modern techniques such as optimistic updates.",
         "Introduced automated testing, which significantly reduced bugs and improved product stability.",
       ],
-      tech: ["Angular", "TypeScript"],
+      tech: ["Angular", ".NET", "C#"],
     },
     {
       role: "Full-Stack Software Engineer",
       org: "Staruplo",
-      location: "Spatial information · ~5 people",
+      location: "Remote to Aveiro, Portugal",
       period: "Mar 2022 — Aug 2022",
       kind: "professional",
       bullets: [
         "Enabled continuous integration and delivery through GitHub Actions, improving the development workflow.",
         "Designed and built a new frontend in React, improving experience and speed through caching and revalidation with React Query.",
       ],
-      tech: ["React", "React Query", "GitHub Actions"],
+      tech: ["React", "Node.JS", "AWS"],
     },
     {
       role: "Research Collaborator, flood forecasting system",
       org: "INESC-ID",
-      location: "~250 people",
+      location: "Hybrid to Lisbon, Portugal",
       period: "Feb 2021 — May 2022",
       kind: "professional",
       bullets: [
         "Shipped features on a Django web portal with long-running background tasks, server-to-server communication and geoinformation manipulation.",
       ],
-      tech: ["Django", "Python"],
+      tech: ["Django", "Python", "Javascript"],
     },
   ],
   pt: [
     {
       role: "Engenheiro de Software Full-Stack",
+      org: "Mercell",
+      location: "Remoto para Utrecht, Países Baixos",
+      period: "Set 2025 — present",
+      kind: "professional",
+      bullets: [
+        "Entrego funcionalidades completas, de ponta a ponta, numa equipa full-stack.",
+        "Trabalho em estreita colaboração com product owners, product managers, designers e outros programadores.",
+        "Lanço funcionalidades que aumentam a satisfação dos clientes e a usabilidade da plataforma.",
+      ],
+      tech: ["React", ".NET", "C#", "Java", "AWS"],
+    },
+    {
+      role: "Engenheiro de Software Full-Stack",
       org: "Cleanwatts",
-      location: "Comunidades de energia renovável · ~100 pessoas",
-      period: "Jan 2023 — atual",
+      location: "Remoto para Coimbra, Portugal",
+      period: "Jan 2023 — Set 2025",
       kind: "professional",
       bullets: [
         "Planeei, construí e lancei funcionalidades completas em todo o produto.",
@@ -72,30 +98,30 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
         "Elevei o nível do trabalho de frontend na empresa, introduzindo técnicas modernas como optimistic updates.",
         "Introduzi testes automatizados, o que reduziu significativamente os bugs e melhorou a estabilidade do produto.",
       ],
-      tech: ["Angular", "TypeScript"],
+      tech: ["Angular", ".NET", "C#"],
     },
     {
       role: "Engenheiro de Software Full-Stack",
       org: "Staruplo",
-      location: "Informação espacial · ~5 pessoas",
+      location: "Remoto para Aveiro, Portugal",
       period: "Mar 2022 — Ago 2022",
       kind: "professional",
       bullets: [
         "Implementei integração e entrega contínuas através do GitHub Actions, melhorando o fluxo de desenvolvimento.",
         "Desenhei e construí um novo frontend em React, melhorando a experiência e a velocidade através de caching e revalidação com React Query.",
       ],
-      tech: ["React", "React Query", "GitHub Actions"],
+      tech: ["React", "Node.JS", "AWS"],
     },
     {
       role: "Colaborador de investigação, sistema de previsão de cheias",
       org: "INESC-ID",
-      location: "~250 pessoas",
+      location: "Remoto para Lisboa, Portugal",
       period: "Fev 2021 — Mai 2022",
       kind: "professional",
       bullets: [
         "Lancei funcionalidades num portal web em Django com tarefas de longa duração em background, comunicação servidor-a-servidor e manipulação de geoinformação.",
       ],
-      tech: ["Django", "Python"],
+      tech: ["Django", "Python", "Javascript"],
     },
   ],
 };
@@ -103,7 +129,7 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
 export const EDUCATION: Record<Locale, Entry[]> = {
   en: [
     {
-      role: "Master's degree in computer science and engineering",
+      role: "Master's degree in informatics engineering",
       org: "Instituto Superior Técnico",
       period: "Sep 2020 — Nov 2022",
       kind: "professional",
