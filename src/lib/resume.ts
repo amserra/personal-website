@@ -166,7 +166,10 @@ export const PROJECTS: Record<Locale, Entry[]> = {
 
 export const SKILLS: Record<Locale, { label: string; value: string }[]> = {
   en: [
-    { label: "Languages", value: "Portuguese (native), English (proficient), Spanish (conversational)" },
+    {
+      label: "Languages",
+      value: "Portuguese (native), English (proficient), Spanish (conversational)",
+    },
     {
       label: "Programming",
       value: "Javascript, Node.JS, React, Angular, .NET, Python, Django, TailwindCSS",

@@ -25,15 +25,15 @@ interface SiteCopy {
 export const SITE: Record<Locale, SiteCopy> = {
   en: {
     name: "Alexandre Serra",
-    tagline: "Software engineer in Portugal. I write about what I build, where I go, and what I photograph.",
-    homeTitle: "Alexandre Serra — software, photographs, notes",
-    footerNote: "Written in Lisbon. Set in Newsreader. No trackers, no cookies.",
+    tagline: "Just a guy trying to reach his future self.",
+    homeTitle: "Alexandre Serra",
+    footerNote: "From Lisbon, Portugal. No trackers, no cookies.",
   },
   pt: {
     name: "Alexandre Serra",
-    tagline: "Engenheiro de software em Portugal. Escrevo sobre o que construo, onde vou e o que fotografo.",
-    homeTitle: "Alexandre Serra — software, fotografias, notas",
-    footerNote: "Escrito em Lisboa. Composto em Newsreader. Sem rastreadores, sem cookies.",
+    tagline: "Um gajo a tentar alcançar o seu eu futuro.",
+    homeTitle: "Alexandre Serra",
+    footerNote: "Desde Lisboa, Portugal. Sem rastreadores nem bolachinhas.",
   },
 };
 
@@ -151,9 +151,9 @@ export const UI: Record<Locale, UiCopy> = {
     switchTheme: "Switch theme",
     language: "Language",
     home: {
-      heading: "Software engineer, entrepreneur, and athlete.",
+      heading: "Hey, I'm Alexandre :)",
       intro:
-        "I'm Alexandre, a software engineer based in Lisbon. I build things, I write about what I learn doing it, and I photograph what I see along the way. Eleven years of water polo taught me most of what I know about doing hard things repeatedly.",
+        "Welcome to my little corner on the internet! I like travel, sports, tech, and photography. Pokémon, gym, and pokémon gyms as well. Current occupations: part-time athlete, part-time software engineer, and full-time looking to be better every day. By the way, do you have travel recommendations?",
       moreAboutMe: "More about me",
       readResume: "Read the resume",
       latestWriting: "Latest writing",
@@ -161,19 +161,20 @@ export const UI: Record<Locale, UiCopy> = {
     },
     blog: {
       title: "Blog",
-      metaTitle: "Blog on software, travel and life",
+      metaTitle: "Blog",
       metaDescription: "Writing on software, travel and everything else.",
       intro: (count) =>
-        `${count} posts. Filter by subject — the filter reflects in the URL, so a filtered view can be linked.`,
+        `I've written ${count} posts here so far. I write about software, travel and everything else. Peak at your own risk.`,
       filterAll: "all",
       categories: { software: "software", travel: "travel", personal: "personal" },
       noPostsYetTemplate: "No {category} posts yet.",
       backToAllPosts: "← all posts",
     },
     me: {
-      title: "Me",
-      metaTitle: "About me: software engineer and water polo player",
-      metaDescription: "Software engineer in Lisbon, water polo player, and a lifelong obsessive about computers.",
+      title: "About me",
+      metaTitle: "About me",
+      metaDescription:
+        "Part-time athlete, part-time software engineer, and full-time looking to be better every day.",
       paragraphs: [
         "I'm a software engineer with a passion for computers that goes back to my early childhood. I've been fascinated by technology since I was ten, and that eventually turned the interest into a profession.",
         "What I enjoy most about the work is building software that solves real problems. I get the most out of projects where the result is visible — a process that got simpler, a task that got faster, a system that people actually use. Seeing the effect of the work is what keeps me in the field.",
@@ -186,8 +187,10 @@ export const UI: Record<Locale, UiCopy> = {
     resume: {
       title: "Resume",
       metaTitle: "Resume: full-stack software engineer",
-      metaDescription: "Full-stack software engineer in Lisbon. Experience, education, projects and skills.",
-      subtitle: "Full-stack software engineer, Lisbon. Available as a PDF if you prefer it that way.",
+      metaDescription:
+        "Full-stack software engineer, currently in Lisbon. Experience, education, projects and skills.",
+      subtitle:
+        "Full-stack software engineer, currently in Lisbon. Available as a PDF if you prefer it that way.",
       downloadCv: "Download CV (PDF)",
       experience: "Experience",
       education: "Education",
@@ -197,12 +200,23 @@ export const UI: Record<Locale, UiCopy> = {
     },
     photography: {
       title: "Photography",
-      metaTitle: "Photography: water polo and travel",
-      metaDescription: "Photographs from the pool, the road and the desk.",
-      intro: "Mostly water polo, some travel. Shot on whatever was in my hands at the time.",
+      metaTitle: "Photography",
+      metaDescription: "Shot on whatever I got my hands on at the time.",
+      intro:
+        "Shot on whatever I got my hands on at the time. Usually either my iPhone 15 Pro or my Sony RX100 VII. Or maybe someone sent me a photo and I felt it belonged here.",
       months: [
-        "january", "february", "march", "april", "may", "june",
-        "july", "august", "september", "october", "november", "december",
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
       ],
     },
   },
@@ -211,29 +225,30 @@ export const UI: Record<Locale, UiCopy> = {
     switchTheme: "Mudar de tema",
     language: "Idioma",
     home: {
-      heading: "Engenheiro de software, empreendedor e atleta.",
+      heading: "Olá, sou o Alexandre :)",
       intro:
-        "Sou o Alexandre, engenheiro de software em Lisboa. Construo coisas, escrevo sobre o que vou aprendendo pelo caminho e fotografo o que vejo. Onze anos de polo aquático ensinaram-me a maior parte do que sei sobre fazer coisas difíceis, repetidamente.",
+        "Bem-vindo ao meu cantinho na internet! Gosto de viajar, desporto, tecnologia e fotografia. Pokémon, ginásio e ginásios de pokémon também. Ocupações atuais: atleta a tempo parcial, informático a tempo parcial, e à procura de ser melhor a cada dia a tempo inteiro. Já agora, tens recomendações de viagem?",
       moreAboutMe: "Mais sobre mim",
       readResume: "Ver o currículo",
       latestWriting: "Últimos artigos",
-      allPosts: (count) => `Todos os ${count} posts`,
+      allPosts: (count) => `Todos os ${count} artigos`,
     },
     blog: {
       title: "Blog",
-      metaTitle: "Blog sobre software, viagens e vida",
+      metaTitle: "Blog",
       metaDescription: "Artigos sobre software, viagens e tudo o resto.",
       intro: (count) =>
-        `${count} posts. Filtra por assunto — o filtro reflete-se no URL, para que uma vista filtrada possa ser partilhada.`,
+        `Já escrevi ${count} artigos aqui. Escrevo sobre software, viagens e tudo o resto. Espreita por tua conta e risco.`,
       filterAll: "todos",
       categories: { software: "software", travel: "viagens", personal: "pessoal" },
       noPostsYetTemplate: "Ainda não há posts de {category}.",
       backToAllPosts: "← todos os posts",
     },
     me: {
-      title: "Eu",
-      metaTitle: "Sobre mim: engenheiro de software e jogador de polo aquático",
-      metaDescription: "Engenheiro de software em Lisboa, jogador de polo aquático e apaixonado por computadores desde sempre.",
+      title: "Sobre mim",
+      metaTitle: "Sobre mim",
+      metaDescription:
+        "Atleta a tempo parcial, informático a tempo parcial, e à procura de ser melhor a cada dia a tempo.",
       paragraphs: [
         "Sou engenheiro de software e a paixão por computadores vem da infância. Sou fascinado pela tecnologia desde os dez anos, e esse interesse acabou por se tornar profissão.",
         "O que mais gosto no trabalho é construir software que resolve problemas reais. Tiro o máximo partido de projetos em que o resultado é visível — um processo que ficou mais simples, uma tarefa que ficou mais rápida, um sistema que as pessoas realmente usam. Ver o efeito do trabalho é o que me mantém na área.",
@@ -246,8 +261,10 @@ export const UI: Record<Locale, UiCopy> = {
     resume: {
       title: "Currículo",
       metaTitle: "Currículo: engenheiro de software full-stack",
-      metaDescription: "Engenheiro de software full-stack em Lisboa. Experiência, formação, projetos e competências.",
-      subtitle: "Engenheiro de software full-stack, Lisboa. Disponível em PDF, se preferires assim.",
+      metaDescription:
+        "Engenheiro de software full-stack em Lisboa. Experiência, formação, projetos e competências.",
+      subtitle:
+        "Engenheiro de software full-stack em Lisboa. Disponível em PDF, se preferires assim.",
       downloadCv: "Descarregar CV (PDF)",
       experience: "Experiência",
       education: "Formação",
@@ -257,12 +274,23 @@ export const UI: Record<Locale, UiCopy> = {
     },
     photography: {
       title: "Fotografia",
-      metaTitle: "Fotografia: polo aquático e viagens",
-      metaDescription: "Fotografias da piscina, da estrada e da secretária.",
-      intro: "Sobretudo polo aquático, alguma viagem. Tiradas com o que tinha à mão na altura.",
+      metaTitle: "Fotografia",
+      metaDescription: "Tirado com o que tinha à mão na altura.",
+      intro:
+        "Tirado com o que tinha à mão na altura. Normalmente com o meu iPhone 15 Pro ou com a minha Sony RX100 VII. Ou talvez alguém me enviou uma foto e eu achei que pertencia aqui.",
       months: [
-        "janeiro", "fevereiro", "março", "abril", "maio", "junho",
-        "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+        "janeiro",
+        "fevereiro",
+        "março",
+        "abril",
+        "maio",
+        "junho",
+        "julho",
+        "agosto",
+        "setembro",
+        "outubro",
+        "novembro",
+        "dezembro",
       ],
     },
   },
