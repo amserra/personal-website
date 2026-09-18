@@ -144,7 +144,7 @@ const jsonLd = {
           <p class="body-s m-0 max-w-content text-muted-foreground">{site.tagline}</p>
         </div>
 
-        <div class="flex items-center gap-6">
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
           <nav aria-label="Sections">
             <ul class="m-0 flex list-none items-center gap-6 p-0">
               {
@@ -166,53 +166,55 @@ const jsonLd = {
             </ul>
           </nav>
 
-          <div role="group" aria-label={ui.language} class="flex items-stretch rounded-lg border border-input">
-            {
-              languages.map(({ code, name }) => (
-                <a
-                  href={localizedPath(code) ?? withLocale("/blog", code)}
-                  hreflang={code}
-                  lang={code}
-                  title={name}
-                  aria-label={name}
-                  aria-current={code === locale ? "true" : undefined}
-                  class:list={[
-                    "meta px-2 py-1 leading-none no-underline transition-colors first:rounded-l-md first:border-r first:border-input last:rounded-r-md",
-                    code === locale
-                      ? "bg-secondary text-foreground"
-                      : "text-meta-foreground hover:bg-accent hover:text-foreground",
-                    focus,
-                  ]}
-                >
-                  {code}
-                </a>
-              ))
-            }
-          </div>
+          <div class="flex items-center gap-6">
+            <div role="group" aria-label={ui.language} class="flex items-stretch rounded-lg border border-input">
+              {
+                languages.map(({ code, name }) => (
+                  <a
+                    href={localizedPath(code) ?? withLocale("/blog", code)}
+                    hreflang={code}
+                    lang={code}
+                    title={name}
+                    aria-label={name}
+                    aria-current={code === locale ? "true" : undefined}
+                    class:list={[
+                      "meta px-2 py-1 leading-none no-underline transition-colors first:rounded-l-md first:border-r first:border-input last:rounded-r-md",
+                      code === locale
+                        ? "bg-secondary text-foreground"
+                        : "text-meta-foreground hover:bg-accent hover:text-foreground",
+                      focus,
+                    ]}
+                  >
+                    {code}
+                  </a>
+                ))
+              }
+            </div>
 
-          <button
-            id="theme-toggle"
-            type="button"
-            class:list={["rounded-lg border border-input px-2 py-1 leading-none text-meta-foreground transition-colors hover:text-foreground", focus]}
-            aria-label={ui.switchTheme}
-            title={ui.switchTheme}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              aria-hidden="true"
-              class="block"
+            <button
+              id="theme-toggle"
+              type="button"
+              class:list={["rounded-lg border border-input px-2 py-1 leading-none text-meta-foreground transition-colors hover:text-foreground", focus]}
+              aria-label={ui.switchTheme}
+              title={ui.switchTheme}
             >
-              <circle cx="12" cy="12" r="4.5"></circle>
-              <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"></path>
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                aria-hidden="true"
+                class="block"
+              >
+                <circle cx="12" cy="12" r="4.5"></circle>
+                <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </header>
