@@ -8,7 +8,7 @@ Colour tokens follow shadcn's semantic contract. That means `primary` is the cla
 
 ## Content fundamentals
 
-Write in the first person, lower-case in navigation (`blog`, `photography`, `me`, `resume`), sentence case everywhere else. Never title-case a heading.
+Write in the first person, lower-case in navigation (`blog`, `photography`, `me`, `resume`), sentence case everywhere else. Never title-case a heading; section page headings (Blog, Photography, Me, Resume) start with a capital.
 
 Say the thing plainly. A post summary is one sentence that tells the reader what they will get, not a teaser: "How I moved 400 Apple Notes into Obsidian without losing the links" beats "Some thoughts on note-taking." Cut adjectives before you cut facts.
 

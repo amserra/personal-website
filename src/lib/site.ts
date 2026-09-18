@@ -104,7 +104,7 @@ interface UiCopy {
   };
   blog: {
     title: string;
-    /** The <title> phrase; `title` is the visible lower-case heading. */
+    /** The <title> phrase; `title` is the visible heading (capitalised). */
     metaTitle: string;
     metaDescription: string;
     intro: (count: number) => string;
@@ -115,7 +115,7 @@ interface UiCopy {
   };
   me: {
     title: string;
-    /** The <title> phrase; `title` is the visible lower-case heading. */
+    /** The <title> phrase; `title` is the visible heading (capitalised). */
     metaTitle: string;
     metaDescription: string;
     paragraphs: string[];
@@ -124,7 +124,7 @@ interface UiCopy {
   };
   resume: {
     title: string;
-    /** The <title> phrase; `title` is the visible lower-case heading. */
+    /** The <title> phrase; `title` is the visible heading (capitalised). */
     metaTitle: string;
     metaDescription: string;
     subtitle: string;
@@ -137,7 +137,7 @@ interface UiCopy {
   };
   photography: {
     title: string;
-    /** The <title> phrase; `title` is the visible lower-case heading. */
+    /** The <title> phrase; `title` is the visible heading (capitalised). */
     metaTitle: string;
     metaDescription: string;
     intro: string;
@@ -160,7 +160,7 @@ export const UI: Record<Locale, UiCopy> = {
       allPosts: (count) => `All ${count} posts`,
     },
     blog: {
-      title: "blog",
+      title: "Blog",
       metaTitle: "Blog on software, travel and life",
       metaDescription: "Writing on software, travel and everything else.",
       intro: (count) =>
@@ -171,7 +171,7 @@ export const UI: Record<Locale, UiCopy> = {
       backToAllPosts: "← all posts",
     },
     me: {
-      title: "me",
+      title: "Me",
       metaTitle: "About me: software engineer and water polo player",
       metaDescription: "Software engineer in Lisbon, water polo player, and a lifelong obsessive about computers.",
       paragraphs: [
@@ -184,7 +184,7 @@ export const UI: Record<Locale, UiCopy> = {
       professionalVersion: "The professional version",
     },
     resume: {
-      title: "resume",
+      title: "Resume",
       metaTitle: "Resume: full-stack software engineer",
       metaDescription: "Full-stack software engineer in Lisbon. Experience, education, projects and skills.",
       subtitle: "Full-stack software engineer, Lisbon. Available as a PDF if you prefer it that way.",
@@ -196,7 +196,7 @@ export const UI: Record<Locale, UiCopy> = {
       tools: "Tools",
     },
     photography: {
-      title: "photography",
+      title: "Photography",
       metaTitle: "Photography: water polo and travel",
       metaDescription: "Photographs from the pool, the road and the desk.",
       intro: "Mostly water polo, some travel. Shot on whatever was in my hands at the time.",
@@ -220,7 +220,7 @@ export const UI: Record<Locale, UiCopy> = {
       allPosts: (count) => `Todos os ${count} posts`,
     },
     blog: {
-      title: "blog",
+      title: "Blog",
       metaTitle: "Blog sobre software, viagens e vida",
       metaDescription: "Artigos sobre software, viagens e tudo o resto.",
       intro: (count) =>
@@ -231,7 +231,7 @@ export const UI: Record<Locale, UiCopy> = {
       backToAllPosts: "← todos os posts",
     },
     me: {
-      title: "eu",
+      title: "Eu",
       metaTitle: "Sobre mim: engenheiro de software e jogador de polo aquático",
       metaDescription: "Engenheiro de software em Lisboa, jogador de polo aquático e apaixonado por computadores desde sempre.",
       paragraphs: [
@@ -244,7 +244,7 @@ export const UI: Record<Locale, UiCopy> = {
       professionalVersion: "A versão profissional",
     },
     resume: {
-      title: "currículo",
+      title: "Currículo",
       metaTitle: "Currículo: engenheiro de software full-stack",
       metaDescription: "Engenheiro de software full-stack em Lisboa. Experiência, formação, projetos e competências.",
       subtitle: "Engenheiro de software full-stack, Lisboa. Disponível em PDF, se preferires assim.",
@@ -256,7 +256,7 @@ export const UI: Record<Locale, UiCopy> = {
       tools: "Ferramentas",
     },
     photography: {
-      title: "fotografia",
+      title: "Fotografia",
       metaTitle: "Fotografia: polo aquático e viagens",
       metaDescription: "Fotografias da piscina, da estrada e da secretária.",
       intro: "Sobretudo polo aquático, alguma viagem. Tiradas com o que tinha à mão na altura.",
