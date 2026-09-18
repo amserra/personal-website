@@ -96,9 +96,9 @@ shadcn derives its radii from one --radius with calc(); these are the computed v
 | `radius-sm` | `0.15rem` | rounded-sm, 2.4px — inline code spans. |
 | `radius-md` | `0.2rem` | rounded-md, 3.2px — shadcn's default for inputs and badges. |
 | `radius-lg` | `0.25rem` | rounded-lg, 4px — buttons, code blocks, hovered post rows. |
-| `radius-xl` | `0.35rem` | rounded-xl, 5.6px — the one card on the resume, the download row. |
+| `radius-xl` | `0.35rem` | rounded-xl, 5.6px — the one card on the resume, the download row, the portrait on the me page. |
 | `radius-full` | `9999px` | rounded-full — filter chips and the category dots. |
-| `radius-none` | `0` | rounded-none — photographs, rules and the header. The default for imagery in this system. |
+| `radius-none` | `0` | rounded-none — photographs (the me-page portrait excepted), rules and the header. The default for imagery in this system. |
 
 ## Shadow
 
