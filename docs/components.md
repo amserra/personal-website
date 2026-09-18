@@ -53,13 +53,13 @@ This is navigation, not a shadcn Tabs component. Tabs manages panels in one page
 
 ## FilterChips
 
-**Implemented in:** `src/pages/blog/index.astro` — server-rendered chips plus a small inline script; no framework island.
+**Implemented in:** `src/components/FilterChip.astro` (the chip), used by `src/components/views/BlogIndex.astro` and by the resume's view toggle in `src/components/views/Resume.astro`. Server-rendered chips plus a small inline script per page; no framework island.
 
 The blog's subject filter: an `all` chip plus one per subcategory, each with its colour dot, its word, and an optional count. It filters the list in place — it does not navigate.
 
 The three subject chips plus an `all` chip are rendered on the server from the post counts, with `all` pressed by default. Filtering hides rows by their `data-category` attribute rather than re-rendering the list, and the chosen filter is mirrored into the URL as `?tag=` so a filtered view can be linked and reloaded.
 
-Use it when: above the post list on the blog tab. Nowhere else — photography and the resume have nothing to filter.
+Use it when: above the post list on the blog tab, and for the professional/full toggle on the resume. Photography has nothing to filter.
 
 Do:
 
@@ -160,6 +160,8 @@ One resume block — Experience, Education, Speaking — with a `meta` heading r
 `ResumeSection.astro` takes a `title` and an `entries` array from `src/lib/resume.ts`. Periods are free text so "2023 — present" and "2019 — 2021" align down the page in `tabular`. Sections stack in the order that serves the reader: experience first, unless the education is the reason someone is reading.
 
 Use it when: the resume tab, and nowhere else.
+
+Every entry (and every skills row) carries a required `kind: "professional" | "personal"` in `src/lib/resume.ts`; it has no default, so `pnpm check` fails on an untagged entry. The page renders everything and stamps `data-kind` on each entry, and on each section (`professional` when at least one of its entries is). A `professional | full` toggle above the resume flips `data-view` on the wrapper: in `professional` a CSS rule hides everything with `data-kind="personal"`, so a section with no professional entries disappears with its heading. The full view shows both kinds. The view is mirrored into the URL as `?view=full` (professional is the default and adds no parameter). The toggle is hidden until the script runs, so without JavaScript the page shows the professional view. Set `kind` on both the `en` and `pt` entry.
 
 Do:
 

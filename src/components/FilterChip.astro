@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+// A pressed/unpressed toggle button. Pass `data-*` attributes through for the page script.
+type Props = Omit<HTMLAttributes<"button">, "type" | "aria-pressed"> & { pressed?: boolean };
+
+const { pressed = false, class: className, ...rest } = Astro.props;
+---
+
+<button
+  type="button"
+  aria-pressed={pressed ? "true" : "false"}
+  class:list={[
+    "label inline-flex cursor-pointer items-center gap-2 rounded-full border border-input px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground aria-pressed:border-primary-strong aria-pressed:bg-primary-soft aria-pressed:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</button>

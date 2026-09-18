@@ -13,12 +13,12 @@ const locale = (Astro.currentLocale as Locale) ?? DEFAULT_LOCALE;
 const toolsLabel = UI[locale].resume.tools;
 ---
 
-<section class="mt-12 first:mt-0">
+<section class="mt-12 first:mt-0" data-kind={entries.some((e) => e.kind === "professional") ? "professional" : "personal"}>
   <h2 class="meta m-0 border-b border-border pb-2 text-foreground">{title}</h2>
 
   {
     entries.map((entry) => (
-      <article class="mt-8">
+      <article class="mt-8" data-kind={entry.kind}>
         <div class="flex flex-wrap items-baseline justify-between gap-4">
           <h3 class="display-m m-0 font-serif text-foreground">{entry.role}</h3>
           <span class="tabular whitespace-nowrap text-meta-foreground">{entry.period}</span>

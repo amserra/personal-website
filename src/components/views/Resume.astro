@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import ResumeSection from "@/components/ResumeSection.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
+import FilterChip from "@/components/FilterChip.astro";
 import { getImage } from "astro:assets";
 import portrait from "@/images/portrait.jpeg";
 import { EXPERIENCE, EDUCATION, PROJECTS, SKILLS } from "@/lib/resume";
@@ -32,20 +33,38 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
       </p>
     </div>
     <!-- The one solid primary fill allowed per page. -->
-    <ButtonLink href="/alexandre-serra-cv.pdf" variant="default" download>{ui.resume.downloadCv}</ButtonLink>
+    <ButtonLink
+      id="cv-link"
+      href="/alexandre-serra-cv.pdf"
+      variant="default"
+      download
+      data-label-professional={ui.resume.downloadCvProfessional}
+      data-label-full={ui.resume.downloadCvPersonal}>{ui.resume.downloadCvProfessional}</ButtonLink
+    >
   </div>
 
-  <div class="mt-12">
+  <!-- Hidden until the script runs: without it the page stays on the professional view. -->
+  <div id="view-toggle" role="group" aria-label={ui.resume.viewLabel} class="mt-8 flex flex-wrap gap-3" hidden>
+    <FilterChip data-view="professional" pressed>{ui.resume.viewProfessional}</FilterChip>
+    <FilterChip data-view="full">{ui.resume.viewFull}</FilterChip>
+  </div>
+
+  <!-- Everything is server-rendered; the professional view just hides what is personal. -->
+  <div
+    id="resume"
+    data-view="professional"
+    class="mt-12 [&[data-view=professional]_[data-kind=personal]]:hidden"
+  >
     <ResumeSection title={ui.resume.experience} entries={EXPERIENCE[locale]} />
     <ResumeSection title={ui.resume.education} entries={EDUCATION[locale]} />
     <ResumeSection title={ui.resume.projects} entries={PROJECTS[locale]} />
 
-    <section class="mt-12">
+    <section class="mt-12" data-kind={SKILLS[locale].some((s) => s.kind === "professional") ? "professional" : "personal"}>
       <h2 class="meta m-0 border-b border-border pb-2 text-foreground">{ui.resume.skills}</h2>
-      <dl class="mt-6 m-0">
+      <dl class="m-0 mt-6 grid gap-4">
         {
           SKILLS[locale].map((s) => (
-            <div class="mt-4 first:mt-0 sm:grid sm:grid-cols-[180px_1fr] sm:gap-4">
+            <div class="sm:grid sm:grid-cols-[180px_1fr] sm:gap-4" data-kind={s.kind}>
               <dt class="label text-meta-foreground">{s.label}</dt>
               <dd class="body-base m-0 text-muted-foreground">{s.value}</dd>
             </div>
@@ -55,3 +74,25 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
     </section>
   </div>
 </Base>
+
+<script>
+  const root = document.getElementById("resume")!;
+  const toggle = document.getElementById("view-toggle")!;
+  const buttons = Array.from(toggle.querySelectorAll<HTMLButtonElement>("button"));
+  const cvLink = document.getElementById("cv-link")!;
+
+  function apply(view: string, push = true) {
+    root.dataset.view = view;
+    cvLink.textContent = (view === "full" ? cvLink.dataset.labelFull : cvLink.dataset.labelProfessional) ?? cvLink.textContent;
+    for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.view === view));
+    if (push) {
+      const url = new URL(location.href);
+      view === "professional" ? url.searchParams.delete("view") : url.searchParams.set("view", view);
+      history.replaceState({}, "", url);
+    }
+  }
+
+  toggle.hidden = false;
+  for (const b of buttons) b.addEventListener("click", () => apply(b.dataset.view!));
+  if (new URL(location.href).searchParams.get("view") === "full") apply("full", false);
+</script>

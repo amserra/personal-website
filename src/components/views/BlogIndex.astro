@@ -1,6 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import PostRow from "@/components/PostRow.astro";
+import FilterChip from "@/components/FilterChip.astro";
 import { getPosts, postPath } from "@/lib/blog";
 import { UI, DEFAULT_LOCALE } from "@/lib/site";
 import type { Locale, Category } from "@/lib/site";
@@ -20,9 +21,6 @@ const DOT = {
   travel: "bg-tag-travel",
   personal: "bg-tag-personal",
 };
-
-const chip =
-  "label inline-flex cursor-pointer items-center gap-2 rounded-full border border-input px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground aria-pressed:border-primary-strong aria-pressed:bg-primary-soft aria-pressed:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 ---
 
 <Base title={`${ui.blog.metaTitle} — Alexandre Serra`} active="blog" description={ui.blog.metaDescription}>
@@ -34,16 +32,16 @@ const chip =
   <!-- Server-rendered so the full list works before this hydrates. -->
   <ul id="filters" class="m-0 mt-8 flex list-none flex-wrap items-center gap-3 p-0">
     <li>
-      <button type="button" class={chip} data-filter="all" aria-pressed="true">{ui.blog.filterAll}</button>
+      <FilterChip data-filter="all" pressed>{ui.blog.filterAll}</FilterChip>
     </li>
     {
       CATEGORIES.map((c) => (
         <li>
-          <button type="button" class={chip} data-filter={c} data-label={ui.blog.categories[c]} aria-pressed="false">
+          <FilterChip data-filter={c} data-label={ui.blog.categories[c]}>
             <span class:list={["size-1.5 rounded-full", DOT[c]]} aria-hidden="true" />
             {ui.blog.categories[c]}
             <span class="font-mono text-[11px]">{counts[c]}</span>
-          </button>
+          </FilterChip>
         </li>
       ))
     }

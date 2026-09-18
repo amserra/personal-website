@@ -128,12 +128,18 @@ interface UiCopy {
     metaTitle: string;
     metaDescription: string;
     subtitle: string;
-    downloadCv: string;
+    /** The CV button names the view that is showing; both download the same PDF. */
+    downloadCvProfessional: string;
+    downloadCvPersonal: string;
     experience: string;
     education: string;
     projects: string;
     skills: string;
     tools: string;
+    /** Label for the professional/full view toggle, and its two options. */
+    viewLabel: string;
+    viewProfessional: string;
+    viewFull: string;
   };
   photography: {
     title: string;
@@ -191,12 +197,16 @@ export const UI: Record<Locale, UiCopy> = {
         "Full-stack software engineer, currently in Lisbon. Experience, education, projects and skills.",
       subtitle:
         "Full-stack software engineer, currently in Lisbon. Available as a PDF if you prefer it that way.",
-      downloadCv: "Download CV (PDF)",
+      downloadCvProfessional: "Download professional CV (PDF)",
+      downloadCvPersonal: "Download personal CV (PDF)",
       experience: "Experience",
       education: "Education",
       projects: "Projects",
       skills: "Skills",
       tools: "Tools",
+      viewLabel: "Resume view",
+      viewProfessional: "professional",
+      viewFull: "full",
     },
     photography: {
       title: "Photography",
@@ -265,12 +275,16 @@ export const UI: Record<Locale, UiCopy> = {
         "Engenheiro de software full-stack em Lisboa. Experiência, formação, projetos e competências.",
       subtitle:
         "Engenheiro de software full-stack em Lisboa. Disponível em PDF, se preferires assim.",
-      downloadCv: "Descarregar CV (PDF)",
+      downloadCvProfessional: "Descarregar CV profissional (PDF)",
+      downloadCvPersonal: "Descarregar CV pessoal (PDF)",
       experience: "Experiência",
       education: "Formação",
       projects: "Projetos",
       skills: "Competências",
       tools: "Ferramentas",
+      viewLabel: "Vista do currículo",
+      viewProfessional: "profissional",
+      viewFull: "completo",
     },
     photography: {
       title: "Fotografia",
