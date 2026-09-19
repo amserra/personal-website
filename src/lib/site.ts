@@ -16,6 +16,8 @@ export function otherLocale(locale: Locale): Locale {
 
 interface SiteCopy {
   name: string;
+  /** Where I am, as the resume PDF header states it. */
+  location: string;
   tagline: string;
   /** The home page's <title>; other pages use "<section> — <name>". */
   homeTitle: string;
@@ -25,12 +27,14 @@ interface SiteCopy {
 export const SITE: Record<Locale, SiteCopy> = {
   en: {
     name: "Alexandre Serra",
+    location: "Lisbon, Portugal",
     tagline: "Just a guy trying to reach his future self.",
     homeTitle: "Alexandre Serra",
     footerNote: "From Lisbon, Portugal. No trackers, no cookies.",
   },
   pt: {
     name: "Alexandre Serra",
+    location: "Lisboa, Portugal",
     tagline: "Um gajo a tentar alcançar o seu eu futuro.",
     homeTitle: "Alexandre Serra",
     footerNote: "Desde Lisboa, Portugal. Sem rastreadores nem bolachinhas.",
@@ -70,17 +74,24 @@ interface FooterLink {
   external: boolean;
 }
 
+// The one place contact details live: the footer and the generated CV read these.
+export const CONTACT = {
+  email: "me@alexandreserra.com",
+  github: "https://github.com/amserra",
+  linkedin: "https://linkedin.com/in/alexandre-serra/",
+} as const;
+
 export const FOOTER_LINKS: Record<Locale, FooterLink[]> = {
   en: [
-    { label: "email", href: "mailto:me@alexandreserra.com", external: false },
-    { label: "github", href: "https://github.com/amserra", external: true },
-    { label: "linkedin", href: "https://linkedin.com/in/alexandre-serra/", external: true },
+    { label: "email", href: `mailto:${CONTACT.email}`, external: false },
+    { label: "github", href: CONTACT.github, external: true },
+    { label: "linkedin", href: CONTACT.linkedin, external: true },
     { label: "rss", href: "/rss.xml", external: false },
   ],
   pt: [
-    { label: "email", href: "mailto:me@alexandreserra.com", external: false },
-    { label: "github", href: "https://github.com/amserra", external: true },
-    { label: "linkedin", href: "https://linkedin.com/in/alexandre-serra/", external: true },
+    { label: "email", href: `mailto:${CONTACT.email}`, external: false },
+    { label: "github", href: CONTACT.github, external: true },
+    { label: "linkedin", href: CONTACT.linkedin, external: true },
     { label: "rss", href: "/pt/rss.xml", external: false },
   ],
 };
@@ -131,6 +142,8 @@ interface UiCopy {
     /** The CV button names the view that is showing; both download the same PDF. */
     downloadCvProfessional: string;
     downloadCvPersonal: string;
+    generatingCv: string;
+    cvError: string;
     experience: string;
     education: string;
     projects: string;
@@ -199,6 +212,8 @@ export const UI: Record<Locale, UiCopy> = {
         "Full-stack software engineer, currently in Lisbon. Available as a PDF if you prefer it that way.",
       downloadCvProfessional: "Download professional CV (PDF)",
       downloadCvPersonal: "Download personal CV (PDF)",
+      generatingCv: "Generating PDF…",
+      cvError: "Could not generate the PDF. Try again.",
       experience: "Experience",
       education: "Education",
       projects: "Projects",
@@ -277,6 +292,8 @@ export const UI: Record<Locale, UiCopy> = {
         "Engenheiro de software full-stack em Lisboa. Disponível em PDF, se preferires assim.",
       downloadCvProfessional: "Descarregar CV profissional (PDF)",
       downloadCvPersonal: "Descarregar CV pessoal (PDF)",
+      generatingCv: "A gerar o PDF…",
+      cvError: "Não foi possível gerar o PDF. Tenta outra vez.",
       experience: "Experiência",
       education: "Formação",
       projects: "Projetos",

@@ -163,6 +163,8 @@ Use it when: the resume tab, and nowhere else.
 
 Every entry (and every skills row) carries a required `kind: "professional" | "personal"` in `src/lib/resume.ts`; it has no default, so `pnpm check` fails on an untagged entry. The page renders everything and stamps `data-kind` on each entry, and on each section (`professional` when at least one of its entries is). A `professional | full` toggle above the resume flips `data-view` on the wrapper: in `professional` a CSS rule hides everything with `data-kind="personal"`, so a section with no professional entries disappears with its heading. The full view shows both kinds. The view is mirrored into the URL as `?view=full` (professional is the default and adds no parameter). The toggle is hidden until the script runs, so without JavaScript the page shows the professional view. Set `kind` on both the `en` and `pt` entry.
 
+The solid button above the resume builds a PDF of the current locale and view in the browser (`src/lib/cv-pdf.ts`, jsPDF, loaded with a dynamic import on click). It is a `<button>` styled with `buttonVariants()` and hidden until the script runs. While the PDF builds it gets `aria-busy`, an inline spinner and the label "Generating PDF…", its width locked so it does not move; a failure shows a `text-destructive` line under it.
+
 Do:
 
 - Write three to five bullets per role, each starting with a verb and naming an outcome.

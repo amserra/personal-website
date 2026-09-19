@@ -4,7 +4,7 @@ Alexandre Serra's personal site: four tabs — blog, photography, me, resume. As
 
 ```bash
 pnpm dev      # localhost:4321
-pnpm build    # 22 pages (11 English, 11 Portuguese)
+pnpm build    # 23 pages (11 English, 11 Portuguese, plus the one bilingual 404)
 pnpm check    # astro check — keep this at 0 errors, 0 warnings
 ```
 
@@ -51,13 +51,15 @@ Type styles are classes in `global.css`: `display-xl/l/m/s`, `body-l`, `body-bas
 src/content/blog/en/<file>.mdx    # title, date, summary, category, slug?, draft?
 src/content/blog/pt/<file>.mdx    # same filename, same schema, PT-PT translation
 src/content.config.ts             # schema (glob loader, id = "<locale>/<slug>")
-src/lib/resume.ts                 # resume data per locale, all of it from alexandre-serra-cv.pdf
+src/lib/resume.ts                 # resume data per locale — the single source for the page and the downloadable CV
+src/lib/cv-pdf.ts                 # builds the CV PDF in the browser (jsPDF) from resume.ts
+src/lib/cv-download.ts            # loads fonts, calls cv-pdf, saves; dynamic-imported on click
 src/lib/site.ts                   # SITE/TABS/FOOTER_LINKS/UI per locale, formatDate, locale-path helpers
 ```
 
 The six posts were migrated from a previous Next.js site; their inline diagrams live in `public/images/blog/<slug>/` and are shared by both locales (translate the alt text, not the image).
 
-The resume's facts come from the CV and nothing else — tighten wording, never add a fact — and that rule applies to the `pt` entries too: translate, don't embellish. The CV's phone number is deliberately **not** on the public page, and there is only one CV PDF (English), linked from both locales. Photo captions in `photography.astro` are placeholders awaiting Alexandre's own, in both locales; the alt text is real.
+The resume's facts come from the CV and nothing else — tighten wording, never add a fact — and that rule applies to the `pt` entries too: translate, don't embellish. There is no CV file in the repo: the PDF is generated in the browser from `resume.ts` (`cv-pdf.ts`, jsPDF, Hind and IBM Plex Sans, four weights subset to Latin in `src/assets/fonts/`) for the current locale and view, in the layout of the hand-made one it replaced (`git show 77c71dd:public/alexandre-serra-cv.pdf`). The CV's phone number is deliberately **not** in `resume.ts`, so it is in neither the page nor the PDF. Contact details in the PDF header come from `CONTACT` and `SITE[locale].location` in `site.ts`, the same source as the footer. The layout re-flows with tighter spacing to stay on one page, so check all four variants (en/pt × professional/full) after editing `resume.ts`. Photo captions in `photography.astro` are placeholders awaiting Alexandre's own, in both locales; the alt text is real.
 
 ## Voice
 

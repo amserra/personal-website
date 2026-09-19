@@ -1,7 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import ResumeSection from "@/components/ResumeSection.astro";
-import ButtonLink from "@/components/ButtonLink.astro";
+import { buttonVariants } from "@/components/ui/button";
 import FilterChip from "@/components/FilterChip.astro";
 import { getImage } from "astro:assets";
 import portrait from "@/images/portrait.jpeg";
@@ -32,15 +32,36 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
         {ui.resume.subtitle}
       </p>
     </div>
-    <!-- The one solid primary fill allowed per page. -->
-    <ButtonLink
-      id="cv-link"
-      href="/alexandre-serra-cv.pdf"
-      variant="default"
-      download
-      data-label-professional={ui.resume.downloadCvProfessional}
-      data-label-full={ui.resume.downloadCvPersonal}>{ui.resume.downloadCvProfessional}</ButtonLink
-    >
+    <div>
+      <!-- The one solid primary fill allowed per page. Hidden until the script runs: the PDF is built in the browser. -->
+      <button
+        id="cv-download"
+        type="button"
+        hidden
+        class:list={[buttonVariants({ variant: "default" }), "group aria-busy:cursor-progress"]}
+        data-locale={locale}
+        data-label-professional={ui.resume.downloadCvProfessional}
+        data-label-full={ui.resume.downloadCvPersonal}
+        data-generating={ui.resume.generatingCv}
+        data-error={ui.resume.cvError}
+      >
+        <svg
+          class="hidden animate-spin group-aria-busy:block motion-reduce:animate-none"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+        </svg>
+        <span id="cv-label">{ui.resume.downloadCvProfessional}</span>
+      </button>
+      <span id="cv-status" role="status" class="sr-only"></span>
+      <p id="cv-error" role="alert" class="body-s m-0 mt-2 text-destructive empty:hidden"></p>
+    </div>
   </div>
 
   <!-- Hidden until the script runs: without it the page stays on the professional view. -->
@@ -76,14 +97,22 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
 </Base>
 
 <script>
+  import type { Locale } from "@/lib/site";
+
   const root = document.getElementById("resume")!;
   const toggle = document.getElementById("view-toggle")!;
   const buttons = Array.from(toggle.querySelectorAll<HTMLButtonElement>("button"));
-  const cvLink = document.getElementById("cv-link")!;
+  const cvButton = document.getElementById("cv-download")!;
+  const cvLabel = document.getElementById("cv-label")!;
+  const cvStatus = document.getElementById("cv-status")!;
+  const cvError = document.getElementById("cv-error")!;
+
+  const idleLabel = (view: string) =>
+    (view === "full" ? cvButton.dataset.labelFull : cvButton.dataset.labelProfessional) ?? "";
 
   function apply(view: string, push = true) {
     root.dataset.view = view;
-    cvLink.textContent = (view === "full" ? cvLink.dataset.labelFull : cvLink.dataset.labelProfessional) ?? cvLink.textContent;
+    cvLabel.textContent = idleLabel(view);
     for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.view === view));
     if (push) {
       const url = new URL(location.href);
@@ -92,6 +121,34 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
     }
   }
 
+  cvButton.addEventListener("click", async () => {
+    // aria-busy, not disabled: the button keeps its colour and focus while the PDF builds.
+    if (cvButton.getAttribute("aria-busy") === "true") return;
+    // Lock the width so swapping the label for the shorter "Generating PDF…" doesn't move the button.
+    cvButton.style.minWidth = `${cvButton.offsetWidth}px`;
+    cvButton.setAttribute("aria-busy", "true");
+    cvLabel.textContent = cvButton.dataset.generating ?? "";
+    cvStatus.textContent = cvLabel.textContent;
+    cvError.textContent = "";
+    try {
+      const { downloadCv } = await import("@/lib/cv-download");
+      await downloadCv({
+        locale: cvButton.dataset.locale as Locale,
+        view: root.dataset.view === "full" ? "full" : "professional",
+        siteUrl: import.meta.env.SITE,
+      });
+    } catch (err) {
+      console.error(err);
+      cvError.textContent = cvButton.dataset.error ?? "";
+    } finally {
+      cvStatus.textContent = "";
+      cvLabel.textContent = idleLabel(root.dataset.view ?? "professional");
+      cvButton.removeAttribute("aria-busy");
+      cvButton.style.minWidth = "";
+    }
+  });
+
+  cvButton.hidden = false;
   toggle.hidden = false;
   for (const b of buttons) b.addEventListener("click", () => apply(b.dataset.view!));
   if (new URL(location.href).searchParams.get("view") === "full") apply("full", false);

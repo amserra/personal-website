@@ -1,5 +1,6 @@
-// Every fact here comes from alexandre-serra-cv.pdf. Bullets are tightened to the
-// design system's rules — verb first, outcome named — but no fact is added.
+// Every fact here comes from the CV. Bullets are tightened to the design system's
+// rules — verb first, outcome named — but no fact is added. This file also feeds the
+// downloadable PDF (cv-pdf.ts), so it is the one place to edit the resume.
 // The CV's phone number is deliberately left off a public page.
 // The pt entries are a translation of the en ones; keep both in sync fact-for-fact.
 
@@ -77,7 +78,7 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
       role: "Engenheiro de Software Full-Stack",
       org: "Mercell",
       location: "Remoto para Utrecht, Países Baixos",
-      period: "Set 2025 — present",
+      period: "Set 2025 — atual",
       kind: "professional",
       bullets: [
         "Entrego funcionalidades completas, de ponta a ponta, numa equipa full-stack.",
