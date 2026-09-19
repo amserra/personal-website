@@ -25,14 +25,19 @@ const structuredData = personSchema(locale, personUrl, portraitUrl);
   <h1 class="display-l m-0 font-serif text-foreground">{ui.me.title}</h1>
 
   <div class="mt-8 flow-root">
-    <Image
-      src={portrait}
-      alt="Alexandre Serra"
-      width={576}
-      densities={[1, 2]}
-      class="float-left mr-4 mb-2 w-50 rounded-xl bg-muted sm:mr-6 sm:mb-3 sm:w-56 md:w-72"
-      loading="eager"
-    />
+    <figure class="float-left m-0 mr-4 mb-2 w-50 sm:mr-6 sm:mb-3 sm:w-56 md:w-72">
+      <Image
+        src={portrait}
+        alt="Alexandre Serra"
+        width={576}
+        densities={[1, 2]}
+        class="w-full rounded-xl bg-muted"
+        loading="eager"
+      />
+      <figcaption class="body-s mt-2 text-muted-foreground italic">
+        {ui.me.portraitCaption}
+      </figcaption>
+    </figure>
 
     <div class="body-l max-w-content text-foreground">
       {ui.me.paragraphs.map((p, i) => <p class:list={[i === 0 ? "m-0" : "mt-4"]}>{p}</p>)}

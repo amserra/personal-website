@@ -130,6 +130,7 @@ interface UiCopy {
     metaTitle: string;
     metaDescription: string;
     paragraphs: string[];
+    portraitCaption: string;
     emailMe: string;
     professionalVersion: string;
   };
@@ -203,6 +204,7 @@ export const UI: Record<Locale, UiCopy> = {
         "I've travelled for most of my life and it's one of the things I enjoy the most. Even though I've travelled a lot, I feel I haven't travelled enough. I find the feeling of being completly displaced so fascinating. Next year I'll be the farthest and longest away from home I've ever been, and I can't wait to see what that feels like.",
       ],
       emailMe: "Email me",
+      portraitCaption: "Photo taken in Seoul.",
       professionalVersion: "The professional version",
     },
     resume: {
@@ -285,6 +287,7 @@ export const UI: Record<Locale, UiCopy> = {
         "Viajo desde sempre e é uma das coisas de que mais me dá prazer. Apesar de ter viajado bastante, sinto que ainda não viajei o suficiente. Acho fascinante a sensação de estar completamente deslocado. No próximo ano vou estar mais longe e mais tempo fora de casa do que alguma vez estive, e mal posso esperar.",
       ],
       emailMe: "Enviar email",
+      portraitCaption: "Fotografia tirada em Seul.",
       professionalVersion: "A versão profissional",
     },
     resume: {
