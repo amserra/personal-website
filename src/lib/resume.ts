@@ -62,15 +62,26 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
       tech: ["React", "Node.JS", "AWS"],
     },
     {
-      role: "Research Collaborator, flood forecasting system",
+      role: "Research Collaborator",
       org: "INESC-ID",
       location: "Hybrid to Lisbon, Portugal",
       period: "Feb 2021 — May 2022",
       kind: "professional",
       bullets: [
+        "Participated in the research of a flood forecasting system, developing machine learning models to predict the risk of flooding in specific areas.",
         "Shipped features on a Django web portal with long-running background tasks, server-to-server communication and geoinformation manipulation.",
       ],
       tech: ["Django", "Python", "Javascript"],
+    },
+    {
+      role: "Lifeguard",
+      org: "ISN",
+      location: "Quinta de São Gerónimo pools - Coimbra",
+      period: "Apr 2018 — Aug 2018",
+      kind: "personal",
+      bullets: [
+        "Worked as a lifeguard at a local pool, supervising swimmers and ensuring their safety.",
+      ],
     },
   ],
   pt: [
@@ -90,7 +101,7 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
     {
       role: "Engenheiro de Software Full-Stack",
       org: "Cleanwatts",
-      location: "Remoto para Coimbra, Portugal",
+      location: "Remoto para Coimbra",
       period: "Jan 2023 — Set 2025",
       kind: "professional",
       bullets: [
@@ -104,7 +115,7 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
     {
       role: "Engenheiro de Software Full-Stack",
       org: "Staruplo",
-      location: "Remoto para Aveiro, Portugal",
+      location: "Remoto para Aveiro",
       period: "Mar 2022 — Ago 2022",
       kind: "professional",
       bullets: [
@@ -114,15 +125,26 @@ export const EXPERIENCE: Record<Locale, Entry[]> = {
       tech: ["React", "Node.JS", "AWS"],
     },
     {
-      role: "Colaborador de investigação, sistema de previsão de cheias",
+      role: "Colaborador de investigação",
       org: "INESC-ID",
-      location: "Remoto para Lisboa, Portugal",
+      location: "Remoto para Lisboa",
       period: "Fev 2021 — Mai 2022",
       kind: "professional",
       bullets: [
+        "Participei na investigação de um sistema de previsão de cheias, desenvolvendo modelos de machine learning para prever o risco de enchentes em áreas específicas.",
         "Lancei funcionalidades num portal web em Django com tarefas de longa duração em background, comunicação servidor-a-servidor e manipulação de geoinformação.",
       ],
       tech: ["Django", "Python", "Javascript"],
+    },
+    {
+      role: "Nadador Salvador",
+      org: "ISN",
+      location: "Piscinas da Quinta de São Gerónimo - Coimbra",
+      period: "Abr 2018 — Ago 2018",
+      kind: "personal",
+      bullets: [
+        "Trabalhei como nadador salvador numa piscina local a supervisionar os utentes e garantir a sua segurança.",
+      ],
     },
   ],
 };
@@ -161,6 +183,18 @@ export const EDUCATION: Record<Locale, Entry[]> = {
 export const PROJECTS: Record<Locale, Entry[]> = {
   en: [
     {
+      role: "Prazus",
+      org: "An AI-powered digital assistant for lawyers",
+      period: "Jun 2025 - present",
+      kind: "professional",
+      bullets: [
+        "Building a full-stack legal SaaS as a monorepo, with subscription billing, user management, and AI-powered document analysis.",
+        "Developing an AI case assistant that streams answers grounded in case data, uploaded files, and Portuguese legislation, scoped per user and case.",
+        "Automating deadline tracking with a calculator based on the official court holiday calendar and a daily digest of upcoming deadlines.",
+      ],
+      tech: ["React", "Tanstack Start"],
+    },
+    {
       role: "HandOnVitals",
       org: "Medical device measuring five vital signs",
       period: "Jan 2021 — Dec 2022",
@@ -174,16 +208,28 @@ export const PROJECTS: Record<Locale, Entry[]> = {
     {
       role: "SportsIn",
       org: "Sports events aggregator",
-      period: "Sep 2019 — present",
+      period: "Sep 2019 — Jun 2025",
       kind: "professional",
       bullets: [
         "Built a Flutter mobile app that aggregates sports events and lets people search for events nearby by map or list.",
         "Created the Django web service organisers use to add and manage their events.",
       ],
-      tech: ["Flutter", "Django"],
+      tech: ["Flutter", "Django", "React"],
     },
   ],
   pt: [
+    {
+      role: "Prazus",
+      org: "Assistente digital com IA para advogados",
+      period: "Jun 2025 - presente",
+      kind: "professional",
+      bullets: [
+        "Criei um SaaS jurídico full-stack num monorepo, com faturação por subscrição, gestão de utilizadores e análise de documentos com IA.",
+        "Desenvolvi num assistente de IA para processos que transmite respostas em streaming, fundamentadas nos dados do processo, nos ficheiros carregados e na legislação portuguesa, com âmbito limitado por utilizador e processo.",
+        "Automatizo a gestão de prazos com uma calculadora baseada no calendário oficial de feriados judiciais e um resumo diário dos prazos a vencer.",
+      ],
+      tech: ["React", "Tanstack Start"],
+    },
     {
       role: "HandOnVitals",
       org: "Dispositivo médico que mede cinco sinais vitais",
@@ -198,13 +244,13 @@ export const PROJECTS: Record<Locale, Entry[]> = {
     {
       role: "SportsIn",
       org: "Agregador de eventos desportivos",
-      period: "Set 2019 — atual",
+      period: "Set 2019 — Jun 2025",
       kind: "professional",
       bullets: [
         "Construí uma aplicação móvel em Flutter que agrega eventos desportivos e permite às pessoas procurar eventos próximos por mapa ou lista.",
         "Criei o serviço web em Django que os organizadores usam para adicionar e gerir os seus eventos.",
       ],
-      tech: ["Flutter", "Django"],
+      tech: ["Flutter", "Django", "React"],
     },
   ],
 };
@@ -225,29 +271,41 @@ export const SKILLS: Record<Locale, Skill[]> = {
     },
     {
       label: "Programming",
-      value: "Javascript, Node.JS, React, Angular, .NET, Python, Django, TailwindCSS",
+      value:
+        "Javascript, Typescript, Node.JS, React, Angular, .NET, C#, Java, Python, Django, TailwindCSS",
       kind: "professional",
     },
     {
-      label: "Away from the keyboard",
-      value: "Water polo at Sporting Clube de Portugal, in the Portuguese first division",
+      label: "Sports",
+      value: "Water polo, running, gym. Looking to start surfing, tennis and calisthenics",
+      kind: "personal",
+    },
+    {
+      label: "Hobbies",
+      value: "Pokémon TCG, travelling, photography, reading",
       kind: "personal",
     },
   ],
   pt: [
     {
       label: "Idiomas",
-      value: "Português (nativo), inglês (fluente), espanhol (conversação)",
+      value: "Português (nativo), inglês (fluente), espanhol (conversação), italiano (básico)",
       kind: "personal",
     },
     {
       label: "Programação",
-      value: "Javascript, Node.JS, React, Angular, .NET, Python, Django, TailwindCSS",
+      value:
+        "Javascript, Typescript, Node.JS, React, Angular, .NET, C#, Java, Python, Django, TailwindCSS",
       kind: "professional",
     },
     {
-      label: "Fora do teclado",
-      value: "Polo aquático no Sporting Clube de Portugal, na primeira divisão portuguesa",
+      label: "Desporto",
+      value: "Polo aquático, corrida, ginásio. À procura de começar a surfar, ténis e calistenia",
+      kind: "personal",
+    },
+    {
+      label: "Hobbies",
+      value: "Cartas pokémon, viajar, fotografia, ler",
       kind: "personal",
     },
   ],
