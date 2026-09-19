@@ -12,14 +12,57 @@ const files = import.meta.glob<{ default: ImageMetadata }>("/src/images/photos/*
   eager: true,
 });
 
-// Alt text describes what is in the frame. Captions, places and dates are
-// mine, not Alexandre's — replace them with the real thing (and the real order).
-// The pt entries are a translation of the en ones; keep both in sync.
+// Alt text describes what is in the frame. The pt entries are a translation
+// of the en ones (same file, place and date); keep both in sync.
 type Photo = { file: string; alt: string; caption: string; place?: string; date: string };
 
 const PHOTOS: Record<Locale, Photo[]> = {
-  en: [],
-  pt: [],
+  en: [
+    {
+      file: "/src/images/photos/sporting-lion-johannesburg.jpg",
+      alt: "Sporting CP water polo squad in green kit posing in front of a large stone lion.",
+      caption: "The lions went wild.",
+      place: "Johannesburg, South Africa",
+      date: "2026-08-09",
+    },
+    {
+      file: "/src/images/photos/sphinx-giza.jpg",
+      alt: "The Great Sphinx of Giza, with a pyramid behind it under a clear sky.",
+      caption: "Why did she lose her nose?",
+      place: "Giza, Egypt",
+      date: "2022-08-06",
+    },
+    {
+      file: "/src/images/photos/giraffe-johannesburg.jpg",
+      alt: "A giraffe standing close beside a safari truck.",
+      caption: "Close enough to count the eyelashes.",
+      place: "Johannesburg, South Africa",
+      date: "2023-04-05",
+    },
+  ],
+  pt: [
+    {
+      file: "/src/images/photos/sporting-lion-johannesburg.jpg",
+      alt: "Equipa de pólo aquático do Sporting CP, de equipamento verde, a posar em frente a um grande leão de pedra.",
+      caption: "Os leões enlouqueceram.",
+      place: "Joanesburgo, África do Sul",
+      date: "2026-08-09",
+    },
+    {
+      file: "/src/images/photos/sphinx-giza.jpg",
+      alt: "A Grande Esfinge de Gizé, com uma pirâmide atrás, sob um céu limpo.",
+      caption: "Porque é que ela perdeu o nariz?",
+      place: "Gizé, Egito",
+      date: "2022-08-06",
+    },
+    {
+      file: "/src/images/photos/giraffe-johannesburg.jpg",
+      alt: "Uma girafa de pé, mesmo ao lado de um jipe de safari.",
+      caption: "Perto o suficiente para contar as pestanas.",
+      place: "Joanesburgo, África do Sul",
+      date: "2023-04-05",
+    },
+  ],
 };
 
 const photos = PHOTOS[locale];
