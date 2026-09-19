@@ -6,7 +6,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import satori from "satori";
 import sharp from "sharp";
-import { SITE, UI, formatDate, type Category, type Locale } from "@/lib/site";
+import { SITE, formatDate, type Locale } from "@/lib/site";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
@@ -17,13 +17,6 @@ const PAPER = {
   meta: "#6b6257",
 };
 
-const TAG: Record<Category, string> = {
-  software: "#3d6672",
-  travel: "#6f6329",
-  personal: "#82465a",
-  history: "#5b5a9a",
-};
-
 let font: Buffer | undefined;
 const loadFont = async () =>
   (font ??= await readFile(path.join(process.cwd(), "src/assets/fonts/IBMPlexSans_500Medium.ttf")));
@@ -31,7 +24,6 @@ const loadFont = async () =>
 interface CardPost {
   title: string;
   date: Date;
-  category: Category;
 }
 
 // Satori has no autofit; step the size down so a long title stays within three lines.
@@ -66,13 +58,7 @@ export async function renderOgCard(post: CardPost, locale: Locale, siteUrl: URL)
       ]),
       el("div", { fontSize: titleSize(post.title), lineHeight: 1.12 }, post.title),
       el("div", { justifyContent: "space-between", alignItems: "center" }, [
-        el("div", { alignItems: "center", gap: 20, ...meta }, [
-          el("div", { alignItems: "center", gap: 12 }, [
-            el("div", { width: 14, height: 14, borderRadius: 7, background: TAG[post.category] }),
-            el("div", {}, UI[locale].blog.categories[post.category]),
-          ]),
-          el("div", {}, formatDate(post.date, locale)),
-        ]),
+        el("div", meta, formatDate(post.date, locale)),
         el("div", meta, siteUrl.host),
       ]),
     ],
