@@ -11,6 +11,8 @@ const localeOf = (post: Post) => post.id.split("/")[0] as Locale;
 const filenameOf = (post: Post) => post.id.slice(post.id.indexOf("/") + 1);
 export const postSlug = (post: Post) => post.data.slug ?? filenameOf(post);
 export const postPath = (post: Post) => withLocale(`/blog/${postSlug(post)}`, localeOf(post));
+/** The post's generated social card (src/pages/og/[locale]/[slug].png.ts). */
+export const postOgPath = (post: Post) => `/og/${localeOf(post)}/${postSlug(post)}.png`;
 
 /** Published posts in one locale, newest first. */
 export async function getPosts(locale: Locale): Promise<Post[]> {

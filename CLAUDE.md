@@ -55,6 +55,7 @@ src/content.config.ts             # schema (glob loader, id = "<locale>/<slug>")
 src/lib/resume.ts                 # resume data per locale — the single source for the page and the downloadable CV
 src/lib/cv-pdf.ts                 # builds the CV PDF in the browser (jsPDF) from resume.ts
 src/lib/cv-download.ts            # loads fonts, calls cv-pdf, saves; dynamic-imported on click
+src/lib/og-card.ts                # per-post social card (satori + sharp), served at /og/<locale>/<slug>.png; colours mirror the Paper tokens
 src/lib/site.ts                   # SITE/TABS/FOOTER_LINKS/UI per locale, formatDate, locale-path helpers
 ```
 

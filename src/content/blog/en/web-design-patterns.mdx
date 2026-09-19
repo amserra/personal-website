@@ -1,7 +1,7 @@
 ---
 title: "Web design patterns — SSR, SSG, and SPA"
 date: 2021-08-10
-summary: "Breaking down this hot modern web terms."
+summary: "What SSR, SSG and SPA are, how they compare, and which to pick for a documentation site, a blog and a CRM."
 category: software
 ---
 Modern web development sometimes looks complex. The terms SSR, SSG and SPA usually emerge in the vast majority of content out there. When I first heard about these names, I sure was confused. What are those? Which one to use? When to choose one over the other? Can multiple patterns be used in the same app? I’m going to break down these questions for you. Hopefully, at the end of this article, you will have a better understanding of them, and a finer capability to make better architectural decisions for your next project.
@@ -10,7 +10,7 @@ Modern web development sometimes looks complex. The terms SSR, SSG and SPA usual
 
 In SSR, when a web page is requested, it is rendered on the server, served to the client, and finally rendered by the client.
 
-![](/images/blog/web-design-patterns/ssr.webp)
+![Server-side rendering in six steps: the user requests a website, the server creates ready HTML files, the browser renders the HTML but it is not interactive yet, downloads the Javascript, executes it, and the website becomes fully interactive.](/images/blog/web-design-patterns/ssr.webp)
 
 Why is this useful? Imagine a templating system, like the Django templating system, where you have dynamic data like below.
 
@@ -28,13 +28,13 @@ The browser (client-side) just has to render the page into the DOM and voilá, t
 
 ## SSG (Static-Site Generating)
 
-![](/images/blog/web-design-patterns/ssg.webp)
+![Pre-rendering in six steps: the user requests a website, the server sends a static HTML file with Javascript resources, the browser renders the HTML and downloads the Javascript, the user sees the static page without interactivity, is redirected to the right file, and the website becomes fully interactive.](/images/blog/web-design-patterns/ssg.webp)
 
 SSG has similarities with SSR. The page is also generated in the server, however, the page is rendered at build time. So, instead of rendering the page on the server upon the receival of a request, the page is already rendered in the server, waiting to be served to the client. I’ll discuss the advantages and disadvantages of this approach, and compare it with SSR further below.
 
 ## SPA (Single-Page Application)
 
-![](/images/blog/web-design-patterns/spa.webp)
+![Client-side rendering in six steps: the user requests a website, the server sends an HTML file with Javascript links, the browser downloads the HTML, then the CSS and Javascript, executes the framework or library, and loads the website.](/images/blog/web-design-patterns/spa.webp)
 
 This approach is relatively new compared with the previous two. This is a result of the rapid growth of the internet, software, and hardware industries over the last two decades. With SPA, the server provides the user with an empty HTML page and Javascript. The latter is where the magic happens. When the browser receives the HTML + Javascript, it loads the Javascript. Once loaded, the JS takes place and, through a set of operations in the DOM, renders the necessary components to the page. The routing is then handled by the browser itself, not hitting the server. This is usually done through a frontend framework (or library) like React, Vue, or Angular.
 
