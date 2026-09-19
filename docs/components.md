@@ -57,20 +57,20 @@ This is navigation, not a shadcn Tabs component. Tabs manages panels in one page
 
 The blog's subject filter: an `all` chip plus one per subcategory, each with its colour dot, its word, and an optional count. It filters the list in place — it does not navigate.
 
-The three subject chips plus an `all` chip are rendered on the server from the post counts, with `all` pressed by default. Filtering hides rows by their `data-category` attribute rather than re-rendering the list, and the chosen filter is mirrored into the URL as `?tag=` so a filtered view can be linked and reloaded.
+The four subject chips plus an `all` chip are rendered on the server from the post counts, with `all` pressed by default. Filtering hides rows by their `data-category` attribute rather than re-rendering the list, and the chosen filter is mirrored into the URL as `?tag=` so a filtered view can be linked and reloaded.
 
 Use it when: above the post list on the blog tab, and for the professional/full toggle on the resume. Photography has nothing to filter.
 
 Do:
 
-- Keep the dot and the word together. The dot in `tag-software`, `tag-travel` or `tag-personal` is a second signal, never the only one, so the filter still works for a colour-blind reader and in print.
+- Keep the dot and the word together. The dot in `tag-software`, `tag-travel`, `tag-personal` or `tag-history` is a second signal, never the only one, so the filter still works for a colour-blind reader and in print.
 - Show counts when the archive is long enough that they help someone choose; drop them when a category has one post.
 - Reflect the active chip in the URL (`/blog?tag=travel`) so a filtered view can be linked and reloaded.
 
 Don't:
 
 - Don't allow multiple chips at once. One subject at a time keeps the list honest and the URL simple.
-- Don't invent a fourth category to fit one post — file it under the closest of the three.
+- Don't invent a fifth category to fit one post — file it under the closest of the four.
 - Don't use chips as tabs. They set `aria-pressed`, not `aria-current`.
 
 Plain `<button>` elements with a short inline script — no framework island. Keep `aria-pressed`, never `aria-current`: this filters a list in place, it does not navigate. The full list is server-rendered, so the page works before the script runs.

@@ -99,7 +99,7 @@ export const FOOTER_LINKS: Record<Locale, FooterLink[]> = {
 // Category keys stay in English everywhere (schema, data attributes, ?tag=
 // URLs) so links and filters work the same in both locales. Only the
 // displayed word is translated, via UI.categories below.
-export type Category = "software" | "travel" | "personal";
+export type Category = "software" | "travel" | "personal" | "history";
 
 interface UiCopy {
   skipToContent: string;
@@ -183,9 +183,9 @@ export const UI: Record<Locale, UiCopy> = {
       metaTitle: "Blog",
       metaDescription: "Writing on software, travel and everything else.",
       intro: (count) =>
-        `I've written ${count} posts here so far. I write about software, travel and everything else. Peak at your own risk.`,
+        `I've written ${count} posts here so far. I write about software, travel and everything else. I use AI to proofread grammar, spelling and fact-check, but the base writing is always done by me.`,
       filterAll: "all",
-      categories: { software: "software", travel: "travel", personal: "personal" },
+      categories: { software: "software", travel: "travel", personal: "personal", history: "history" },
       noPostsYetTemplate: "No {category} posts yet.",
       backToAllPosts: "← all posts",
     },
@@ -265,9 +265,9 @@ export const UI: Record<Locale, UiCopy> = {
       metaTitle: "Blog",
       metaDescription: "Artigos sobre software, viagens e tudo o resto.",
       intro: (count) =>
-        `Já escrevi ${count} artigos aqui. Escrevo sobre software, viagens e tudo o resto. Espreita por tua conta e risco.`,
+        `Já escrevi ${count} artigos aqui. Escrevo sobre software, viagens e tudo o resto. Uso IA para rever a gramática, ortografia e fazer verificação de fatos, mas a escrita base é feita sempre por mim.`,
       filterAll: "todos",
-      categories: { software: "software", travel: "viagens", personal: "pessoal" },
+      categories: { software: "software", travel: "viagens", personal: "pessoal", history: "história" },
       noPostsYetTemplate: "Ainda não há posts de {category}.",
       backToAllPosts: "← todos os posts",
     },

@@ -11,7 +11,7 @@ const ui = UI[locale];
 
 const posts = await getPosts(locale);
 
-const CATEGORIES: Category[] = ["software", "travel", "personal"];
+const CATEGORIES: Category[] = ["software", "travel", "personal", "history"];
 const counts = Object.fromEntries(
   CATEGORIES.map((c) => [c, posts.filter((p) => p.data.category === c).length]),
 );
@@ -20,6 +20,7 @@ const DOT = {
   software: "bg-tag-software",
   travel: "bg-tag-travel",
   personal: "bg-tag-personal",
+  history: "bg-tag-history",
 };
 ---
 

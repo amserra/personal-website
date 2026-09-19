@@ -39,6 +39,7 @@ Paper is `:root`, Ink is `.dark`. Every text pair named in a usage note holds 4.
 | `tag-software` | `#3d6672` | `#8fc2d0` | The 6px dot marking a Software post, beside the word 'software' in meta-foreground. The dot never carries the meaning alone. |
 | `tag-travel` | `#6f6329` | `#c9b573` | The dot marking a Travel post, always beside its word. |
 | `tag-personal` | `#82465a` | `#d1949e` | The dot marking a Personal post, always beside its word. |
+| `tag-history` | `#5b5a9a` | `#a9a4dc` | The dot marking a History post, always beside its word. Slate violet, clear of the teal and plum of the other tags. |
 
 ## Type
 

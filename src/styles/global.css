@@ -38,6 +38,7 @@
   --tag-software: #3d6672;
   --tag-travel: #6f6329;
   --tag-personal: #82465a;
+  --tag-history: #5b5a9a;
   --radius: 0.25rem;
 }
 
@@ -72,6 +73,7 @@
   --tag-software: #8fc2d0;
   --tag-travel: #c9b573;
   --tag-personal: #d1949e;
+  --tag-history: #a9a4dc;
 }
 
 @theme inline {
@@ -105,6 +107,7 @@
   --color-tag-software: var(--tag-software);
   --color-tag-travel: var(--tag-travel);
   --color-tag-personal: var(--tag-personal);
+  --color-tag-history: var(--tag-history);
 
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;

@@ -4,7 +4,7 @@ Alexandre Serra's personal site: four tabs — blog, photography, me, resume. As
 
 ```bash
 pnpm dev      # localhost:4321
-pnpm build    # 23 pages (11 English, 11 Portuguese, plus the one bilingual 404)
+pnpm build    # 25 pages (12 English, 12 Portuguese, plus the one bilingual 404)
 pnpm check    # astro check — keep this at 0 errors, 0 warnings
 ```
 
@@ -37,11 +37,12 @@ Type styles are classes in `global.css`: `display-xl/l/m/s`, `body-l`, `body-bas
 ## Conventions that will bite you
 
 - **Links that look like buttons use `ButtonLink.astro`** (`buttonVariants()` on an `<a>`). shadcn's `<Button asChild>` silently drops every class when Astro renders React to static HTML — you get a bare anchor and an invisible button. Never use `asChild` here.
-- **Blog categories are exactly `software`, `travel`, `personal`.** The schema enforces it. File a post under the closest of the three rather than adding a fourth.
+- **Blog categories are exactly `software`, `travel`, `personal`, `history`.** The schema enforces it. File a post under the closest of the four rather than adding a fifth.
 - **The category dot never travels alone** — always the coloured dot *and* the word, so the filter survives greyscale and colour blindness.
 - **Dates are absolute, day-month-year**, via `formatDate` in `src/lib/site.ts`. Never relative ("2 days ago"); these pages get read years later.
 - **Import `z` from `zod`**, not from `astro:content` (deprecated in Astro 7).
 - **Photographs go in `src/images/`**, never `public/`, so Astro optimises them — a 4.4 MB original ships as 88 kB. Grid crops are 3:2; the lightbox shows the true ratio.
+- **The type-style classes (`display-*`, `body-*`, `code`...) live in `@layer base`, so they cannot be used through a Tailwind variant.** `[&_h2]:display-m` silently does nothing. Inside the post prose wrapper in `BlogPost.astro`, use explicit utilities (`[&_h2]:text-[24px]`) instead.
 - **Utilities are the interface; `@apply` is not.** A repeating pattern becomes an Astro component, not a CSS class that hides the utilities.
 - `tw-animate-css` is not installed. Add it only when a Dialog or Popover actually needs it.
 
@@ -71,7 +72,7 @@ English is the default locale, served unprefixed (`/blog`, `/me`...); Portuguese
 
 - **Every route exists in both locales; the code only ever names the English one.** `SECTION_SLUGS` in `src/lib/routes.ts` (pure, no Astro imports, so `astro.config.mjs` can share it) renames a route's first segment per locale (`photography` → `fotografia`, `me` → `eu`, `resume` → `curriculo`); `withLocale("/photography", locale)` and `stripLocale` translate in each direction, so write links as canonical English paths and never hard-code `/pt/...`. The `.astro` file under `src/pages/pt/` must be named to match. A new page needs a file in each locale and, if its PT slug differs, an entry in `SECTION_SLUGS`. If a page exists in only one language, write the translation.
 - **Locale is derived from the URL, never passed as a prop.** Shared view components in `src/components/views/` (`Home.astro`, `BlogIndex.astro`, `BlogPost.astro`, `Me.astro`, `Resume.astro`, `Photography.astro`) read `Astro.currentLocale` themselves; the thin files in `src/pages/` and `src/pages/pt/` just render the same view. Keep new pages in this shape rather than duplicating markup per locale.
-- **Blog category keys (`software`/`travel`/`personal`) stay in English everywhere** — schema, `data-category`, `?tag=` URLs — so a filtered link works identically in both locales. Only the displayed word is translated, via `UI[locale].blog.categories`.
+- **Blog category keys (`software`/`travel`/`personal`/`history`) stay in English everywhere** — schema, `data-category`, `?tag=` URLs — so a filtered link works identically in both locales. Only the displayed word is translated, via `UI[locale].blog.categories`.
 - Adding a UI string: add it to both `en` and `pt` in the `UI` record in `src/lib/site.ts`, next to the English one, not in a separate file.
 - Adding a blog post: write `en/<file>.mdx` and `pt/<file>.mdx` with the same filename and the same `date`/`category`. The filename pairs the translations (the entry id is `<locale>/<file>`, kept that way by `generateId` in `content.config.ts`). The URL is the optional `slug` frontmatter, else the filename — set `slug` on a translation to give it a URL in its own language. `src/lib/blog.ts` (`getPosts`, `postPath`, `postAlternates`) is the only place that reads ids or slugs; post pages pass `alternates` to `Base.astro`, which drives the language switch and `hreflang`. A post with no translation sends the switch to the other locale's blog index and emits no `hreflang` for it. The sitemap's `serialize` hook in `astro.config.mjs` builds the same `hreflang` links from `routes.ts` plus each post's `slug` frontmatter, so `sitemap-0.xml` and the page `<head>` agree; a post with no translation gets none.
 - **Every URL ends in a slash.** `withLocale`/`localizePath` always return the slashed form (`/blog/`, `/pt/eu/`), because Cloudflare 307-redirects the bare form and hreflang, canonical and sitemap must all name the same URL. Don't hand-write internal links without the trailing slash.
