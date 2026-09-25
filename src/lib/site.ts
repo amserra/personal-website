@@ -193,7 +193,7 @@ export const UI: Record<Locale, UiCopy> = {
     home: {
       heading: "Hey, I'm Alexandre :)",
       intro:
-        "Welcome to my little corner on the internet! I like travel, sports, tech, and photography. Pokémon, gym, and pokémon gyms as well. Current occupations: part-time athlete, part-time software engineer, and full-time looking to be better every day. By the way, do you have travel recommendations?",
+        "Welcome to my little corner on the internet! I like travel, sports, tech, and photography. Current occupations: part-time athlete, part-time software engineer, and full-time looking to be better every day. By the way, do you have travel recommendations?",
       moreAboutMe: "More about me",
       readResume: "Read the resume",
       latestWriting: "Latest writing",
@@ -290,7 +290,7 @@ export const UI: Record<Locale, UiCopy> = {
     home: {
       heading: "Olá, sou o Alexandre :)",
       intro:
-        "Bem-vindo ao meu cantinho na internet! Gosto de viajar, desporto, tecnologia e fotografia. Pokémon, ginásio e ginásios de pokémon também. Ocupações atuais: atleta a tempo parcial, informático a tempo parcial, e à procura de ser melhor a cada dia a tempo inteiro. Já agora, tens recomendações de viagem?",
+        "Bem-vindo ao meu cantinho na internet! Gosto de viajar, desporto, tecnologia e fotografia. Ocupações atuais: atleta a tempo parcial, informático a tempo parcial, e à procura de ser melhor a cada dia a tempo inteiro. Já agora, tens recomendações de viagem?",
       moreAboutMe: "Mais sobre mim",
       readResume: "Ver o currículo",
       latestWriting: "Últimos artigos",
