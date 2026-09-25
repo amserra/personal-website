@@ -81,6 +81,14 @@ export const CONTACT = {
   linkedin: "https://linkedin.com/in/alexandre-serra/",
 } as const;
 
+// The newsletter is English-only: one Kit form, posted to directly (no JS, no
+// backend). Kit's "Embed → HTML" view shows these values.
+export const NEWSLETTER = {
+  action: "https://app.kit.com/forms/9952924/subscriptions",
+  formId: "9952924",
+  uid: "322308f6ae",
+} as const;
+
 export const FOOTER_LINKS: Record<Locale, FooterLink[]> = {
   en: [
     { label: "email", href: `mailto:${CONTACT.email}`, external: false },
@@ -112,6 +120,18 @@ interface UiCopy {
     readResume: string;
     latestWriting: string;
     allPosts: (count: number) => string;
+  };
+  subscribe: {
+    heading: string;
+    blurb: string;
+    emailLabel: string;
+    button: string;
+    /** Who holds the address, and that a confirmation email comes first. */
+    note: string;
+    /** Shown after Kit redirects back with ?subscribed=true; the confirmation email is still pending. */
+    success: string;
+    /** Link text to "why I started this site", shown after `success`. */
+    successLink: string;
   };
   blog: {
     title: string;
@@ -179,6 +199,15 @@ export const UI: Record<Locale, UiCopy> = {
       latestWriting: "Latest writing",
       allPosts: (count) => `All ${count} posts`,
     },
+    subscribe: {
+      heading: "newsletter",
+      blurb: "Get new posts and occasional updates straight to your inbox. Unsubscribe anytime.",
+      emailLabel: "Email address",
+      button: "Subscribe",
+      note: "I won't bother you with spam. Expect an email every other week.",
+      success: "You're on the list. Check your inbox to confirm your address.",
+      successLink: "In the meantime, read why I started this website.",
+    },
     blog: {
       title: "Blog",
       metaTitle: "Blog",
@@ -186,7 +215,12 @@ export const UI: Record<Locale, UiCopy> = {
       intro: (count) =>
         `I've written ${count} posts here so far. I write about software, travel and everything else. I use AI to proofread grammar, spelling and fact-check, but the base writing is always done by me.`,
       filterAll: "all",
-      categories: { software: "software", travel: "travel", personal: "personal", history: "history" },
+      categories: {
+        software: "software",
+        travel: "travel",
+        personal: "personal",
+        history: "history",
+      },
       noPostsYetTemplate: "No {category} posts yet.",
       backToAllPosts: "← all posts",
     },
@@ -262,6 +296,16 @@ export const UI: Record<Locale, UiCopy> = {
       latestWriting: "Últimos artigos",
       allPosts: (count) => `Todos os ${count} artigos`,
     },
+    subscribe: {
+      heading: "newsletter",
+      blurb:
+        "Recebe novos artigos e novidades ocasionais, diretamente na tua caixa de correio. Podes cancelar a qualquer momento.",
+      emailLabel: "Endereço de email",
+      button: "Subscrever",
+      note: "Não te vou encher de spam. Conta com um email de duas em duas semanas.",
+      success: "Estás na lista. Verifica a tua caixa de correio para confirmares o endereço.",
+      successLink: "Entretanto, lê porque criei este site.",
+    },
     blog: {
       title: "Blog",
       metaTitle: "Blog",
@@ -269,7 +313,12 @@ export const UI: Record<Locale, UiCopy> = {
       intro: (count) =>
         `Já escrevi ${count} artigos aqui. Escrevo sobre software, viagens e tudo o resto. Uso IA para rever a gramática, ortografia e fazer verificação de fatos, mas a escrita base é feita sempre por mim.`,
       filterAll: "todos",
-      categories: { software: "software", travel: "viagens", personal: "pessoal", history: "história" },
+      categories: {
+        software: "software",
+        travel: "viagens",
+        personal: "pessoal",
+        history: "história",
+      },
       noPostsYetTemplate: "Ainda não há posts de {category}.",
       backToAllPosts: "← todos os posts",
     },

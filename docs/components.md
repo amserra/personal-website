@@ -22,7 +22,7 @@ Do:
 Don't:
 
 - Don't add a fifth tab. If a section needs a home, it belongs inside `me` or as a filter on `blog`.
-- Don't put a search field, a subscribe box or social icons in the header. Those live in `Footer`.
+- Don't put a search field, a subscribe box or social icons in the header. Links live in `Footer`; the newsletter form is `Subscribe`, on the home page, and at the end of a post and of the blog index.
 - Don't make the header sticky without also applying `shadow-xs` once scrolled, or it will float with no edge.
 
 Entirely static — no framework island. The toggle is a plain `<button>` with a short inline script, and the no-flash script that applies the stored theme runs in the head before first paint.
@@ -205,6 +205,31 @@ Don't:
 This is shadcn's Button. Run `pnpm dlx shadcn@latest add button` and use it directly — the variants here carry the same names (`default`, `secondary`, `destructive`, `outline`, `ghost`, `link`), so nothing needs renaming. Two overrides after install: set the label style to `button` rather than shadcn's `text-sm`, and where a destructive variant hard-codes `text-white`, change it to `text-destructive-foreground`. The implementation in this system's bundle exists so the preview renders; it is not what the site should ship.
 
 
+## Subscribe
+
+**Implemented in:** `src/components/Subscribe.astro`, used by `src/components/views/Home.astro`, `src/components/views/BlogPost.astro` and `src/components/views/BlogIndex.astro`.
+
+The newsletter signup: a heading, a one-line blurb, an email field with a single button, and a note saying who holds the address. Sits on the home page between the intro and "latest writing" (so it is on the first screen, not below the fold), at the end of a post's reading flow, and at the end of the blog index — never in chrome that repeats on every page.
+
+The form posts straight to Kit (`NEWSLETTER` in `src/lib/site.ts` — the form's action URL, form id and `data-uid`) with no backend, and it submits without JavaScript (Kit's `ck.5.js` embed script is deliberately not loaded); the email field is named `email_address`, which is Kit's expected field name. Copy comes from `UI[locale].subscribe`. The newsletter itself is English-only: rather than hiding the form on `/pt/*`, the `pt` copy says so in the note, so a Portuguese reader can still choose to subscribe.
+
+Do:
+
+- Keep it to one field and one button — no name field, no preference checkboxes.
+- Keep the note that says who holds the address and that a confirmation email comes first; Kit's double opt-in means a bare "Subscribe" button would surprise someone.
+- Keep the button `outline`, matching the rest of the site's controls — this is not the one `primary` action on the page.
+
+Don't:
+
+- Don't place it in the header, the footer, the home page or a pop-up. It belongs in the reading flow, where someone has just finished something.
+- Don't claim "no tracking" in the note unless Kit's tracking settings have actually been confirmed.
+- Don't promise a sending frequency the account doesn't keep — sends are manual broadcasts, not a schedule.
+
+Static — no framework island, no client-side validation beyond the browser's own `type="email"`/`required`. A short inline script (not bundled, so the section is hidden before first paint) sets `localStorage.subscribed = "1"` when the form is submitted and hides the section on every later visit, on every page. It records that the form was submitted, not that the address was confirmed; the flag is per browser, and clearing site data brings the form back. Storage failures are swallowed, and the form simply stays visible.
+
+Kit is set to redirect to `https://alexandreserra.com?subscribed=true` after a signup. When the script sees `?subscribed=true` it swaps the form for the `UI[locale].subscribe.success` line (a `role="status"` paragraph), sets the same `subscribed` flag, and removes the parameter from the URL so a reload or a shared link doesn't repeat it. The redirect target is English, whatever language the reader signed up from. The message tells them to confirm by email, because at redirect time the address is not yet confirmed, and links to the "why I started this website" post (`why-i-started-this-website`, found by filename in `getPosts`, so it follows the post's per-locale slug; the link is left out if that post is ever removed).
+
+
 ## LanguageSwitch
 
 **Implemented in:** `src/layouts/Base.astro` — a two-part segmented control (`en | pt`) next to the theme toggle.
@@ -247,7 +272,7 @@ Do:
 
 Don't:
 
-- Don't add a newsletter form, a cookie notice or a copyright line longer than the note itself.
+- Don't add a newsletter form (that is `Subscribe`, in the reading flow), a cookie notice or a copyright line longer than the note itself.
 - Don't repeat the tab navigation in the footer; the page is short enough to scroll back.
 
 Static. The `me` link on a personal profile should carry `rel="me"` for identity verification on Mastodon and the like — the component adds it when a link is marked `external`.

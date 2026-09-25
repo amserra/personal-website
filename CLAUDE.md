@@ -4,7 +4,7 @@ Alexandre Serra's personal site: four tabs — blog, photography, me, resume. As
 
 ```bash
 pnpm dev      # localhost:4321
-pnpm build    # 25 pages (12 English, 12 Portuguese, plus the one bilingual 404)
+pnpm build    # 27 pages (13 English, 13 Portuguese, plus the one bilingual 404)
 pnpm check    # astro check — keep this at 0 errors, 0 warnings
 ```
 
@@ -56,7 +56,8 @@ src/lib/resume.ts                 # resume data per locale — the single source
 src/lib/cv-pdf.ts                 # builds the CV PDF in the browser (jsPDF) from resume.ts
 src/lib/cv-download.ts            # loads fonts, calls cv-pdf, saves; dynamic-imported on click
 src/lib/og-card.ts                # per-post social card (satori + sharp), served at /og/<locale>/<slug>.png; colours mirror the Paper tokens
-src/lib/site.ts                   # SITE/TABS/FOOTER_LINKS/UI per locale, formatDate, locale-path helpers
+src/lib/site.ts                   # SITE/TABS/FOOTER_LINKS/UI per locale, NEWSLETTER (Kit form), formatDate, locale-path helpers
+src/components/Subscribe.astro    # the newsletter form: home, end of a post and of the blog index; hides itself once submitted (localStorage `subscribed`)
 ```
 
 The six posts were migrated from a previous Next.js site; their inline diagrams live in `public/images/blog/<slug>/` and are shared by both locales (translate the alt text, not the image).
@@ -100,4 +101,4 @@ Static output, deployed as a **Cloudflare Workers static-assets project** (conne
 
 ## Before saying it works
 
-`npm run build` and `npm run check` clean, then look at the page in both themes and at 390px wide (no horizontal overflow). The blog filter should go 6 posts → 0 travel with "No travel posts yet." → 5 software, with `?tag=` tracking in the URL. Check this on both `/blog` and `/pt/blog` — the PT empty state reads "Ainda não há posts de viagens." Click the language switch from a few different pages (home, a blog post, resume) and confirm it lands on the translated equivalent, not the section root.
+`npm run build` and `npm run check` clean, then look at the page in both themes and at 390px wide (no horizontal overflow). The blog filter should go 8 posts → 0 travel with "No travel posts yet." → 5 software, with `?tag=` tracking in the URL. Check this on both `/blog` and `/pt/blog` — the PT empty state reads "Ainda não há posts de viagens." Click the language switch from a few different pages (home, a blog post, resume) and confirm it lands on the translated equivalent, not the section root.

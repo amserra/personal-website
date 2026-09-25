@@ -1,0 +1,91 @@
+---
+// Plain HTML form posted straight to Kit: no backend, and it works without
+// JavaScript. The script below only hides it once submitted, and swaps in the
+// success message when Kit redirects back with ?subscribed=true. The newsletter
+// is English-only, so the pt copy says so rather than hiding it.
+import { buttonVariants } from "@/components/ui/button";
+import { NEWSLETTER, UI, DEFAULT_LOCALE } from "@/lib/site";
+import type { Locale } from "@/lib/site";
+import { getPosts, postPath } from "@/lib/blog";
+
+const locale = (Astro.currentLocale as Locale) ?? DEFAULT_LOCALE;
+const ui = UI[locale].subscribe;
+
+const intro = (await getPosts(locale)).find((p) => p.id === `${locale}/why-i-started-this-website`);
+---
+
+<section aria-labelledby="subscribe-heading" class="mt-16 border-t border-border pt-6">
+  <h2 id="subscribe-heading" class="meta m-0 text-meta-foreground">{ui.heading}</h2>
+  <p role="status" data-subscribe-success hidden class="body-base mt-2 mb-0 text-foreground">
+    {ui.success}{" "}
+    {
+      intro && (
+        <a
+          href={postPath(intro)}
+          class="text-primary underline underline-offset-2 hover:text-primary-strong"
+        >
+          {ui.successLink}
+        </a>
+      )
+    }
+  </p>
+
+  <div data-subscribe-form>
+    <p class="body-base mt-2 mb-0 text-foreground">{ui.blurb}</p>
+
+    <form
+      action={NEWSLETTER.action}
+      method="post"
+      data-sv-form={NEWSLETTER.formId}
+      data-uid={NEWSLETTER.uid}
+      class="mt-4 flex flex-wrap gap-3"
+    >
+      <label for="subscribe-email" class="sr-only">{ui.emailLabel}</label>
+      <input
+        id="subscribe-email"
+        type="email"
+        name="email_address"
+        required
+        autocomplete="email"
+        placeholder={ui.emailLabel}
+        class="h-9 min-w-0 flex-1 basis-56 rounded-md border border-input bg-background px-3 font-sans text-[15px] leading-5 text-foreground placeholder:text-meta-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+      />
+      <button type="submit" class:list={[buttonVariants({ variant: "outline" }), "cursor-pointer"]}>
+        {ui.button}
+      </button>
+    </form>
+
+    <p class="body-s mt-3 mb-0 text-meta-foreground">{ui.note}</p>
+  </div>
+</section>
+
+<script is:inline>
+  // Inline (not bundled) so the section is hidden before first paint, with no flash.
+  (function () {
+    var section = document.querySelector('section[aria-labelledby="subscribe-heading"]');
+    if (!section) return;
+    var url = new URL(location.href);
+    var justSubscribed = url.searchParams.get("subscribed") === "true";
+    var subscribed = justSubscribed;
+    try {
+      if (justSubscribed) localStorage.setItem("subscribed", "1");
+      else subscribed = localStorage.getItem("subscribed") === "1";
+    } catch (e) {}
+    if (justSubscribed) {
+      section.querySelector("[data-subscribe-form]").hidden = true;
+      section.querySelector("[data-subscribe-success]").hidden = false;
+      url.searchParams.delete("subscribed");
+      history.replaceState({}, "", url);
+      return;
+    }
+    if (subscribed) {
+      section.hidden = true;
+      return;
+    }
+    section.querySelector("form").addEventListener("submit", function () {
+      try {
+        localStorage.setItem("subscribed", "1");
+      } catch (e) {}
+    });
+  })();
+</script>

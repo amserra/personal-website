@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import PostRow from "@/components/PostRow.astro";
 import FilterChip from "@/components/FilterChip.astro";
+import Subscribe from "@/components/Subscribe.astro";
 import { getPosts, postPath } from "@/lib/blog";
 import { UI, DEFAULT_LOCALE } from "@/lib/site";
 import type { Locale, Category } from "@/lib/site";
@@ -62,6 +63,8 @@ const DOT = {
     }
   </ul>
   <p id="empty" class="body-base hidden py-8 text-meta-foreground" data-template={ui.blog.noPostsYetTemplate}></p>
+
+  <Subscribe />
 </Base>
 
 <script>

@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import PostRow from "@/components/PostRow.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
+import Subscribe from "@/components/Subscribe.astro";
 import { getPosts, postPath } from "@/lib/blog";
 import { SITE, UI, DEFAULT_LOCALE, withLocale } from "@/lib/site";
 import type { Locale } from "@/lib/site";
@@ -25,6 +26,8 @@ const latest = posts.slice(0, 3);
       <ButtonLink href={withLocale("/resume", locale)} variant="link">{ui.home.readResume}</ButtonLink>
     </div>
   </section>
+
+  <Subscribe />
 
   <section class="mt-16">
     <h2 class="meta m-0 border-b border-border pb-2 text-foreground">{ui.home.latestWriting}</h2>
